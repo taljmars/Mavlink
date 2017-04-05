@@ -16,9 +16,11 @@ import javax.validation.constraints.NotNull;
 import com.generic_tools.environment.Environment;
 import com.generic_tools.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+@ComponentScan(basePackages = "com.generic_tools")
 @Component
 public class KeyBoardConfigurationParser {
 	
@@ -26,7 +28,7 @@ public class KeyBoardConfigurationParser {
 	private Logger logger;
 
 	@Autowired @NotNull( message = "Internal Error: Failed to get com.dronegcs.gcsis.environment" )
-	Environment environment;
+	private Environment environment;
 	
 	private final String settingsFileName = "quad_setup_arducopter.txt";
 	private Path fFilePath = null;
@@ -86,7 +88,7 @@ public class KeyBoardConfigurationParser {
 	@PostConstruct
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 	}
 
 	@SuppressWarnings("resource")

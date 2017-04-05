@@ -13,7 +13,7 @@ import com.dronegcs.mavlink.core.firmware.FirmwareType;
 import com.dronegcs.mavlink.is.drone.Preferences;
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 
-@ComponentScan(basePackages = "com.dronegcs.gcsis")
+@ComponentScan(basePackages = "com.generic_tools")
 @Component
 public class PreferencesImpl implements Preferences {
 	

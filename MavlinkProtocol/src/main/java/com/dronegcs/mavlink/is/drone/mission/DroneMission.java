@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import javafx.util.Pair;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
@@ -34,6 +35,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Scope("prototype")
+@Component
 public class DroneMission extends DroneVariable implements Serializable {
 
 	private static final long serialVersionUID = 8399081979944818494L;

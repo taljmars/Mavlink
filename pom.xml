@@ -11,6 +11,7 @@
 
     <modules>
         <module>MavlinkProtocol</module>
+        <module>Tester</module>
     </modules>
 
     <properties>
