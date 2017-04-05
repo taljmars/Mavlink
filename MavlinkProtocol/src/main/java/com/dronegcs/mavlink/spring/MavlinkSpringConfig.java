@@ -5,6 +5,7 @@ import com.generic_tools.devices.SerialConnection;
 import com.generic_tools.devices.internal.TwoWaySerialComm;
 import com.generic_tools.environment.Environment;
 import com.generic_tools.logger.Logger;
+import com.generic_tools.validations.RuntimeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +33,10 @@ public class MavlinkSpringConfig {
     @Bean
     public SerialConnection serialConnection(@Autowired Logger logger) {
         return new TwoWaySerialComm(logger);
+    }
+
+    @Bean
+    RuntimeValidator runtimeValidator() {
+        return new RuntimeValidator();
     }
 }
