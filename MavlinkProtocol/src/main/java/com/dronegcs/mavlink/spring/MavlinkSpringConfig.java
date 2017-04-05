@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * Created by oem on 4/5/17.
+ * Created by taljmars on 4/5/17.
  */
 @Import({MyDroneImpl.class})
 @Configuration
