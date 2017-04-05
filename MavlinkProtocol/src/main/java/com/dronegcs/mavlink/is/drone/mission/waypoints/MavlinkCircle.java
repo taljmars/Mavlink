@@ -3,10 +3,7 @@ package com.dronegcs.mavlink.is.drone.mission.waypoints;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisited;
-import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
-import com.dronegcs.mavlink.is.drone.mission.DroneMission;
-import com.dronegcs.mavlink.is.drone.mission.MissionItemType;
+import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.drone.mission.waypoints.interfaces.MavlinkRadiusable;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
@@ -93,7 +90,7 @@ public class MavlinkCircle extends SpatialCoordItemDrone implements MavlinkRadiu
 	}
 
 	@Override
-	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) {
+	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
 

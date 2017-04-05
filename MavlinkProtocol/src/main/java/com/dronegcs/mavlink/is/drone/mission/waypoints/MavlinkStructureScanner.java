@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
+import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
 import com.dronegcs.mavlink.is.drone.mission.survey.MavlinkSurvey;
 import com.gui.is.shapes.Polygon;
 import com.dronegcs.mavlink.is.drone.mission.MissionItemType;
@@ -172,7 +173,7 @@ public class MavlinkStructureScanner extends SpatialCoordItemDrone {
 	}
 
 	@Override
-	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) {
+	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
 }

@@ -54,7 +54,7 @@ public class MavlinkLand extends SpatialCoordItemDrone {
 	}
 
 	@Override
-	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) {
+	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
 

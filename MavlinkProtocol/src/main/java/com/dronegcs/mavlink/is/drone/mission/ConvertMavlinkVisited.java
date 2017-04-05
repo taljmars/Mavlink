@@ -5,5 +5,5 @@ package com.dronegcs.mavlink.is.drone.mission;
  */
 public interface ConvertMavlinkVisited {
 
-    void accept(ConvertMavlinkVisitor convertMavlinkVisitor);
+    void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException;
 }

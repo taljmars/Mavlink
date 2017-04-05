@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
+import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
 import com.dronegcs.mavlink.is.drone.mission.MissionItemType;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 
@@ -70,7 +71,7 @@ public class MavlinkEpmGripper extends DroneMissionCMD {
 	}
 
 	@Override
-	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) {
+	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
 }

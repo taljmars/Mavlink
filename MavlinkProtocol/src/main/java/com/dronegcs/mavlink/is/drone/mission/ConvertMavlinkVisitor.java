@@ -9,27 +9,27 @@ import com.dronegcs.mavlink.is.drone.mission.waypoints.*;
  */
 public interface ConvertMavlinkVisitor {
 
-    void visit(MavlinkWaypoint mavlinkWaypoint);
+    void visit(MavlinkWaypoint mavlinkWaypoint) throws MavlinkConvertionException;
 
-    void visit(MavlinkCircle mavlinkCircle);
+    void visit(MavlinkCircle mavlinkCircle) throws MavlinkConvertionException;
 
-    void visit(MavlinkLand mavlinkLand);
+    void visit(MavlinkLand mavlinkLand) throws MavlinkConvertionException;
 
-    void visit(MavlinkReturnToHome mavlinkReturnToHome);
+    void visit(MavlinkReturnToHome mavlinkReturnToHome) throws MavlinkConvertionException;
 
-    void visit(MavlinkTakeoff mavlinkTakeoff);
+    void visit(MavlinkTakeoff mavlinkTakeoff) throws MavlinkConvertionException;
 
-    void visit(MavlinkStructureScanner mavlinkStructureScanner);
+    void visit(MavlinkStructureScanner mavlinkStructureScanner) throws MavlinkConvertionException;
 
-    void visit(MavlinkChangeSpeed mavlinkChangeSpeed);
+    void visit(MavlinkChangeSpeed mavlinkChangeSpeed) throws MavlinkConvertionException;
 
-    void visit(MavlinkRegionOfInterest mavlinkRegionOfInterest);
+    void visit(MavlinkRegionOfInterest mavlinkRegionOfInterest) throws MavlinkConvertionException;
 
-    void visit(MavlinkSurvey mavlinkSurvey);
+    void visit(MavlinkSurvey mavlinkSurvey) throws MavlinkConvertionException;
 
-    void visit(MavlinkEpmGripper mavlinkEpmGripper);
+    void visit(MavlinkEpmGripper mavlinkEpmGripper) throws MavlinkConvertionException;
 
-    void visit(MavlinkCameraTrigger mavlinkCameraTrigger);
+    void visit(MavlinkCameraTrigger mavlinkCameraTrigger) throws MavlinkConvertionException;
 
-    void visit(MavlinkSplineWaypoint mavlinkSplineWaypoint);
+    void visit(MavlinkSplineWaypoint mavlinkSplineWaypoint) throws MavlinkConvertionException;
 }

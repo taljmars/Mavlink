@@ -3,12 +3,9 @@ package com.dronegcs.mavlink.is.drone.mission.survey;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
-import com.dronegcs.mavlink.is.drone.mission.DroneMission;
+import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.drone.mission.commands.MavlinkCameraTrigger;
 import com.gui.is.shapes.Polygon;
-import com.dronegcs.mavlink.is.drone.mission.DroneMissionItem;
-import com.dronegcs.mavlink.is.drone.mission.MissionItemType;
 import com.dronegcs.mavlink.is.drone.mission.survey.grid.Grid;
 import com.dronegcs.mavlink.is.drone.mission.survey.grid.GridBuilder;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
@@ -111,7 +108,7 @@ public class MavlinkSurvey extends DroneMissionItem {
 	}
 
 	@Override
-	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) {
+	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
 }
