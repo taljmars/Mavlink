@@ -15,6 +15,7 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <myversion>1.0</myversion>
         <build.output>CMpub</build.output>
         <github.global.server>github</github.global.server>
