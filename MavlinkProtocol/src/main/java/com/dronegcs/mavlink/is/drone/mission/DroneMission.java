@@ -313,7 +313,7 @@ public class DroneMission extends DroneVariable implements Serializable {
 
 	public List<msg_mission_item> getMsgMissionItems() {
 		final List<msg_mission_item> data = new ArrayList<msg_mission_item>();
-		data.add(drone.getHome().packMavlink());
+		data.add(drone.getHome().packMavlink()); //TALMA automatically add go home at the begging
 		for (DroneMissionItem item : items) {
 			data.addAll(item.packMissionItem());
 		}

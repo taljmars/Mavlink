@@ -112,16 +112,19 @@ public class WaypointManager extends DroneVariable implements OnTimeout
 
 	public void writeWaypoints(List<msg_mission_item> data) {
 		// ensure that WPManager is not doing anything else
-		if (state != WaypointStates.IDLE)
+		if (state != WaypointStates.IDLE) {
+			LOGGER.error("Waypoints manager is busy");
 			return;
+		}
 
-		if ((mission != null)) {
+		if (mission != null) {
 			doBeginWaypointEvent(WaypointEvent_Type.WP_UPLOAD);
 			updateMsgIndexes(data);
 			mission.clear();
 			mission.addAll(data);
 			writeIndex = 0;
-			timeOut.setTimeOutValue(3000);
+			timeOut.setTimeOutValue(6000); // TALMA
+			//timeOut.setTimeOutValue(3000);
 			timeOut.setTimeOutRetry(3);
 			state = WaypointStates.WRITING_WP_COUNT;
 			timeOut.setTimeOut();
@@ -200,7 +203,7 @@ public class WaypointManager extends DroneVariable implements OnTimeout
 			if (msg.msgid == msg_mission_item.MAVLINK_MSG_ID_MISSION_ITEM) {
 				timeOut.setTimeOut();
 				processReceivedWaypoint((msg_mission_item) msg);
-				logger.LogIncomingMessage("Got point" + (readIndex + 1));
+				logger.LogIncomingMessage("Got point #" + (readIndex + 1));
 				doWaypointEvent(WaypointEvent_Type.WP_DOWNLOAD, readIndex + 1, waypointCount);
 				if (mission.size() < waypointCount) {
 					MavLinkWaypoint.requestWayPoint(drone, mission.size());
