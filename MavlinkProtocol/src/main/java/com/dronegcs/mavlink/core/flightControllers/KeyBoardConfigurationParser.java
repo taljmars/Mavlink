@@ -1,10 +1,6 @@
 package com.dronegcs.mavlink.core.flightControllers;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -16,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import com.generic_tools.environment.Environment;
 import com.generic_tools.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +19,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeyBoardConfigurationParser {
 	
-	@Autowired @NotNull( message = "Internal Error: Failed to get com.dronegcs.gcsis.logger" )
+	@Autowired @NotNull( message = "Internal Error: Failed to get logger" )
 	private Logger logger;
 
-	@Autowired @NotNull( message = "Internal Error: Failed to get com.dronegcs.gcsis.environment" )
+	@Autowired @NotNull( message = "Internal Error: Failed to get environment" )
 	private Environment environment;
 	
 	private final String settingsFileName = "quad_setup_arducopter.txt";
-	private Path fFilePath = null;
+	private Path fFileFullPath = null;
 	private int paramAmount = 0;
 	private final static Charset ENCODING = StandardCharsets.UTF_16;
 
@@ -96,14 +91,14 @@ public class KeyBoardConfigurationParser {
 		logger.LogGeneralMessege("Loading flight controller configuration");
 		paramAmount = 0;
 		try {
-			//fFilePath = Paths.get(Environment.getRunningEnvConfDirectory() + Environment.DIR_SEPERATOR + settingsFileName);
-			fFilePath = Paths.get(environment.getRunningEnvConfDirectory() + Environment.DIR_SEPERATOR + settingsFileName);
-			if (fFilePath.toFile().exists() == false) {
+			//fFileFullPath = Paths.get(Environment.getRunningEnvConfDirectory() + Environment.DIR_SEPERATOR + settingsFileName);
+			fFileFullPath = Paths.get(System.getProperty("CONF.DIR") + Environment.DIR_SEPERATOR + settingsFileName);
+			if (fFileFullPath.toFile().exists() == false) {
 				logger.LogErrorMessege("Configuration file wasn't found, start generating default conf file");
-				buildConfigurationFile(fFilePath);
+				buildConfigurationFile(fFileFullPath);
 			}
 		
-			Scanner scanner =  new Scanner(fFilePath, ENCODING.name());
+			Scanner scanner =  new Scanner(fFileFullPath, ENCODING.name());
 			while (scanner.hasNextLine()) {
 				Scanner lineScanner = new Scanner(scanner.nextLine());
 				lineScanner.useDelimiter(CONF_FILE_DELIMETER);
@@ -203,18 +198,18 @@ public class KeyBoardConfigurationParser {
 			logger.close();
 			System.exit(-1);
 		}
-		catch (URISyntaxException e) {
-			e.printStackTrace();
-			logger.LogAlertMessage("Failed to file running com.dronegcs.gcsis.environment", e);
-			logger.close();
-			System.exit(-1);
-		}
 	}
 	
-	private void buildConfigurationFile(Path path) throws FileNotFoundException, UnsupportedEncodingException {
-		System.out.println("Building default configuration file: " + fFilePath.toString());
+	private void buildConfigurationFile(Path fileFullPath) throws FileNotFoundException, UnsupportedEncodingException {
+		System.out.println("Building default configuration file: " + fFileFullPath.toString());
+
+		File directoryOfFile = fileFullPath.getParent().toFile();
+		if (!directoryOfFile.exists()) {
+			System.out.println("Creating sub directories: " + directoryOfFile);
+			directoryOfFile.mkdirs();
+		}
 		
-		PrintWriter printWriter = new PrintWriter(path.toString(), ENCODING.name());
+		PrintWriter printWriter = new PrintWriter(fileFullPath.toString(), ENCODING.name());
 		printWriter.println(_STABILIZER_CYCLE_KEY 	+ CONF_FILE_DELIMETER + _STABILIZER_CYCLE_DEFAULT);
 		printWriter.println(_MIN_PWM_RANGE_KEY 		+ CONF_FILE_DELIMETER + _MIN_PWM_RANGE_DEFAULT);
 		printWriter.println(_MAX_PWM_RANGE_KEY 		+ CONF_FILE_DELIMETER + _MAX_PWM_RANGE_DEFAULT);

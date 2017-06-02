@@ -46,7 +46,7 @@ public class State extends DroneVariable
 	static int called;
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 
 		ValidatorResponse validatorResponse = runtimeValidator.validate(this);
 		if (validatorResponse.isFailed())
@@ -135,8 +135,9 @@ public class State extends DroneVariable
 		
 		if (ApmModes.isValid(mode)) {
 			logger.LogGeneralMessege("Start DroneMission - Change to " + mode.getName());
-			System.out.println(getClass().getName() + mode.getName());
+			System.out.println(getClass().getName() + " " + mode.getName());
 			MavLinkModes.changeFlightMode(drone, mode);
+			drone.getState().setMode(mode); //TODO: Add OK messege to quad copter, which notifies about change approval
 		}
 	}
 

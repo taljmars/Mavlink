@@ -18,25 +18,9 @@ import org.springframework.context.annotation.Import;
 @Configuration
 public class MavlinkSpringConfig {
 
-    public static final MavlinkSpringConfig loader = new MavlinkSpringConfig();
-
-    @Bean
-    public Environment environment() {
-        return new Environment();
-    }
-
-    @Bean
-    public Logger logger(@Autowired Environment environment) {
-        return new Logger(environment);
-    }
-
     @Bean
     public SerialConnection serialConnection(@Autowired Logger logger) {
         return new TwoWaySerialComm(logger);
     }
 
-    @Bean
-    RuntimeValidator runtimeValidator() {
-        return new RuntimeValidator();
-    }
 }

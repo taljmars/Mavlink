@@ -79,7 +79,7 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 	public void init() {
 
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 
 		keyBoardConfigurationParser.LoadParams();
 
@@ -350,7 +350,7 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 	}
 
 	public void Reset() {
-		System.out.println("Reseting RC Set");
+		System.out.println("Resetting RC Set");
 		ResetRCSet();
 	}
 

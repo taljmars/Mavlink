@@ -16,6 +16,10 @@
     <packaging>jar</packaging>
     <name>Mavlink Protocol</name>
 
+    <properties>
+        <slf4jVersion>1.7.16</slf4jVersion>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -74,6 +78,12 @@
         <dependency>
             <groupId>RXTXcomm</groupId>
             <artifactId>RXTXcomm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
         </dependency>
 
     </dependencies>

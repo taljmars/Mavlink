@@ -5,8 +5,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,8 @@ import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkHeartbeat;
 
 @Component
 public class GCSHeartbeat {
+
+	private final Logger LOGGER = LoggerFactory.getLogger(GCSHeartbeat.class);
 
 	/**
 	 * This is the drone to send the heartbeat message to.
@@ -43,7 +47,7 @@ public class GCSHeartbeat {
 	private final Runnable heartbeatRunnable = new Runnable() {
 		@Override
 		public void run() {
-			System.out.println(getClass() + " Sending HB");
+			LOGGER.trace("Sending HB");
 			drone.getMavClient();
 			MavLinkHeartbeat.sendMavHeartbeat(drone);
 		}
@@ -53,7 +57,7 @@ public class GCSHeartbeat {
 	@PostConstruct
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 		setFrq(1);
 		setActive(true);
 	}
