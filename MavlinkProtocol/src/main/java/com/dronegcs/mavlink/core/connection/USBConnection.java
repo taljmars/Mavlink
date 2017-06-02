@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.core.connection;
 import com.dronegcs.mavlink.is.connection.MavLinkConnection;
 import com.dronegcs.mavlink.is.connection.MavLinkConnectionTypes;
 import com.generic_tools.devices.SerialConnection;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
  */
 @Component
 public class USBConnection extends MavLinkConnection {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(USBConnection.class);
 
 	@Autowired
 	private SerialConnection serialConnection;
@@ -30,13 +33,13 @@ public class USBConnection extends MavLinkConnection {
 
 	@Override
 	public boolean openConnection() throws IOException {
-		System.err.println("openConnection");
+		LOGGER.debug("openConnection");
 		return serialConnection.connect();
 	}
 	
 	@Override
 	public boolean closeConnection() throws IOException {
-		System.err.println(getClass().getName() + " closeConnection");
+		LOGGER.debug("closeConnection");
 		return serialConnection.disconnect();
 	}
 
@@ -47,8 +50,9 @@ public class USBConnection extends MavLinkConnection {
 				// have connected to us
 				serialConnection.write(buffer);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}
+		catch (Exception e) {
+			LOGGER.error("Failed to send buffer", e);
 		}
 	}
 

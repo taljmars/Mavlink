@@ -1,38 +1,25 @@
 package com.dronegcs.mavlink.core.connection;
 
-import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
-
-import com.generic_tools.logger.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-
 import com.dronegcs.mavlink.is.connection.MavLinkConnectionListener;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_attitude;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_camera_feedback;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_global_position_int;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_gps_raw_int;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_current;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_nav_controller_output;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_radio;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_radio_status;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_raw_imu;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_rc_channels_raw;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_servo_output_raw;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_statustext;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_sys_status;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_vfr_hud;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_MODE_FLAG;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_STATE;
+import com.generic_tools.logger.Logger;
 import com.geo_tools.Coordinate;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 
 @Component
 public class DroneUpdateListener implements MavLinkConnectionListener {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DroneUpdateListener.class);
 
 	private static final byte SEVERITY_HIGH = 3;
     private static final byte SEVERITY_CRITICAL = 4;
@@ -42,7 +29,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 	@Autowired @NotNull(message = "Internal Error: Failed to get drone")
 	private Drone drone;
 
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 	
 	static int called;
@@ -55,17 +42,19 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 	@Override
 	public void onConnect() {
 		logger.LogGeneralMessege("Connected!");
-		System.err.println(getClass() + " On Connect!!");
+		LOGGER.debug("On Connect!!");
 	}
 
 	@Override
 	public void onReceiveMessage(MAVLinkMessage msg) {		
 		if (msg == null) {
 			logger.LogErrorMessege("Received empty message from quad, please restart the GCS");
+			LOGGER.error("Received empty message from quad, please restart the GCS");
 			System.exit(0);
 		}
 		
 		//System.err.println("[RCV] " + msg.toString());
+		LOGGER.trace("[RCV] {}", msg.toString());
 		
 		if (drone.getParameters().processMessage(msg)) {
 			return;
@@ -183,13 +172,13 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 
 	@Override
 	public void onDisconnect() {
-		System.err.println(getClass() + " Disconnected!");
+		LOGGER.debug("Disconnected!");
 		//loggerDisplayerSvc.logError("Disconnected!");
 	}
 
 	@Override
 	public void onComError(String errMsg) {
-		System.err.println("Communication Error: " + errMsg);
+		LOGGER.error("Communication Error: {}", errMsg);
 		logger.LogErrorMessege("Communication Error: " + errMsg);
 	}
 	
@@ -203,6 +192,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 		if (failsafe2) {
 			drone.getState().setWarning("Failsafe");
 			logger.LogErrorMessege("FailSafe procedure started!");
+			LOGGER.error("FailSafe procedure started!");
 		}
 	}
 

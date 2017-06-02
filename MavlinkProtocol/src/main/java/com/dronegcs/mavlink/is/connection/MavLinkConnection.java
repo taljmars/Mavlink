@@ -6,7 +6,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.constraints.NotNull;
 
+import com.dronegcs.mavlink.core.connection.USBConnection;
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import com.dronegcs.mavlink.is.drone.Drone;
@@ -21,13 +23,15 @@ import com.dronegcs.mavlink.is.protocol.msgparser.Parser;
  */
 public abstract class MavLinkConnection {
 
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(USBConnection.class);
+
 	@SuppressWarnings("unused")
 	private static final String TAG = MavLinkConnection.class.getSimpleName();
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get drone")
 	private Drone drone;
 
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 
 	/*
@@ -69,7 +73,7 @@ public abstract class MavLinkConnection {
 
 		@Override
 		public void run() {
-			System.out.println("Starting Connection Tasks Thread");
+			LOGGER.debug("Starting Connection Tasks Thread (Reader)");
 			Thread sendingThread = null; 
 
 			// Load the connection specific preferences
@@ -79,6 +83,7 @@ public abstract class MavLinkConnection {
 				// Open the connection
 				if (!openConnection()) {
 					logger.LogErrorMessege("Failed to open connection");
+					LOGGER.error("Failed to open connection");
 					drone.notifyDroneEvent(DroneEventsType.DISCONNECTED);
 					return;
 				}
@@ -140,7 +145,7 @@ public abstract class MavLinkConnection {
 	private final Runnable mSendingTask = new Runnable() {
 		@Override
 		public void run() {
-			System.out.println("Starting Sending Tasks Thread");
+			LOGGER.debug("Starting Sending Tasks Thread (Writter)");
 			int msgSeqNumber = 0;
 
 			try {
@@ -148,6 +153,7 @@ public abstract class MavLinkConnection {
 					final MAVLinkPacket packet = mPacketsToSend.take();
 					if (packet.unpack().msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
 //						System.err.println("[SND] " + packet.unpack().toString());
+						LOGGER.trace("[SND] {}", packet.unpack().toString());
 						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
 						logger.LogDesignedMessege(log_entry);
 					}
