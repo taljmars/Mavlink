@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import com.generic_tools.environment.Environment;
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 @ComponentScan(basePackages = "com.generic_tools")
 @Component
 public class KeyBoardConfigurationParser {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KeyBoardConfigurationParser.class);
 	
 	@Autowired @NotNull( message = "Internal Error: Failed to get logger" )
 	private Logger logger;
@@ -89,12 +92,14 @@ public class KeyBoardConfigurationParser {
 	@SuppressWarnings("resource")
 	public void LoadParams() {
 		logger.LogGeneralMessege("Loading flight controller configuration");
+		LOGGER.debug("Loading flight controller configuration");
 		paramAmount = 0;
 		try {
 			//fFileFullPath = Paths.get(Environment.getRunningEnvConfDirectory() + Environment.DIR_SEPERATOR + settingsFileName);
 			fFileFullPath = Paths.get(System.getProperty("CONF.DIR") + Environment.DIR_SEPERATOR + settingsFileName);
-			if (fFileFullPath.toFile().exists() == false) {
+			if ( ! fFileFullPath.toFile().exists()) {
 				logger.LogErrorMessege("Configuration file wasn't found, start generating default conf file");
+				LOGGER.error("Configuration file wasn't found, start generating default conf file");
 				buildConfigurationFile(fFileFullPath);
 			}
 		
@@ -164,13 +169,13 @@ public class KeyBoardConfigurationParser {
 			    		logger.LogGeneralMessege(_STABILIZER_CYCLE_KEY + CONF_FILE_DELIMETER + _STABILIZER_CYCLE);
 			    		paramAmount++;
 			    	}
-			    	
-			    	System.out.println("Param: '" + name + "', Value: '" + value + "'");
+
+					LOGGER.error("Param: {}, Value: {}'", name, value);
 			    }
 			    else {
 			    	logger.LogErrorMessege("Failed to read parameters, invalid line");
 			    	logger.close();
-			    	System.err.println(getClass().getName() + " Failed to read parameters, invalid line");
+					LOGGER.error("Failed to read parameters, invalid line");
 					logger.LogAlertMessage("Failed to read parameters, invalid line");
 					System.exit(-1);
 			    }
@@ -179,11 +184,11 @@ public class KeyBoardConfigurationParser {
 				logger.LogErrorMessege("Missing parameter: Only " + paramAmount + " parameters were loaded");
 				logger.close();
 				if (paramAmount == 0) {
-					System.err.println("Parameters haven't been found.\nVerify configuration file validity.");
+					LOGGER.error("Parameters haven't been found.\nVerify configuration file validity.");
 					logger.LogAlertMessage("Parameters haven't been found.\nVerify configuration file validity.");
 				}
 				else {
-					System.err.println("Missing parameter: Only " + paramAmount + " parameters were loaded\nVerify configuration file validity.");
+					LOGGER.error("Missing parameter: Only " + paramAmount + " parameters were loaded\nVerify configuration file validity.");
 					logger.LogAlertMessage("Missing parameter: Only " + paramAmount + " parameters were loaded"
 												+ "\nVerify configuration file validity.");
 				}
@@ -193,7 +198,7 @@ public class KeyBoardConfigurationParser {
 			logger.LogGeneralMessege("All parameter loaded, configuration was successfully loaded");
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Configuration file is missing", e);
 			logger.LogAlertMessage("Configuration file is missing, failed to build a default one", e);
 			logger.close();
 			System.exit(-1);
@@ -201,11 +206,11 @@ public class KeyBoardConfigurationParser {
 	}
 	
 	private void buildConfigurationFile(Path fileFullPath) throws FileNotFoundException, UnsupportedEncodingException {
-		System.out.println("Building default configuration file: " + fFileFullPath.toString());
+		LOGGER.debug("Building default configuration file: " + fFileFullPath.toString());
 
 		File directoryOfFile = fileFullPath.getParent().toFile();
 		if (!directoryOfFile.exists()) {
-			System.out.println("Creating sub directories: " + directoryOfFile);
+			LOGGER.warn("Creating sub directories: " + directoryOfFile);
 			directoryOfFile.mkdirs();
 		}
 		

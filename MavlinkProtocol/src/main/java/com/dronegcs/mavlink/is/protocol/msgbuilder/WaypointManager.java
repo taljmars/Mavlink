@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.dronegcs.mavlink.is.drone.DroneVariable;
@@ -34,6 +35,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_r
 @Component
 public class WaypointManager extends DroneVariable implements OnTimeout
 {
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WaypointManager.class);
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
 	private Logger logger;
@@ -54,7 +56,7 @@ public class WaypointManager extends DroneVariable implements OnTimeout
 	private TimeOut timeOut;
 	private Set<OnWaypointManagerListener> wpEventListeners;
 
-	WaypointStates state = WaypointStates.IDLE;
+	private WaypointStates state = WaypointStates.IDLE;
 
 	public WaypointManager() {
 		this.timeOut = new TimeOut(this);
@@ -68,13 +70,13 @@ public class WaypointManager extends DroneVariable implements OnTimeout
 	@PostConstruct
 	private void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 		
-		wpEventListeners = new HashSet<OnWaypointManagerListener>();
+		wpEventListeners = new HashSet<>();
 	}
 
 	public void addWaypointManagerListener(OnWaypointManagerListener wpEventListener) {
-		System.out.println(getClass() + " new waypoints listener " + wpEventListener.getClass());
+		LOGGER.debug("Register listener {} for waypoint manager", wpEventListener.getClass());
 		this.wpEventListeners.add(wpEventListener);
 	}
 

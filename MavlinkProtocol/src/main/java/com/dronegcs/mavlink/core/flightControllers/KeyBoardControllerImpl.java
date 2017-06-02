@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.generic_tools.devices.KeyBoardController;
 import com.generic_tools.devices.SerialConnection;
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkRC;
 
 @Component
 public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KeyBoardControllerImpl.class);
 	
 	@Autowired @NotNull(message = "Internal Error: Failed to keyboard parser")
 	private KeyBoardConfigurationParser keyBoardConfigurationParser;
@@ -114,7 +117,8 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 	
 	@Override
 	public void run() {
-		logger.LogGeneralMessege(this.getClass().getName() + " Stabilizer Thread started");
+		logger.LogGeneralMessege("Stabilizer Thread started");
+		LOGGER.debug("Stabilizer Thread started");
 		while (true) {
 			try {
 				//Thread.sleep(1000);
@@ -122,7 +126,7 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 				Update();
 			} 
 			catch (InterruptedException e) {
-				e.printStackTrace();
+				LOGGER.error("Keyboard monitor terminated", e);
 			}
 		}
 	}
@@ -214,7 +218,7 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 	
 	static long LastContolKeyTS = 0;
 	private void UpdateRCSet(KeyEvent event) {
-		System.out.println(getClass().getName() + " Updating RC Set");
+		LOGGER.debug("Updating RC Set");
 		if (!bActive)
 			return;
 		
@@ -320,14 +324,14 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 		    	_CAMERA_PITCH += 10;
 		    	break;
 		    default:
-		    	System.err.println("Key Value: " + event);
+		    	LOGGER.error("Key Value: {}", event);
 		}
 		
 		String val = GetRCSet();
 		
 		if (! val.isEmpty()) {
 			serialConnection.write(val);
-			System.out.println("Sending '" + val + "'");
+			LOGGER.debug("Sending '{}'", val);
 			int[] rcOutputs = {RC_Roll, RC_Pitch, RC_Thr, RC_Yaw, 0, 0, _CAMERA_PITCH, _CAMERA_ROLL};
 			MavLinkRC.sendRcOverrideMsg(drone, rcOutputs);
 		}
@@ -343,14 +347,14 @@ public class KeyBoardControllerImpl implements KeyBoardController, Runnable {
 		
 		if (param_loaded && ! val.isEmpty()) {
 			serialConnection.write(val);
-			System.out.println("Sending '" + val + "'");
+			LOGGER.debug("Sending '{}'", val);
 			int[] rcOutputs = {RC_Roll, RC_Pitch, RC_Thr, RC_Yaw, 0, 0, _CAMERA_PITCH, _CAMERA_ROLL};
 			MavLinkRC.sendRcOverrideMsg(drone, rcOutputs);
 		}
 	}
 
 	public void Reset() {
-		System.out.println("Resetting RC Set");
+		LOGGER.debug("Resetting RC Set");
 		ResetRCSet();
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.dronegcs.mavlink.is.drone.Drone;
@@ -33,6 +34,8 @@ import javax.validation.constraints.NotNull;
 @Component
 public class Parameters extends DroneVariable implements OnDroneListener {
 
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Parameters.class);
+
 	private static final int TIMEOUT = 2000; //TALMA original is 1000;
 
 	private int expectedParams;
@@ -44,7 +47,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 	@Autowired @NotNull(message = "Internal Error: Failed to get handler")
 	public Handler handler;
 
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 	
 	public Runnable watchdogCallback = () -> onParameterStreamStopped();
@@ -64,7 +67,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
         parameterList.clear();
 
 		if (parameterListeners == null) {
-			logger.LogErrorMessege("Error: There are not listeners signed");
+			LOGGER.error("Error: There are not listeners signed");
 			return;
 		}
 		
@@ -179,7 +182,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		switch (event) {
 		case HEARTBEAT_FIRST:
 			if (!drone.getState().isFlying()) {
-				System.out.println(getClass().getName() + " First HB Packet");
+				LOGGER.debug("First HB Packet");
 				//refreshParameters();
 			}
 			break;
@@ -198,7 +201,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 	}
 
 	public void addParameterListener(DroneInterfaces.OnParameterManagerListener parameterListener) {
-		System.out.println(getClass().getName() + " Setting new paramter listener " + parameterListener.getClass());
+		LOGGER.debug("Register listener {} for parameters events", parameterListener.getClass());
 		this.parameterListeners.add(parameterListener);
 	}
 
