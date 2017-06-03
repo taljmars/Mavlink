@@ -3,7 +3,9 @@ package com.dronegcs.mavlink.core.drone;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
+import com.dronegcs.mavlink.core.connection.DroneUpdateListener;
 import com.generic_tools.logger.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -16,8 +18,10 @@ import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 @ComponentScan(basePackages = "com.generic_tools")
 @Component
 public class PreferencesImpl implements Preferences {
-	
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DroneUpdateListener.class);
+
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 
 	private FirmwareType type;
@@ -38,9 +42,14 @@ public class PreferencesImpl implements Preferences {
 				rates = new Rates(1, 1, 1, 1, 4, 1, 1, 1);
 				profile = new ArduCopterProfile();
 				logger.LogDesignedMessege("ArduCopter Profile was created");
+				LOGGER.debug("ArduCopter Profile was created");
+				LOGGER.debug("The following rates were selected '{}'", rates);
+
 				return profile;
 			default:
-				logger.LogErrorMessege("Unsupported frame '" + firmwareType.name() + "'");
+				String msg = "Unsupported frame '" + firmwareType.name() + "'";
+				logger.LogErrorMessege(msg);
+				LOGGER.error(msg);
 		}
 		return null;
 	}

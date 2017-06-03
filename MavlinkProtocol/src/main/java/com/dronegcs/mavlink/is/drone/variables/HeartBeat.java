@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.is.drone.variables;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat
  **/
 @Component
 public class HeartBeat extends DroneVariable implements OnDroneListener {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HeartBeat.class);
 
 	private static final long HEARTBEAT_NORMAL_TIMEOUT = 5000; //ms
 	private static final long HEARTBEAT_LOST_TIMEOUT = 15000; //ms
@@ -56,7 +59,7 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	 **/
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 		drone.addDroneListener(this);
 	}
 
@@ -72,8 +75,9 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 		droneID = msg.sysid;			
 		mMavlinkVersion = msg.mavlink_version;
 
-		System.out.println(getClass().getName() + " Currnet Status: " + heartbeatState);
-		
+		//System.out.println(getClass().getName() + " Currnet Status: " + heartbeatState);
+		LOGGER.debug("Currnet Status: " + heartbeatState);
+
 		switch (heartbeatState) {
 		case FIRST_HEARTBEAT:
 			drone.notifyDroneEvent(DroneEventsType.HEARTBEAT_FIRST);
@@ -117,6 +121,7 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 
 	private void notifyConnected() {
 		System.err.println("HB Notification");
+		LOGGER.debug("HB Notification");
 		restartWatchdog(HEARTBEAT_NORMAL_TIMEOUT);
 	}
 

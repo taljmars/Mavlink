@@ -22,7 +22,7 @@ public class MyLocationImpl implements LocationFinder {
 	private static final int UPDATE_INTERVAL = 1000;// TALMA was 500;
 	private static final double SPEED = 3;
 
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get beacon factory")

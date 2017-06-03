@@ -17,7 +17,9 @@ Logs/
 Cache/
 .idea/
 CMpub/
+conf/
 target/
+UntitledEnvironment/
 
 
 # Irrelevant logs - talma

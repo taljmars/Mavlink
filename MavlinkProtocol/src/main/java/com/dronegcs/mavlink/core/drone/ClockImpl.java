@@ -18,6 +18,6 @@ public class ClockImpl implements Clock {
 	@PostConstruct
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 	}
 };

@@ -179,7 +179,7 @@ public class MyDroneImpl implements Drone {
 	@PostConstruct
 	private void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 		
 		heartbeat.init();
 		state.init();

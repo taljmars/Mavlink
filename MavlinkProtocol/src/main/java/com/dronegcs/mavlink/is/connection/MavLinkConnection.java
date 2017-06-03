@@ -152,7 +152,7 @@ public abstract class MavLinkConnection {
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					final MAVLinkPacket packet = mPacketsToSend.take();
 					if (packet.unpack().msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
-//						System.err.println("[SND] " + packet.unpack().toString());
+						System.err.println("[SND] " + packet.unpack().toString());
 						LOGGER.trace("[SND] {}", packet.unpack().toString());
 						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
 						logger.LogDesignedMessege(log_entry);
@@ -220,12 +220,14 @@ public abstract class MavLinkConnection {
 	}
 
 	public void sendMavPacket(MAVLinkPacket packet) {
-		if (!mPacketsToSend.offer(packet))
-			logger.LogErrorMessege("Unable to send com.dronegcs.mavlink.is.mavlink packet. Packet queue is full!");
+		if (!mPacketsToSend.offer(packet)) {
+			logger.LogErrorMessege("Unable to send mavlink packet. Packet queue is full!");
+			LOGGER.error("Unable to send mavlink packet. Packet queue is full!");
+		}
 	}
 
 	/**
-	 * Adds a listener to the com.dronegcs.mavlink.is.mavlink connection.
+	 * Adds a listener to the mavlink connection.
 	 * 
 	 * @param listener
 	 * @param tag

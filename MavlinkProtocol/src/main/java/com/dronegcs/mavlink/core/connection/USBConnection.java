@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 /**
- * Provides support for com.dronegcs.mavlink.is.mavlink connection via udp.
+ * Provides support for mavlink connection via udp.
  */
 @Component
 public class USBConnection extends MavLinkConnection {

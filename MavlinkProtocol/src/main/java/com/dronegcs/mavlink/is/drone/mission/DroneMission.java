@@ -355,13 +355,16 @@ public class DroneMission extends DroneVariable implements Serializable {
 		List<DroneMissionItem> dronieItems = new ArrayList<DroneMissionItem>();
 		
 		dronieItems.add(new MavlinkTakeoff(this, 1.0 * startAltitude));
-		
+
+		dronieItems.add(new MavlinkChangeSpeed(this, new Speed(1.0)));
+		dronieItems.add(new MavlinkChangeSpeed(this, new Speed(2.0)));
 		dronieItems.add(new MavlinkRegionOfInterest(this, new Coordinate(GeoTools.pointAlongTheLine(start, end, roiDistance), 1)));
 		dronieItems.add(new MavlinkWaypoint(this, new Coordinate(end, startAltitude + GeoTools.getDistance(start, end)/ 2.0)));
 		dronieItems.add(new MavlinkWaypoint(this, new Coordinate(slowDownPoint, startAltitude + GeoTools.getDistance(start, slowDownPoint) / 2.0)));
 		dronieItems.add(new MavlinkChangeSpeed(this, new Speed(1.0)));
 		dronieItems.add(new MavlinkWaypoint(this, new Coordinate(start, startAltitude)));
 		dronieItems.add(new MavlinkChangeSpeed(this, defaultSpeed));
+
 		dronieItems.add(new MavlinkLand(this, start));
 		return dronieItems;
 	}
