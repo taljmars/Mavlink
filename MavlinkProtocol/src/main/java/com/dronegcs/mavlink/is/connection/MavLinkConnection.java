@@ -1,12 +1,12 @@
 package com.dronegcs.mavlink.is.connection;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.USBConnection;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD_ACK;
 import com.generic_tools.logger.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,22 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat
 import com.dronegcs.mavlink.is.protocol.msgparser.Parser;
 
 /**
- * Base for com.dronegcs.mavlink.is.mavlink connection implementations.
+ * Base for mavlink connection implementations.
  */
 public abstract class MavLinkConnection {
 
 	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(USBConnection.class);
 
-	@SuppressWarnings("unused")
-	private static final String TAG = MavLinkConnection.class.getSimpleName();
+//	@SuppressWarnings("unused")
+//	private static final String TAG = MavLinkConnection.class.getSimpleName();
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get drone")
 	private Drone drone;
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
+
+	protected ConnectionStatistics connectionStatistics;
 
 	/*
 	 * MavLink connection states
@@ -44,7 +46,7 @@ public abstract class MavLinkConnection {
 	/**
 	 * Size of the buffer used to read messages from the com.dronegcs.mavlink.is.mavlink connection.
 	 */
-	private static final int READ_BUFFER_SIZE = 4096*4;
+	private static final int READ_BUFFER_SIZE = 4096*8;//4;
 
 	/**
 	 * Maximum possible sequence number for a packet.
@@ -56,7 +58,12 @@ public abstract class MavLinkConnection {
 	 * ConcurrentSkipListSet because the object will be accessed from multiple
 	 * threads concurrently.
 	 */
-	private final ConcurrentHashMap<String, MavLinkConnectionListener> mListeners = new ConcurrentHashMap<String, MavLinkConnectionListener>();
+	private final ConcurrentHashMap<String, MavLinkConnectionListener> mListeners = new ConcurrentHashMap<>();
+
+	/**
+	 * Set of listeners subscribed to this com.dronegcs.mavlink.is.mavlink connection statistics. We're using a
+	 */
+	private final ConcurrentHashMap<String, MavLinkConnectionStatisticsListener> mConnectionStatisticsListeners = new ConcurrentHashMap<>();
 
 	/**
 	 * Queue the set of packets to send via the com.dronegcs.mavlink.is.mavlink connection. A thread
@@ -101,10 +108,22 @@ public abstract class MavLinkConnection {
 				final byte[] readBuffer = new byte[READ_BUFFER_SIZE];
 
 				drone.notifyDroneEvent(DroneEventsType.CONNECTED);
-				
+
+				// Statistics
+				long packetsSinceLastRead = 0;
+				long lastReadTimestamp = System.currentTimeMillis();
+
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					int bufferSize = readDataBlock(readBuffer);
-					handleData(parser, bufferSize, readBuffer);
+					int msg = handleData(parser, bufferSize, readBuffer);
+
+					// Statistics
+					packetsSinceLastRead += msg;
+					if (lastReadTimestamp - System.currentTimeMillis() > 1000) {
+						connectionStatistics.setReceivedPacketsPerSecond(packetsSinceLastRead / (lastReadTimestamp - System.currentTimeMillis()));
+						lastReadTimestamp = System.currentTimeMillis();
+						packetsSinceLastRead = 0;
+					}
 				}
 			} 
 			catch (IOException e) {
@@ -124,18 +143,27 @@ public abstract class MavLinkConnection {
 			}
 		}
 
-		private void handleData(Parser parser, int bufferSize, byte[] buffer) {
+		private int handleData(Parser parser, int bufferSize, byte[] buffer) {
 			if (bufferSize < 1) {
-				return;
+				return 0;
 			}
 
+			int messages = 0;
 			for (int i = 0; i < bufferSize; i++) {
+//				System.err.println("Index is " + i);
 				MAVLinkPacket receivedPacket = parser.mavlink_parse_char(buffer[i] & 0x00ff);
 				if (receivedPacket != null) {
 					MAVLinkMessage msg = receivedPacket.unpack();
+					LOGGER.debug("[RCV] {}", msg);
+					System.err.println("[RCV] " + msg);
 					reportReceivedMessage(msg);
+					messages++;
 				}
+				connectionStatistics.setReceivedErrorPackets(parser.stats.crcErrorCount);
+				connectionStatistics.setLostPackets(parser.stats.lostPacketCount);
 			}
+
+			return messages;
 		}
 	};
 
@@ -149,11 +177,23 @@ public abstract class MavLinkConnection {
 			int msgSeqNumber = 0;
 
 			try {
+				// Statistics
+				long packetsSinceLastWrite = 0;
+				long lastWriteTimestamp = System.currentTimeMillis();
+
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					final MAVLinkPacket packet = mPacketsToSend.take();
-					if (packet.unpack().msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
-						System.err.println("[SND] " + packet.unpack().toString());
-						LOGGER.trace("[SND] {}", packet.unpack().toString());
+
+					MAVLinkMessage mavLinkMessage = packet.unpack();
+					if (mavLinkMessage == null) {
+						connectionStatistics.setTransmittedErrorPackets(connectionStatistics.getTransmittedErrorPackets() + 1);
+						LOGGER.error("Failed to unpack packet '{}'", packet);
+						continue;
+					}
+
+					if (mavLinkMessage.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
+						System.err.println("[SND] " + mavLinkMessage.toString());
+						LOGGER.trace("[SND] {}", mavLinkMessage.toString());
 						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
 						logger.LogDesignedMessege(log_entry);
 					}
@@ -162,6 +202,14 @@ public abstract class MavLinkConnection {
 
 					try {
 						sendBuffer(buffer);
+
+						// Statistics
+						packetsSinceLastWrite++;
+						if (lastWriteTimestamp - System.currentTimeMillis() > 1000) {
+							connectionStatistics.setTransmittedPacketsPerSecond(packetsSinceLastWrite / (lastWriteTimestamp - System.currentTimeMillis()));
+							lastWriteTimestamp = System.currentTimeMillis();
+							packetsSinceLastWrite = 0;
+						}
 					} catch (IOException e) {
 						reportComError(e.getMessage());
 					}
@@ -169,23 +217,40 @@ public abstract class MavLinkConnection {
 					msgSeqNumber = (msgSeqNumber + 1) % (MAX_PACKET_SEQUENCE + 1);
 				}
 				logger.LogErrorMessege("Mavlink was not connected");
+				LOGGER.error("Mavlink was not connected");
 			} catch (InterruptedException e) {
 				logger.LogErrorMessege("Interrupted exception:");
 				logger.LogErrorMessege(e.getMessage());
+				LOGGER.error("Interrupted exception:", e);
 			} finally {
 				logger.LogDesignedMessege("Sending Thread finished");
+				LOGGER.debug("Sending Thread finished");
 				disconnect();
 			}
 		}
 	};
 	
 	private Thread mConnectingThread;
+
+	private ScheduledFuture scheduledFuture;
+	private final Runnable monitorTask = () -> {
+		if (mConnectionStatisticsListeners == null || mConnectionStatisticsListeners.isEmpty())
+			return;
+
+		LOGGER.trace("Sending connections statistics");
+		for (MavLinkConnectionStatisticsListener listeners : mConnectionStatisticsListeners.values()) {
+			listeners.onConnectionStatistics(connectionStatistics);
+		}
+	};
 	
 	/**
-	 * Establish a com.dronegcs.mavlink.is.mavlink connection. If the connection is successful, it will
+	 * Establish a mavlink connection. If the connection is successful, it will
 	 * be reported through the MavLinkConnectionListener interface.
 	 */
 	public void connect() {
+		connectionStatistics = new ConnectionStatistics();
+		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.MINUTES);
 		if (mConnectionStatus.compareAndSet(MAVLINK_DISCONNECTED, MAVLINK_CONNECTING)) {
 			mConnectingThread = new Thread(mConnectingTask, "MavLinkConnection-Connecting Thread");
 			mConnectingThread.start();
@@ -196,9 +261,14 @@ public abstract class MavLinkConnection {
 	 * Disconnect a com.dronegcs.mavlink.is.mavlink connection. If the operation is successful, it will
 	 * be reported through the MavLinkConnectionListener interface.
 	 */
-	public void disconnect() {		
+	public void disconnect() {
 		if (mConnectionStatus.get() == MAVLINK_DISCONNECTED || mConnectingThread == null) {
 			return;
+		}
+
+		if (scheduledFuture != null) {
+			scheduledFuture.cancel(false);
+			scheduledFuture = null;
 		}
 
 		try {
@@ -212,6 +282,7 @@ public abstract class MavLinkConnection {
 		} catch (IOException e) {
 			logger.LogErrorMessege(e.getMessage());
 			reportComError(e.getMessage());
+			LOGGER.error("Disconnection error", e);
 		}
 	}
 
@@ -242,6 +313,17 @@ public abstract class MavLinkConnection {
 	}
 
 	/**
+	 * Adds a listener to the mavlink connection statistics.
+	 *
+	 * @param listener
+	 * @param tag
+	 *            Listener tag
+	 */
+	public void addMavLinkConnectionStatisticsListener(String tag, MavLinkConnectionStatisticsListener listener) {
+		mConnectionStatisticsListeners.put(tag, listener);
+	}
+
+	/**
 	 * Removes the specified listener.
 	 * 
 	 * @param tag
@@ -262,12 +344,12 @@ public abstract class MavLinkConnection {
 	protected abstract void loadPreferences();
 
 	/**
-	 * @return The type of this com.dronegcs.mavlink.is.mavlink connection.
+	 * @return The type of this mavlink connection.
 	 */
 	protected abstract int getConnectionType();
 
 	/**
-	 * Utility method to notify the com.dronegcs.mavlink.is.mavlink listeners about communication
+	 * Utility method to notify the mavlink listeners about communication
 	 * errors.
 	 * 
 	 * @param errMsg
@@ -282,7 +364,7 @@ public abstract class MavLinkConnection {
 	}
 
 	/**
-	 * Utility method to notify the com.dronegcs.mavlink.is.mavlink listeners about a successful
+	 * Utility method to notify the mavlink listeners about a successful
 	 * connection.
 	 */
 	private void reportConnect() {
@@ -292,7 +374,7 @@ public abstract class MavLinkConnection {
 	}
 
 	/**
-	 * Utility method to notify the com.dronegcs.mavlink.is.mavlink listeners about a connection
+	 * Utility method to notify the mavlink listeners about a connection
 	 * disconnect.
 	 */
 	private void reportDisconnect() {
@@ -305,10 +387,10 @@ public abstract class MavLinkConnection {
 	}
 
 	/**
-	 * Utility method to notify the com.dronegcs.mavlink.is.mavlink listeners about received messages.
+	 * Utility method to notify the mavlink listeners about received messages.
 	 * 
 	 * @param msg
-	 *            received com.dronegcs.mavlink.is.mavlink message
+	 *            received mavlink message
 	 */
 	private void reportReceivedMessage(MAVLinkMessage msg) {
 		if (mListeners.isEmpty())
@@ -322,4 +404,5 @@ public abstract class MavLinkConnection {
 	public boolean isConnected() {
 		return mConnectionStatus.get() == MAVLINK_CONNECTED;
 	}
+
 }

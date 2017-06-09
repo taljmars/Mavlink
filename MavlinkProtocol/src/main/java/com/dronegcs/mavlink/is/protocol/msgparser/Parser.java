@@ -2,8 +2,11 @@ package com.dronegcs.mavlink.is.protocol.msgparser;
 
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkStats;
+import org.slf4j.LoggerFactory;
 
 public class Parser {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Parser.class);
 
 	/**
 	 * States from the parsing state machine
@@ -15,6 +18,9 @@ public class Parser {
 	MAV_states state = MAV_states.MAVLINK_PARSE_STATE_UNINIT;
 
 	static boolean msg_received;
+
+//	static byte[] debugBuffer = new byte[4096];
+//	static int index = 0;
 
 	public MAVLinkStats stats = new MAVLinkStats();
 	private MAVLinkPacket m;
@@ -30,6 +36,8 @@ public class Parser {
 	 */
 	public MAVLinkPacket mavlink_parse_char(int c) {
 		msg_received = false;
+//		debugBuffer[index] = (byte) c;
+//		index++;
 
 		switch (state) {
 		case MAVLINK_PARSE_STATE_UNINIT:
@@ -93,6 +101,11 @@ public class Parser {
 					m.crc.start_checksum();
 				}
 				stats.crcError();
+				LOGGER.error("Checksum Failed !!!");
+
+//				for (int i = 0 ; i < index ; i++)
+//					System.err.print(debugBuffer[i] + ",");
+//				System.err.println();
 			} else {
 				state = MAV_states.MAVLINK_PARSE_STATE_GOT_CRC1;
 			}
@@ -108,16 +121,28 @@ public class Parser {
 					m.crc.start_checksum();
 				}
 				stats.crcError();
-			} else { // Successfully received the message
+				LOGGER.error("Checksum Failed");
+
+//				for (int i = 0 ; i < index ; i++)
+//					System.err.print(debugBuffer[i] + ",");
+//				System.err.println();
+			}
+			else { // Successfully received the message
 				stats.newPacket(m);
 				msg_received = true;
 				state = MAV_states.MAVLINK_PARSE_STATE_IDLE;
+
+//				for (int i = 0 ; i < index ; i++)
+//					System.err.print(debugBuffer[i] + ",");
+//				System.err.println();
 			}
 
 			break;
 
 		}
+
 		if (msg_received) {
+//			index = 0;
 			return m;
 		} else {
 			return null;

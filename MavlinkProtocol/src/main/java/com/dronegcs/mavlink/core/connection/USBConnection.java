@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Provides support for mavlink connection via udp.
@@ -23,6 +27,8 @@ public class USBConnection extends MavLinkConnection {
 	
 	@Autowired
 	private DroneUpdateListener droneUpdateListener;
+
+	private ScheduledFuture scheduledFuture = null;
 	
 	private static int called;
 	@PostConstruct
@@ -31,16 +37,36 @@ public class USBConnection extends MavLinkConnection {
 			throw new RuntimeException("Not a Singleton");
 	}
 
+	private final Runnable monitorTask = () -> {
+		if (serialConnection == null)
+			return;
+
+		LOGGER.trace("Starting Monitor connection");
+		connectionStatistics.setReceivedBytes(serialConnection.getRx());
+		connectionStatistics.setReceivedBytesPerSecond(serialConnection.getReceivedBytesPerSeconds());
+		connectionStatistics.setTransmittedBytes(serialConnection.getTx());
+		connectionStatistics.setTransmittedBytesPerSecond(serialConnection.getTransmittedBytesPerSeconds());
+	};
+
 	@Override
 	public boolean openConnection() throws IOException {
 		LOGGER.debug("openConnection");
-		return serialConnection.connect();
+		boolean res = serialConnection.connect();
+
+		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.MINUTES);
+		return res;
 	}
 	
 	@Override
 	public boolean closeConnection() throws IOException {
 		LOGGER.debug("closeConnection");
-		return serialConnection.disconnect();
+		boolean res = serialConnection.disconnect();
+		if (scheduledFuture != null) {
+			scheduledFuture.cancel(false);
+			scheduledFuture = null;
+		}
+		return res;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.is.protocol.msg_metadata;
 import java.io.Serializable;
 
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
+import org.slf4j.LoggerFactory;
 
 /**
  * Common interface for all MAVLink Messages
@@ -26,6 +27,9 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
  *
  */
 public class MAVLinkPacket implements Serializable {
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MAVLinkPacket.class);
+
 	private static final long serialVersionUID = 2095947771227815314L;
 	
 	public static final int MAVLINK_STX = 254;
@@ -405,7 +409,7 @@ public class MAVLinkPacket implements Serializable {
 		case msg_debug.MAVLINK_MSG_ID_DEBUG:
 			return  new msg_debug(this);
 		default:
-			System.err.println("UNKNOW MESSAGE - " + msgid);
+			LOGGER.error("UNKNOW MESSAGE - " + msgid);
 			return null;
 		}
 	}

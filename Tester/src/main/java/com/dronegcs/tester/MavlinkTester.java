@@ -3,6 +3,8 @@ package com.dronegcs.tester;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
 import com.generic_tools.devices.SerialConnection;
 import com.generic_tools.environment.Environment;
@@ -10,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by taljmars on 4/5/17.
@@ -36,13 +40,40 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         environment.setBaseRunningDirectoryByClass(".");
     }
 
-    public void go() {
+    public void go() throws IOException {
         System.out.println("Start Mavlink Drone Tester");
         connect();
-        sleep(5);
-        //sync();
-        //fetchWaypoints();
-        pushWaypoints();
+        sleep(2);
+        byte[] buff = new byte[100];
+        Scanner reader = new Scanner(System.in);
+        while (reader.hasNext()) {
+            String s = reader.next();
+            System.out.println("Received '" + s + "' from user");
+            switch (s) {
+                case "sync":
+                    sync();
+                    break;
+                case "getver":
+                    checkVerson();
+                    break;
+                case "push":
+                    pushWaypoints();
+                    break;
+                case "fetch":
+                    fetchWaypoints();
+                    break;
+                case "exit":
+                    System.exit(0);
+            }
+        }
+    }
+
+    private void checkVerson() {
+        //MAV_CMD_REQUEST_PROTOCOL_VERSION
+
+        MAVLinkPacket mavLinkPacket = new MAVLinkPacket();
+        mavLinkPacket.msgid = 410;
+        drone.getMavClient().sendMavPacket(mavLinkPacket);
     }
 
     private void connect() {
@@ -58,7 +89,8 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Default Baud: " + serialConnection.getDefaultBaud());
 
         serialConnection.setPortName((String) ports[0]);
-        serialConnection.setBaud(56700);
+        //serialConnection.setBaud(56700);
+        serialConnection.setBaud(115200);
 
         drone.getMavClient().connect();
     }
@@ -88,7 +120,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.setProperty("LOGS.DIR", args[0]);
         System.setProperty("CONF.DIR", args[1]);
         System.out.println("Logs directory set to: " + System.getProperty("LOGS.DIR"));
