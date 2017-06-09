@@ -157,7 +157,7 @@ public abstract class MavLinkConnection {
 				if (receivedPacket != null) {
 					MAVLinkMessage msg = receivedPacket.unpack();
 					LOGGER.trace("[RCV] {}", msg);
-					System.err.println("[RCV] " + msg);
+//					System.err.println("[RCV] " + msg);
 					reportReceivedMessage(msg);
 					messages++;
 				}
@@ -194,7 +194,7 @@ public abstract class MavLinkConnection {
 					}
 
 					if (mavLinkMessage.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
-						System.err.println("[SND] " + mavLinkMessage.toString());
+//						System.err.println("[SND] " + mavLinkMessage.toString());
 						LOGGER.trace("[SND] {}", mavLinkMessage.toString());
 						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
 						logger.LogDesignedMessege(log_entry);

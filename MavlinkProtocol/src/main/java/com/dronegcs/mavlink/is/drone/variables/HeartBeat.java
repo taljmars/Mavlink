@@ -75,8 +75,8 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 		droneID = msg.sysid;			
 		mMavlinkVersion = msg.mavlink_version;
 
-		//System.out.println(getClass().getName() + " Currnet Status: " + heartbeatState);
-		LOGGER.debug("Currnet Status: " + heartbeatState);
+		//System.err.println(getClass().getName() + " Currnet Status: " + heartbeatState);
+		LOGGER.trace("Current Status: " + heartbeatState);
 
 		switch (heartbeatState) {
 		case FIRST_HEARTBEAT:
