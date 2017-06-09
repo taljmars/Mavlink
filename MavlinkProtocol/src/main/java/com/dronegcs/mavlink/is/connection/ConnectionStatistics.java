@@ -113,4 +113,21 @@ public class ConnectionStatistics {
     public void setTransmittedPacketsPerSecond(long transmittedPacketsPerSecond) {
         this.transmittedPacketsPerSecond = transmittedPacketsPerSecond;
     }
+
+    @Override
+    public String toString() {
+        return "ConnectionStatistics{" +
+                "receivedBytes=" + receivedBytes +
+                ", transmittedBytes=" + transmittedBytes +
+                ", receivedBytesPerSecond=" + receivedBytesPerSecond +
+                ", transmittedBytesPerSecond=" + transmittedBytesPerSecond +
+                ", receivedPackets=" + receivedPackets +
+                ", receivedErrorPackets=" + receivedErrorPackets +
+                ", lostPackets=" + lostPackets +
+                ", transmittedPackets=" + transmittedPackets +
+                ", transmittedErrorPackets=" + transmittedErrorPackets +
+                ", receivedPacketsPerSecond=" + receivedPacketsPerSecond +
+                ", transmittedPacketsPerSecond=" + transmittedPacketsPerSecond +
+                '}';
+    }
 }

@@ -118,9 +118,11 @@ public abstract class MavLinkConnection {
 					int msg = handleData(parser, bufferSize, readBuffer);
 
 					// Statistics
+					connectionStatistics.setReceivedPackets(connectionStatistics.getReceivedPackets() + msg);
 					packetsSinceLastRead += msg;
-					if (lastReadTimestamp - System.currentTimeMillis() > 1000) {
-						connectionStatistics.setReceivedPacketsPerSecond(packetsSinceLastRead / (lastReadTimestamp - System.currentTimeMillis()));
+					if (System.currentTimeMillis() - lastReadTimestamp > 1000) {
+						connectionStatistics.setReceivedPacketsPerSecond((long) ((1.0 * packetsSinceLastRead) /
+								((System.currentTimeMillis() - lastReadTimestamp) / 1000)));
 						lastReadTimestamp = System.currentTimeMillis();
 						packetsSinceLastRead = 0;
 					}
@@ -154,7 +156,7 @@ public abstract class MavLinkConnection {
 				MAVLinkPacket receivedPacket = parser.mavlink_parse_char(buffer[i] & 0x00ff);
 				if (receivedPacket != null) {
 					MAVLinkMessage msg = receivedPacket.unpack();
-					LOGGER.debug("[RCV] {}", msg);
+					LOGGER.trace("[RCV] {}", msg);
 					System.err.println("[RCV] " + msg);
 					reportReceivedMessage(msg);
 					messages++;
@@ -173,7 +175,7 @@ public abstract class MavLinkConnection {
 	private final Runnable mSendingTask = new Runnable() {
 		@Override
 		public void run() {
-			LOGGER.debug("Starting Sending Tasks Thread (Writter)");
+			LOGGER.debug("Starting Sending Tasks Thread (Writer)");
 			int msgSeqNumber = 0;
 
 			try {
@@ -204,9 +206,11 @@ public abstract class MavLinkConnection {
 						sendBuffer(buffer);
 
 						// Statistics
+						connectionStatistics.setTransmittedPackets(connectionStatistics.getTransmittedPackets() + 1);
 						packetsSinceLastWrite++;
-						if (lastWriteTimestamp - System.currentTimeMillis() > 1000) {
-							connectionStatistics.setTransmittedPacketsPerSecond(packetsSinceLastWrite / (lastWriteTimestamp - System.currentTimeMillis()));
+						if (System.currentTimeMillis() - lastWriteTimestamp > 1000) {
+							connectionStatistics.setTransmittedPacketsPerSecond((long) ((1.0 * packetsSinceLastWrite) /
+									((System.currentTimeMillis() - lastWriteTimestamp) / 1000)));
 							lastWriteTimestamp = System.currentTimeMillis();
 							packetsSinceLastWrite = 0;
 						}
@@ -234,8 +238,10 @@ public abstract class MavLinkConnection {
 
 	private ScheduledFuture scheduledFuture;
 	private final Runnable monitorTask = () -> {
-		if (mConnectionStatisticsListeners == null || mConnectionStatisticsListeners.isEmpty())
+		if (mConnectionStatisticsListeners == null || mConnectionStatisticsListeners.isEmpty()) {
+			LOGGER.debug("No statistics listener");
 			return;
+		}
 
 		LOGGER.trace("Sending connections statistics");
 		for (MavLinkConnectionStatisticsListener listeners : mConnectionStatisticsListeners.values()) {
@@ -250,7 +256,7 @@ public abstract class MavLinkConnection {
 	public void connect() {
 		connectionStatistics = new ConnectionStatistics();
 		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.MINUTES);
+		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		if (mConnectionStatus.compareAndSet(MAVLINK_DISCONNECTED, MAVLINK_CONNECTING)) {
 			mConnectingThread = new Thread(mConnectingTask, "MavLinkConnection-Connecting Thread");
 			mConnectingThread.start();

@@ -54,7 +54,7 @@ public class USBConnection extends MavLinkConnection {
 		boolean res = serialConnection.connect();
 
 		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.MINUTES);
+		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		return res;
 	}
 	
