@@ -51,10 +51,8 @@ public class USBConnection extends MavLinkConnection {
 	@Override
 	public boolean openConnection() throws IOException {
 		LOGGER.debug("openConnection");
+		scheduledFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		boolean res = serialConnection.connect();
-
-		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		return res;
 	}
 	
