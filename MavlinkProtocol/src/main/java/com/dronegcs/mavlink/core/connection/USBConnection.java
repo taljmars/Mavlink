@@ -62,6 +62,7 @@ public class USBConnection extends MavLinkConnection {
 	public boolean closeConnection() throws IOException {
 		LOGGER.debug("closeConnection");
 		boolean res = serialConnection.disconnect();
+		LOGGER.debug("closeConnection done");
 		if (scheduledFuture != null) {
 			scheduledFuture.cancel(false);
 			scheduledFuture = null;
