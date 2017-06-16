@@ -42,14 +42,18 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     public void go() throws IOException {
         System.out.println("Start Mavlink Drone Tester");
-        connect();
-        sleep(2);
         byte[] buff = new byte[100];
         Scanner reader = new Scanner(System.in);
         while (reader.hasNext()) {
             String s = reader.next();
             System.out.println("Received '" + s + "' from user");
             switch (s) {
+                case "connect":
+                    connect();
+                    break;
+                case "disconnect":
+                    disconnect();
+                    break;
                 case "sync":
                     sync();
                     break;
@@ -95,6 +99,10 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         drone.getMavClient().connect();
     }
 
+    private void disconnect() {
+        drone.getMavClient().disconnect();
+    }
+
     private void sync() {
         System.out.println("Sync Parameters");
         drone.getParameters().refreshParameters();
@@ -121,6 +129,10 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length != 2) {
+            System.err.println("Missing args: usage: <logdir> <confdir>");
+            System.exit(-1);
+        }
         System.setProperty("LOGS.DIR", args[0]);
         System.setProperty("CONF.DIR", args[1]);
         System.out.println("Logs directory set to: " + System.getProperty("LOGS.DIR"));

@@ -6,11 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.USBConnection;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD_ACK;
 import com.generic_tools.logger.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces.DroneEventsType;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
@@ -98,11 +96,19 @@ public abstract class MavLinkConnection {
 				mConnectionStatus.set(MAVLINK_CONNECTED);
 				reportConnect();
 
+				logger.LogGeneralMessege("Mavlink connected");
+				LOGGER.debug("Mavlink connected");
+
 				// Launch the 'Sending' thread
 				sendingThread = new Thread(mSendingTask, "MavLinkConnection-Sending Thread");
 				sendingThread.start();
 
+				logger.LogGeneralMessege("Preparing Mavlink parser");
+				LOGGER.debug("Preparing Mavlink parser");
 				final Parser parser = new Parser();
+
+				logger.LogGeneralMessege("Reset connection statistics");
+				LOGGER.debug("Reset connection statistics");
 				parser.stats.mavlinkResetStats();
 
 				final byte[] readBuffer = new byte[READ_BUFFER_SIZE];
@@ -127,6 +133,12 @@ public abstract class MavLinkConnection {
 						packetsSinceLastRead = 0;
 					}
 				}
+
+				// When connection is closed we will wait for the sending thread
+				sendingThread.join();
+
+				logger.LogGeneralMessege("Mavlink disconnected");
+				LOGGER.debug("Mavlink disconnected");
 			} 
 			catch (IOException e) {
 				// Ignore errors while shutting down
@@ -134,14 +146,14 @@ public abstract class MavLinkConnection {
 					reportComError(e.getMessage());
 				}
 			}
+			catch (Exception e) {
+				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
+				LOGGER.error("Mavlink disconnected unexpectedly", e);
+				disconnect();
+			}
 			finally {
-				if (sendingThread != null && sendingThread.isAlive()) {
-					sendingThread.interrupt();
-				}
-
 				logger.LogDesignedMessege("Connection Thread finished");
 				drone.notifyDroneEvent(DroneEventsType.DISCONNECTED);
-				disconnect();
 			}
 		}
 
@@ -220,15 +232,14 @@ public abstract class MavLinkConnection {
 
 					msgSeqNumber = (msgSeqNumber + 1) % (MAX_PACKET_SEQUENCE + 1);
 				}
-				logger.LogErrorMessege("Mavlink was not connected");
-				LOGGER.error("Mavlink was not connected");
+				logger.LogGeneralMessege("Mavlink sending thread is shutting down");
+				LOGGER.debug("Mavlink sending thread is shutting down");
 			} catch (InterruptedException e) {
 				logger.LogErrorMessege("Interrupted exception:");
 				logger.LogErrorMessege(e.getMessage());
 				LOGGER.error("Interrupted exception:", e);
-			} finally {
-				logger.LogDesignedMessege("Sending Thread finished");
-				LOGGER.debug("Sending Thread finished");
+			} catch (Exception e) {
+				LOGGER.error("exception:", e);
 				disconnect();
 			}
 		}
@@ -236,7 +247,7 @@ public abstract class MavLinkConnection {
 	
 	private Thread mConnectingThread;
 
-	private ScheduledFuture scheduledFuture;
+	private ScheduledFuture scheduledMonitorFuture;
 	private final Runnable monitorTask = () -> {
 		if (mConnectionStatisticsListeners == null || mConnectionStatisticsListeners.isEmpty()) {
 			LOGGER.debug("No statistics listener");
@@ -255,9 +266,8 @@ public abstract class MavLinkConnection {
 	 */
 	public void connect() {
 		connectionStatistics = new ConnectionStatistics();
-		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduledFuture = scheduler.scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		if (mConnectionStatus.compareAndSet(MAVLINK_DISCONNECTED, MAVLINK_CONNECTING)) {
+			scheduledMonitorFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 			mConnectingThread = new Thread(mConnectingTask, "MavLinkConnection-Connecting Thread");
 			mConnectingThread.start();
 		}
@@ -268,27 +278,20 @@ public abstract class MavLinkConnection {
 	 * be reported through the MavLinkConnectionListener interface.
 	 */
 	public void disconnect() {
-		if (mConnectionStatus.get() == MAVLINK_DISCONNECTED || mConnectingThread == null) {
-			return;
-		}
-
-		if (scheduledFuture != null) {
-			scheduledFuture.cancel(false);
-			scheduledFuture = null;
-		}
-
-		try {
-			mConnectionStatus.set(MAVLINK_DISCONNECTED);
-			if (mConnectingThread.isAlive() && !mConnectingThread.isInterrupted()) {
-				mConnectingThread.interrupt();
+		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTED, MAVLINK_DISCONNECTED)) {
+			try {
+				mConnectingThread.join();
+				if (scheduledMonitorFuture != null) {
+					scheduledMonitorFuture.cancel(false);
+					scheduledMonitorFuture = null;
+				}
+				closeConnection();
 			}
-
-			closeConnection();
+			catch (Exception e) {
+				logger.LogErrorMessege("Unexpected exception during Mavlink disconnection: " + e.getMessage());
+				LOGGER.error("Unexpected exception during Mavlink disconnection", e);
+			}
 			reportDisconnect();
-		} catch (IOException e) {
-			logger.LogErrorMessege(e.getMessage());
-			reportComError(e.getMessage());
-			LOGGER.error("Disconnection error", e);
 		}
 	}
 
