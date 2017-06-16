@@ -63,4 +63,11 @@ public abstract class SpatialCoordItemDrone extends DroneMissionItem implements 
 	public void setPosition(Coordinate position) {
 		coordinate.set(position.getLat(), position.getLon(), position.getAltitude());
 	}
+
+	@Override
+	public String toString() {
+		return "SpatialCoordItemDrone{" +
+				"coordinate=" + coordinate +
+				'}';
+	}
 }

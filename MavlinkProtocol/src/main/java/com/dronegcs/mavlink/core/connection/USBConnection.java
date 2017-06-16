@@ -49,22 +49,22 @@ public class USBConnection extends MavLinkConnection {
 	};
 
 	@Override
-	public boolean openConnection() throws IOException {
+	public boolean openConnection() throws Exception {
 		LOGGER.debug("openConnection");
-		scheduledFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		boolean res = serialConnection.connect();
+		scheduledFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		return res;
 	}
 	
 	@Override
 	public boolean closeConnection() throws IOException {
 		LOGGER.debug("closeConnection");
-		boolean res = serialConnection.disconnect();
-		LOGGER.debug("closeConnection done");
 		if (scheduledFuture != null) {
 			scheduledFuture.cancel(false);
 			scheduledFuture = null;
 		}
+		boolean res = serialConnection.disconnect();
+		LOGGER.debug("closeConnection done");
 		return res;
 	}
 

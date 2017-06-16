@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.USBConnection;
 import com.generic_tools.logger.Logger;
+import gnu.io.PortInUseException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dronegcs.mavlink.is.drone.Drone;
@@ -145,6 +146,11 @@ public abstract class MavLinkConnection {
 				if (mConnectionStatus.get() != MAVLINK_DISCONNECTED) {
 					reportComError(e.getMessage());
 				}
+			}
+			catch (PortInUseException e) {
+				logger.LogErrorMessege("Port in use");
+				LOGGER.error("Port in use");
+				disconnect();
 			}
 			catch (Exception e) {
 				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
@@ -342,7 +348,7 @@ public abstract class MavLinkConnection {
 		mListeners.remove(tag);
 	}
 
-	protected abstract boolean openConnection() throws IOException;
+	protected abstract boolean openConnection() throws Exception;
 
 	protected abstract int readDataBlock(byte[] buffer) throws IOException;
 

@@ -109,4 +109,16 @@ public class MavlinkWaypoint extends SpatialCoordItemDrone implements MavlinkDel
 	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MavlinkWaypoint{" +
+				super.toString() +
+				"delay=" + delay +
+				", acceptanceRadius=" + acceptanceRadius +
+				", yawAngle=" + yawAngle +
+				", orbitalRadius=" + orbitalRadius +
+				", orbitCCW=" + orbitCCW +
+				'}';
+	}
 }
