@@ -93,4 +93,13 @@ public class Parameter implements Comparable<Parameter>, Serializable {
     public int compareTo(Parameter another) {
         return name.compareTo(another.name);
     }
+
+	@Override
+	public String toString() {
+		return "Parameter{" +
+				"name='" + name + '\'' +
+				", value=" + value +
+				", type=" + type +
+				'}';
+	}
 }
