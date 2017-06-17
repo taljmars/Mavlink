@@ -1,10 +1,6 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.generic_tools.logger.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +45,9 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
+
+	@Autowired @NotNull(message = "Internal Error: Failed to get parameter details parser")
+	private ParameterDetailsParser parameterDetailsParser;
 	
 	public Runnable watchdogCallback = () -> onParameterStreamStopped();
 
@@ -103,7 +102,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
-		Parameter param = new Parameter(m_value);
+		String description = parameterDetailsParser.get(m_value);
+		Parameter param = new Parameter(m_value, description);
 		parameters.put((int) m_value.param_index, param);
 
 		expectedParams = m_value.param_count;
