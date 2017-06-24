@@ -63,4 +63,29 @@ public class MAV_CMD {
 	public static final int MAV_CMD_PAYLOAD_PREPARE_DEPLOY = 30001; /* Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in degrees compass heading (0..360). A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overriden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position in meters. A negative value indicates the system can define the clearance at will.| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude, in meters WGS84|  */
 	public static final int MAV_CMD_PAYLOAD_CONTROL_DEPLOY = 30002; /* Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal droneMission. 1: switch to payload deploment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  */
 	public static final int MAV_CMD_ENUM_END = 30003; /*  | */
+
+	//Should be supported for Channel 7 & 8
+	public static final int MAV_NOP = 0;
+	public static final int MAV_CMD_FLIP = 2;
+	public static final int MAV_CMD_SIMPLEMODE = 3;
+	public static final int MAV_CMD_RTL = 4;
+	public static final int MAV_CMD_SAVETRIM = 5;
+	public static final int MAV_CMD_SAVEWP = 7;
+	public static final int MAV_CMD_CAMERATRIGGER = 9;
+	public static final int MAV_CMD_RANGEFINDER = 10;
+	public static final int MAV_CMD_FENCE = 11;
+	public static final int MAV_CMD_SUPER_SIMPLE = 13;
+	public static final int MAV_CMD_AUTO_TRAINER = 14;
+	public static final int MAV_CMD_SPRAYER = 15;
+	public static final int MAV_CMD_AUTO = 16;
+	public static final int MAV_CMD_AUTOTUNE = 17;
+	public static final int MAV_CMD_LAND = 18;
+	public static final int MAV_CMD_EPM_CARGO = 19;
+	public static final int MAV_CMD_PARACHUTE_ENABLE = 21;
+	public static final int MAV_CMD_PARACHUTE_RELEASE = 22;
+	public static final int MAV_CMD_PARACHUTE_3POS = 23;
+	public static final int MAV_CMD_MISSION_RESET = 24;
+	public static final int MAV_CMD_ROLL_PITCH_FFENABLE = 25;
+	public static final int MAV_CMD_ACCELLIMITON = 26;
+	public static final int MAV_CMD_RETRACTMOUNT = 27;
 }
