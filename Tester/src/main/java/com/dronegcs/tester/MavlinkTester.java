@@ -66,6 +66,9 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                 case "fetch":
                     fetchWaypoints();
                     break;
+                case "ping":
+                    ping();
+                    break;
                 case "exit":
                     System.exit(0);
             }
@@ -117,6 +120,13 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Push Waypoints");
         if (drone.getDroneMission().makeAndUploadDronie() == -1) {
             System.out.println("Failed to build and upload mission");
+        }
+    }
+
+    private void ping() {
+        System.out.println("Ping Drone");
+        if (drone.isConnectionAlive()) {
+            drone.getMavClient().ping();
         }
     }
 

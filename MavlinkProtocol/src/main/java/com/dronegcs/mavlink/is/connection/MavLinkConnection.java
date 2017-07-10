@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.USBConnection;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_ping;
 import com.generic_tools.logger.Logger;
 import gnu.io.PortInUseException;
 import org.slf4j.LoggerFactory;
@@ -110,7 +111,7 @@ public abstract class MavLinkConnection {
 
 				logger.LogGeneralMessege("Reset connection statistics");
 				LOGGER.debug("Reset connection statistics");
-				parser.stats.mavlinkResetStats();
+				parser.getMavlinkStats().resetStats();
 
 				final byte[] readBuffer = new byte[READ_BUFFER_SIZE];
 
@@ -122,11 +123,11 @@ public abstract class MavLinkConnection {
 
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					int bufferSize = readDataBlock(readBuffer);
-					int msg = handleData(parser, bufferSize, readBuffer);
+					int packetsAmount = handleData(parser, bufferSize, readBuffer);
 
 					// Statistics
-					connectionStatistics.setReceivedPackets(connectionStatistics.getReceivedPackets() + msg);
-					packetsSinceLastRead += msg;
+					connectionStatistics.setReceivedPackets(connectionStatistics.getReceivedPackets() + packetsAmount);
+					packetsSinceLastRead += packetsAmount;
 					if (System.currentTimeMillis() - lastReadTimestamp > 1000) {
 						connectionStatistics.setReceivedPacketsPerSecond((long) ((1.0 * packetsSinceLastRead) /
 								((System.currentTimeMillis() - lastReadTimestamp) / 1000)));
@@ -176,11 +177,18 @@ public abstract class MavLinkConnection {
 					MAVLinkMessage msg = receivedPacket.unpack();
 					LOGGER.trace("[RCV] {}", msg);
 //					System.err.println("[RCV] " + msg);
-					reportReceivedMessage(msg);
+
+					if (msg.msgid == msg_ping.MAVLINK_MSG_ID_PING) {
+						msg_ping ping = (msg_ping) msg;
+						connectionStatistics.setLatency(ping.time_usec / 3);
+					}
+					else {
+						reportReceivedMessage(msg);
+					}
 					messages++;
 				}
-				connectionStatistics.setReceivedErrorPackets(parser.stats.crcErrorCount);
-				connectionStatistics.setLostPackets(parser.stats.lostPacketCount);
+				connectionStatistics.setReceivedErrorPackets(parser.getMavlinkStats().getCrcErrorCount());
+				connectionStatistics.setLostPackets(parser.getMavlinkStats().getLostPacketCount());
 			}
 
 			return messages;
@@ -420,4 +428,11 @@ public abstract class MavLinkConnection {
 		return mConnectionStatus.get() == MAVLINK_CONNECTED;
 	}
 
+	public void ping() {
+		msg_ping msg = new msg_ping();
+		msg.target_component = 1;
+		msg.compid = 1;
+		msg.time_usec = System.currentTimeMillis();
+		sendMavPacket(msg.pack());
+	}
 }

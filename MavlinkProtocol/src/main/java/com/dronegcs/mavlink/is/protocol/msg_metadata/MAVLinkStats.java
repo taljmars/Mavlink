@@ -6,11 +6,11 @@ package com.dronegcs.mavlink.is.protocol.msg_metadata;
  */
 public class MAVLinkStats /* implements Serializable */{
 
-	public int receivedPacketCount;
+	private int receivedPacketCount;
 
-	public int crcErrorCount;
+	private int crcErrorCount;
 
-	public int lostPacketCount;
+	private int lostPacketCount;
 
 	private int lastPacketSeq;
 
@@ -52,14 +52,46 @@ public class MAVLinkStats /* implements Serializable */{
 	/**
 	 * Called when a CRC error happens on the parser
 	 */
-	public void crcError() {
+	public void advancedCrcError() {
 		crcErrorCount++;
+	}
+
+	public int getReceivedPacketCount() {
+		return receivedPacketCount;
+	}
+
+	public void setReceivedPacketCount(int receivedPacketCount) {
+		this.receivedPacketCount = receivedPacketCount;
+	}
+
+	public int getCrcErrorCount() {
+		return crcErrorCount;
+	}
+
+	public void setCrcErrorCount(int crcErrorCount) {
+		this.crcErrorCount = crcErrorCount;
+	}
+
+	public int getLostPacketCount() {
+		return lostPacketCount;
+	}
+
+	public void setLostPacketCount(int lostPacketCount) {
+		this.lostPacketCount = lostPacketCount;
+	}
+
+	public int getLastPacketSeq() {
+		return lastPacketSeq;
+	}
+
+	public void setLastPacketSeq(int lastPacketSeq) {
+		this.lastPacketSeq = lastPacketSeq;
 	}
 
 	/**
 	 * Resets statistics for this MAVLink.
 	 */
-	public void mavlinkResetStats() {
+	public void resetStats() {
 		lastPacketSeq = -1;
 		lostPacketCount = 0;
 		crcErrorCount = 0;

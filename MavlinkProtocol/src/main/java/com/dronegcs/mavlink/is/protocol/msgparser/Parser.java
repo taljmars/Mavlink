@@ -15,14 +15,14 @@ public class Parser {
 		MAVLINK_PARSE_STATE_UNINIT, MAVLINK_PARSE_STATE_IDLE, MAVLINK_PARSE_STATE_GOT_STX, MAVLINK_PARSE_STATE_GOT_LENGTH, MAVLINK_PARSE_STATE_GOT_SEQ, MAVLINK_PARSE_STATE_GOT_SYSID, MAVLINK_PARSE_STATE_GOT_COMPID, MAVLINK_PARSE_STATE_GOT_MSGID, MAVLINK_PARSE_STATE_GOT_CRC1, MAVLINK_PARSE_STATE_GOT_PAYLOAD
 	}
 
-	MAV_states state = MAV_states.MAVLINK_PARSE_STATE_UNINIT;
+	private MAV_states state = MAV_states.MAVLINK_PARSE_STATE_UNINIT;
 
-	static boolean msg_received;
+	private static boolean msg_received;
 
 //	static byte[] debugBuffer = new byte[4096];
 //	static int index = 0;
 
-	public MAVLinkStats stats = new MAVLinkStats();
+	private MAVLinkStats mavlinkStats = new MAVLinkStats();
 	private MAVLinkPacket m;
 
 	/**
@@ -100,7 +100,7 @@ public class Parser {
 					state = MAV_states.MAVLINK_PARSE_STATE_GOT_STX;
 					m.crc.start_checksum();
 				}
-				stats.crcError();
+				mavlinkStats.advancedCrcError();
 				LOGGER.error("Checksum Failed !!!");
 
 //				for (int i = 0 ; i < index ; i++)
@@ -120,7 +120,7 @@ public class Parser {
 					state = MAV_states.MAVLINK_PARSE_STATE_GOT_STX;
 					m.crc.start_checksum();
 				}
-				stats.crcError();
+				mavlinkStats.advancedCrcError();
 				LOGGER.error("Checksum Failed");
 
 //				for (int i = 0 ; i < index ; i++)
@@ -128,7 +128,7 @@ public class Parser {
 //				System.err.println();
 			}
 			else { // Successfully received the message
-				stats.newPacket(m);
+				mavlinkStats.newPacket(m);
 				msg_received = true;
 				state = MAV_states.MAVLINK_PARSE_STATE_IDLE;
 
@@ -149,4 +149,7 @@ public class Parser {
 		}
 	}
 
+	public MAVLinkStats getMavlinkStats() {
+		return mavlinkStats;
+	}
 }

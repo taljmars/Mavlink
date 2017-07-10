@@ -25,6 +25,7 @@ public class ConnectionStatistics {
     private long receivedPacketsPerSecond = 0;
     // Transmitter bps
     private long transmittedPacketsPerSecond = 0;
+    private long latency;
 
     public long getReceivedBytes() {
         return receivedBytes;
@@ -129,5 +130,13 @@ public class ConnectionStatistics {
                 ", receivedPacketsPerSecond=" + receivedPacketsPerSecond +
                 ", transmittedPacketsPerSecond=" + transmittedPacketsPerSecond +
                 '}';
+    }
+
+    public void setLatency(long latency) {
+        this.latency = latency;
+    }
+
+    public long getLatency() {
+        return latency;
     }
 }
