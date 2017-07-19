@@ -1,5 +1,6 @@
 package com.dronegcs.tester;
 
+import com.dronegcs.mavlink.core.gcs.GCSHeartbeat;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
@@ -22,6 +23,9 @@ import java.util.Scanner;
  */
 @Component
 public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener, DroneInterfaces.OnDroneListener, DroneInterfaces.OnWaypointManagerListener {
+
+    @Autowired
+    private GCSHeartbeat gcsHeartbeat;
 
     @Autowired
     private Drone drone;
@@ -48,6 +52,9 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
             String s = reader.next();
             System.out.println("Received '" + s + "' from user");
             switch (s) {
+                case "listports":
+                    listPort();
+                    break;
                 case "connect":
                     connect();
                     break;
@@ -83,19 +90,29 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         drone.getMavClient().sendMavPacket(mavLinkPacket);
     }
 
+    private void listPort() {
+        Object[] ports = serialConnection.listPorts();
+        if (ports.length == 0) {
+            System.out.println("No ports found");
+            return;
+        }
+
+        System.out.println("Available ports:");
+        for (int i = 0 ; i < ports.length ; i++) {
+            System.out.println("-> " + ports[i]);
+        }
+
+        System.out.println("Supported Bauds: " + serialConnection.baudList());
+        System.out.println("Default Baud: " + serialConnection.getDefaultBaud());
+    }
+
     private void connect() {
         Object[] ports = serialConnection.listPorts();
         if (ports.length == 0) {
             System.out.println("No ports found");
             return;
         }
-        for (int i = 0 ; i < ports.length ; i++) {
-            System.out.println("-> " + ports[i]);
-        }
-        System.out.println("Supported Bauds: " + serialConnection.baudList());
-        System.out.println("Default Baud: " + serialConnection.getDefaultBaud());
-
-        serialConnection.setPortName((String) ports[0]);
+        serialConnection.setPortName((String) ports[1]);
         //serialConnection.setBaud(56700);
         serialConnection.setBaud(115200);
 
@@ -107,6 +124,8 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
     }
 
     private void sync() {
+        System.out.println("Start HB");
+        gcsHeartbeat.setActive(true);
         System.out.println("Sync Parameters");
         drone.getParameters().refreshParameters();
     }
@@ -168,7 +187,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     @Override
     public void onDroneEvent(DroneInterfaces.DroneEventsType event, Drone drone) {
-        //System.out.println(System.currentTimeMillis() + " " + event);
+        System.out.println(System.currentTimeMillis() + " " + event);
     }
 
     @Override

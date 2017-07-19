@@ -179,6 +179,7 @@ public abstract class MavLinkConnection {
 //					System.err.println("[RCV] " + msg);
 
 					if (msg.msgid == msg_ping.MAVLINK_MSG_ID_PING) {
+						System.err.println("Received ping!");
 						msg_ping ping = (msg_ping) msg;
 						connectionStatistics.setLatency(ping.time_usec / 3);
 					}
