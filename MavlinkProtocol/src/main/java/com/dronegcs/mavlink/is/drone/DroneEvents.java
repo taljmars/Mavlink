@@ -22,22 +22,29 @@ public class DroneEvents extends DroneVariable {
 
 	@Autowired @NotNull( message = "Internal Error: Failed to get event handler" )
 	private Handler handler;
-	
+
 	@Autowired
 	private RuntimeValidator runtimeValidator;
 
 	private final Runnable eventsDispatcher = new Runnable() {
 		@Override
 		public void run() {
-            do {
-                handler.removeCallbacks(this);
-                final DroneEventsType event = eventsQueue.poll();
-                if (event != null && !droneListeners.isEmpty()) {
-                    for (OnDroneListener listener : droneListeners) {
-                        listener.onDroneEvent(event, drone);
-                    }
-                }
-            }while(!eventsQueue.isEmpty());
+			do {
+				handler.removeCallbacks(this);
+				final DroneEventsType event = eventsQueue.poll();
+				if (event != null && !droneListeners.isEmpty()) {
+					for (OnDroneListener listener : droneListeners) {
+						try {
+							listener.onDroneEvent(event, drone);
+						}
+						catch (Throwable t) {
+							System.err.println("An error occurred while publishing event '" + event + "' to '" + listener + "'");
+							t.printStackTrace();
+						}
+					}
+				}
+			}
+			while (!eventsQueue.isEmpty());
 		}
 	};
 
@@ -45,7 +52,7 @@ public class DroneEvents extends DroneVariable {
 	@PostConstruct
 	private void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 
 		ValidatorResponse validatorResponse = runtimeValidator.validate(this);
 		if (validatorResponse.isFailed())
@@ -59,16 +66,18 @@ public class DroneEvents extends DroneVariable {
 	public void addDroneListener(OnDroneListener listener) {
 		if (listener != null && !droneListeners.contains(listener)) {
 			droneListeners.add(listener);
+			System.out.println("New listener was added '" + listener + "'");
 		}
 	}
 
 	public void removeDroneListener(OnDroneListener listener) {
 		if (listener != null && droneListeners.contains(listener))
 			droneListeners.remove(listener);
+		System.out.println("New listener was removed '" + listener + "'");
 	}
 
 	public void notifyDroneEvent(DroneEventsType event) {
-        eventsQueue.offer(event);
+		eventsQueue.offer(event);
 		handler.post(eventsDispatcher);
 	}
 }
