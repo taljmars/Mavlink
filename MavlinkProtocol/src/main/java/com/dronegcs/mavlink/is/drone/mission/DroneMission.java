@@ -11,6 +11,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_a
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
 import com.dronegcs.mavlink.is.units.Speed;
+import com.generic_tools.logger.Logger;
 import com.geo_tools.Coordinate;
 import com.geo_tools.GeoTools;
 
@@ -43,11 +44,14 @@ public class DroneMission extends DroneVariable implements Serializable {
 	@Autowired @NotNull(message = "Internal Error: Failed to get application context")
 	private ApplicationContext applicationContext;
 
+	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	private Logger logger;
+
 	/**
 	 * Stores the set of droneMission items belonging to this droneMission.
 	 */
 	private List<DroneMissionItem> items = new ArrayList<DroneMissionItem>();
-	private double defaultAlt = 20.0;
+	private double defaultAlt = 100.0;
 
 	public DroneMission(){
 		super();
@@ -292,12 +296,20 @@ public class DroneMission extends DroneVariable implements Serializable {
 			case MAV_CMD.MAV_CMD_DO_SET_ROI:
 				received.add(new MavlinkRegionOfInterest(msg, this));
 				break;
-			case MAV_CMD.MAV_CMD_NAV_LOITER_TURNS:
-				received.add(new MavlinkCircle(msg, this));
-				break;
 			case MAV_CMD.MAV_CMD_NAV_RETURN_TO_LAUNCH:
 				received.add(new MavlinkReturnToHome(msg, this));
+				break;
+			case MAV_CMD.MAV_CMD_NAV_LOITER_UNLIM:
+				received.add(new MavlinkLoiterUnlimited(msg, this));
+				break;
+			case MAV_CMD.MAV_CMD_NAV_LOITER_TURNS:
+				received.add(new MavlinkLoiterTurns(msg, this));
+				break;
+			case MAV_CMD.MAV_CMD_NAV_LOITER_TIME:
+				received.add(new MavlinkLoiterTime(msg, this));
+				break;
 			default:
+				logger.LogAlertMessage("Found unexpected mission item: " + msg);
 				break;
 			}
 		}

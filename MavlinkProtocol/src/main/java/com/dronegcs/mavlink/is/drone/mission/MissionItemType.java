@@ -7,13 +7,15 @@ public enum MissionItemType {
 	TAKEOFF("MavlinkTakeoff"),
 	RTL("Return to Launch"), 
 	LAND("MavlinkLand"),
-	CIRCLE("MavlinkCircle"),
 	ROI("Region of Interest"), 
 	SURVEY("MavlinkSurvey"),
 	CYLINDRICAL_SURVEY("Structure Scan"), 
 	CHANGE_SPEED("Change Speed"), 
 	CAMERA_TRIGGER("Camera Trigger"), 
-	EPM_GRIPPER("EPM");
+	EPM_GRIPPER("EPM"),
+	LOITER_UNLIMITED("Loiter Unlimited"),
+	LOITER_TIME("Loiter Time"),
+	LOITER_TURNS("Loiter Turns");
 
 	private final String name;
 

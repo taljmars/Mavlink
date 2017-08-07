@@ -204,6 +204,7 @@ public class WaypointManager extends DroneVariable implements OnTimeout
 				timeOut.setTimeOut();
 				processReceivedWaypoint((msg_mission_item) msg);
 				logger.LogIncomingMessage("Got point #" + (readIndex + 1));
+				System.out.println(getClass() + " | MissionItem => " + msg);
 				doWaypointEvent(WaypointEvent_Type.WP_DOWNLOAD, readIndex + 1, waypointCount);
 				if (mission.size() < waypointCount) {
 					MavLinkWaypoint.requestWayPoint(drone, mission.size());

@@ -11,8 +11,6 @@ public interface ConvertMavlinkVisitor {
 
     void visit(MavlinkWaypoint mavlinkWaypoint) throws MavlinkConvertionException;
 
-    void visit(MavlinkCircle mavlinkCircle) throws MavlinkConvertionException;
-
     void visit(MavlinkLand mavlinkLand) throws MavlinkConvertionException;
 
     void visit(MavlinkReturnToHome mavlinkReturnToHome) throws MavlinkConvertionException;
@@ -32,4 +30,10 @@ public interface ConvertMavlinkVisitor {
     void visit(MavlinkCameraTrigger mavlinkCameraTrigger) throws MavlinkConvertionException;
 
     void visit(MavlinkSplineWaypoint mavlinkSplineWaypoint) throws MavlinkConvertionException;
+
+    void visit(MavlinkLoiterUnlimited mavlinkLoiterUnlimited) throws MavlinkConvertionException;
+
+    void visit(MavlinkLoiterTime mavlinkLoiterTime) throws  MavlinkConvertionException;
+
+    void visit(MavlinkLoiterTurns mavlinkLoiterTurns) throws MavlinkConvertionException;
 }

@@ -56,9 +56,9 @@ public class MavlinkStructureScanner extends SpatialCoordItemDrone {
 
 	private void packCircles(List<msg_mission_item> list) {
 		for (double altitude = coordinate.getAltitude(); altitude <= getTopHeight(); altitude += heightStep) {
-			MavlinkCircle mavlinkCircle = new MavlinkCircle(droneMission, new Coordinate(coordinate,	altitude));
-			mavlinkCircle.setRadius(radius);
-			list.addAll(mavlinkCircle.packMissionItem());
+			MavlinkLoiterTurns mavlinkLoiterTurns = new MavlinkLoiterTurns(droneMission, new Coordinate(coordinate,	altitude));
+			mavlinkLoiterTurns.setRadius(radius);
+			list.addAll(mavlinkLoiterTurns.packMissionItem());
 		}
 	}
 
