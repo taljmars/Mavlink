@@ -35,6 +35,10 @@ public class MavlinkLoiterTurns extends SpatialCoordItemDrone implements Mavlink
 		this.turns = turns;
 	}
 
+    public int getTurns() {
+        return turns;
+    }
+
     @Override
     public void setRadius(double radius) {
         this.radius = Math.abs(radius);
