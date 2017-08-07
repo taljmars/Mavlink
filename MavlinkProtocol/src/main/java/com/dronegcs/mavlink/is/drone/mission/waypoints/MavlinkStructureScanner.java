@@ -176,4 +176,16 @@ public class MavlinkStructureScanner extends SpatialCoordItemDrone {
 	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MavlinkStructureScanner{" +
+				super.toString() +
+				", radius=" + radius +
+				", heightStep=" + heightStep +
+				", numberOfSteps=" + numberOfSteps +
+				", crossHatch=" + crossHatch +
+				", survey=" + survey +
+				'}';
+	}
 }

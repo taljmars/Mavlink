@@ -73,4 +73,12 @@ public class MavlinkTakeoff extends DroneMissionCMD implements Serializable {
 	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MavlinkTakeoff{" +
+				super.toString() +
+				", finishedAlt=" + finishedAlt +
+				'}';
+	}
 }

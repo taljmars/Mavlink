@@ -55,4 +55,11 @@ public class MavlinkRegionOfInterest extends SpatialCoordItemDrone {
 	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MavlinkRegionOfInterest{" +
+				super.toString() +
+				'}';
+	}
 }

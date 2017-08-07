@@ -58,4 +58,10 @@ public class MavlinkLand extends SpatialCoordItemDrone {
 		convertMavlinkVisitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "MavlinkLand{" +
+				super.toString() +
+				"}";
+	}
 }

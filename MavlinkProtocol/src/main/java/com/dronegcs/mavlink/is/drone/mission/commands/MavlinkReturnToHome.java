@@ -66,4 +66,11 @@ public class MavlinkReturnToHome extends DroneMissionCMD {
 		convertMavlinkVisitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "MavlinkReturnToHome{" +
+				super.toString() +
+				", returnAltitude=" + returnAltitude +
+				'}';
+	}
 }

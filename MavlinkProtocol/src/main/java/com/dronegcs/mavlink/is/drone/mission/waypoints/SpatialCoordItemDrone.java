@@ -67,7 +67,8 @@ public abstract class SpatialCoordItemDrone extends DroneMissionItem implements 
 	@Override
 	public String toString() {
 		return "SpatialCoordItemDrone{" +
-				"coordinate=" + coordinate +
+				super.toString() +
+				", coordinate=" + coordinate +
 				'}';
 	}
 }

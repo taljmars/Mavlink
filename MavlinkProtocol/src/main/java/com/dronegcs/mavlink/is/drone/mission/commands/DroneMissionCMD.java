@@ -21,4 +21,10 @@ public abstract class DroneMissionCMD extends DroneMissionItem {
 		return super.packMissionItem();
 	}
 
+	@Override
+	public String toString() {
+		return "DroneMissionCMD{" +
+				super.toString() +
+				'}';
+	}
 }

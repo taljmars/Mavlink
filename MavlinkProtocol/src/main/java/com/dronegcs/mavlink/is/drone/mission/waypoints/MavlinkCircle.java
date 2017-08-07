@@ -94,4 +94,12 @@ public class MavlinkCircle extends SpatialCoordItemDrone implements MavlinkRadiu
 		convertMavlinkVisitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "MavlinkCircle{" +
+				super.toString() +
+				", radius=" + radius +
+				", turns=" + turns +
+				'}';
+	}
 }

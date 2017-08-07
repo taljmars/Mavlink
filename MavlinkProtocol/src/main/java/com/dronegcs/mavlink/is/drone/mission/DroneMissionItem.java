@@ -59,4 +59,10 @@ public abstract class DroneMissionItem implements ConvertMavlinkVisited, Compara
 	
 	public abstract DroneMissionItem clone(DroneMission droneMission);
 
+	@Override
+	public String toString() {
+		return "DroneMissionItem{" +
+				getType() +
+				'}';
+	}
 }

@@ -74,4 +74,12 @@ public class MavlinkSplineWaypoint extends SpatialCoordItemDrone {
 	public void accept(ConvertMavlinkVisitor convertMavlinkVisitor) throws MavlinkConvertionException {
 		convertMavlinkVisitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MavlinkSplineWaypoint{" +
+				super.toString() +
+				", delay=" + delay +
+				'}';
+	}
 }
