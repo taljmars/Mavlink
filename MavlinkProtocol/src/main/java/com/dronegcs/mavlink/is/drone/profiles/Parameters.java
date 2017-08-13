@@ -32,6 +32,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Parameters.class);
 
+	public static final int UNINDEX_PARAM = -1;
+
 	private static final int TIMEOUT = 2000; //TALMA original is 1000;
 
 	private int expectedParams;
@@ -105,7 +107,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		String description = parameterDetailsParser.get(m_value);
 		Parameter param = new Parameter(m_value, description);
 		LOGGER.debug("Received parameter update {}", param);
-		if (m_value.param_index == -1) { // Unique value that represent an updated parameter
+		if (m_value.param_index == UNINDEX_PARAM) { // Unique value that represent an updated parameter
 			Parameter currentParam = getParameter(param.name);
 			if (currentParam == null) {
 				LOGGER.error("Unfamiliar Parameter {}", param);
