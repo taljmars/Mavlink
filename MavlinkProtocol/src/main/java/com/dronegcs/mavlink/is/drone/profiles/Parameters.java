@@ -104,7 +104,18 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		// collect params in parameter list
 		String description = parameterDetailsParser.get(m_value);
 		Parameter param = new Parameter(m_value, description);
-		parameters.put((int) m_value.param_index, param);
+		LOGGER.debug("Received parameter update {}", param);
+		if (m_value.param_index == -1) { // Unique value that represent an updated parameter
+			Parameter currentParam = getParameter(param.name);
+			if (currentParam == null) {
+				LOGGER.error("Unfamiliar Parameter {}", param);
+				return;
+			}
+			currentParam.value = param.value;
+		}
+		else {
+			parameters.put((int) m_value.param_index, param);
+		}
 
 		expectedParams = m_value.param_count;
 
@@ -115,7 +126,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		
 		// Are all parameters here? Notify the listener with the parameters
 		if (parameters.size() >= m_value.param_count) {
-            parameterList.clear();
+			LOGGER.debug("All parameters arrived, notify listeners");
+			parameterList.clear();
 			for (int key : parameters.keySet()) {
 				parameterList.add(parameters.get(key));
 			}
