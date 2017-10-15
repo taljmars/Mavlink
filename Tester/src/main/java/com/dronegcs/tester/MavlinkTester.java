@@ -3,9 +3,14 @@ package com.dronegcs.tester;
 import com.dronegcs.mavlink.core.gcs.GCSHeartbeat;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
+import com.dronegcs.mavlink.is.drone.mission.commands.MavlinkTakeoff;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkArm;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkModes;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkRC;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
 import com.generic_tools.devices.SerialConnection;
 import com.generic_tools.environment.Environment;
@@ -50,13 +55,35 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         Scanner reader = new Scanner(System.in);
         while (reader.hasNext()) {
             String s = reader.next();
+            String params = null;
             System.out.println("Received '" + s + "' from user");
+            int index = s.indexOf(" ");
+            if (index != -1)
+                params = s.substring(index + 1);
             switch (s) {
                 case "listports":
                     listPort();
                     break;
                 case "connect":
-                    connect();
+                    connect(params);
+                    break;
+                case "arm":
+                    arm_disarm(true);
+                    break;
+                case "disarm":
+                    arm_disarm(false);
+                    break;
+                case "takeoff":
+                    takeoff(params);
+                    break;
+                case "land":
+                    land();
+                    break;
+                case "rc":
+                    rc(params);
+                    break;
+                case "rcfree":
+                    rcfree();
                     break;
                 case "disconnect":
                     disconnect();
@@ -80,6 +107,50 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                     System.exit(0);
             }
         }
+    }
+
+    private void takeoff(String param) {
+        if (param == null || param.isEmpty()) {
+            System.out.println("No height was supplied");
+            return;
+        }
+        System.out.println("Takeoff to " + param);
+        int h = Integer.parseInt(param);
+        if (h > 5) {
+            System.out.println("Height greater than 5m is not supported");
+            return;
+        }
+
+        MavLinkModes.changeFlightMode(drone, ApmModes.ROTOR_ALT_HOLD);
+        drone.getState().doTakeoff(h);
+    }
+
+    private void land() {
+        System.out.println("Land");
+        MavLinkModes.changeFlightMode(drone, ApmModes.ROTOR_LAND);
+    }
+
+    private void rcfree() {
+        System.out.println("Release Keyboard control");
+        int[] rcOutput = {0, 0, 0, 0, 0, 0, 0, 0};
+        MavLinkRC.sendRcOverrideMsg(drone, rcOutput);
+    }
+
+    private void rc(String params) {
+        System.out.println("Update flight instructions");
+        //{Roll,Pitch,Thr,RC_Yaw,0,0,CAMERA_PITCH,CAMERA_ROLL}
+        int[] rcOutput = {0, 0, 0, 0, 0, 0, 0, 0};
+        String[] rcs = params.split(" ");
+        if (rcs.length != 4) {
+            System.out.println("Unexpected amount of RC values");
+            return;
+        }
+
+        int i = 0;
+        for (String rc : rcs)
+            rcOutput[i++] = Integer.parseInt(rc);
+
+        MavLinkRC.sendRcOverrideMsg(drone, rcOutput);
     }
 
     private void checkVerson() {
@@ -106,15 +177,28 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Default Baud: " + serialConnection.getDefaultBaud());
     }
 
-    private void connect() {
+    private void connect(String param) {
         Object[] ports = serialConnection.listPorts();
         if (ports.length == 0) {
             System.out.println("No ports found");
             return;
         }
-        serialConnection.setPortName((String) ports[1]);
-        //serialConnection.setBaud(56700);
-        serialConnection.setBaud(115200);
+        //int baud = 56700;
+        int baud = 115200;
+        int portIndex = 1;
+
+        if (param != null) {
+            String[] paramsList = param.split(" ");
+            if (paramsList.length == 2) {
+                if ((portIndex = Integer.parseInt(paramsList[0])) >= ports.length) {
+                    System.out.println("Index out of bound!");
+                    return;
+                }
+                baud = Integer.parseInt(paramsList[1]);
+            }
+        }
+        serialConnection.setPortName((String) ports[portIndex]);
+        serialConnection.setBaud(baud);
 
         drone.getMavClient().connect();
     }
@@ -155,6 +239,11 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void arm_disarm(boolean arm) {
+        System.out.println("Arm/Disarm Drone");
+        MavLinkArm.sendArmMessage(drone, arm);
     }
 
     public static void main(String[] args) throws IOException {
