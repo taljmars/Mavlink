@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.drone.mission.commands.MavlinkCameraTrigger;
-import com.gui.is.shapes.Polygon;
 import com.dronegcs.mavlink.is.drone.mission.survey.grid.Grid;
 import com.dronegcs.mavlink.is.drone.mission.survey.grid.GridBuilder;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_FRAME;
 import com.geo_tools.Coordinate;
+import com.geo_tools.shapes.Polygon;
 
 public class MavlinkSurvey extends DroneMissionItem {
 

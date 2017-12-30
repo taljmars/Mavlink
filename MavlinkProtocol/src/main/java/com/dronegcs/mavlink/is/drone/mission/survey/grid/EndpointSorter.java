@@ -3,10 +3,10 @@ package com.dronegcs.mavlink.is.drone.mission.survey.grid;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gui.is.shapes.LineCoordinates;
-import com.gui.is.shapes.LineSampler;
-import com.gui.is.shapes.LineTools;
 import com.geo_tools.Coordinate;
+import com.geo_tools.shapes.LineCoordinates;
+import com.geo_tools.shapes.LineSampler;
+import com.geo_tools.shapes.LineTools;
 
 public class EndpointSorter {
 	private static final int MAX_NUMBER_OF_CAMERAS = 2000;

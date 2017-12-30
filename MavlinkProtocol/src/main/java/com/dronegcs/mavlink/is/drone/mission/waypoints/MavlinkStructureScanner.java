@@ -7,7 +7,6 @@ import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
 import com.dronegcs.mavlink.is.drone.mission.survey.MavlinkSurvey;
-import com.gui.is.shapes.Polygon;
 import com.dronegcs.mavlink.is.drone.mission.MissionItemType;
 import com.dronegcs.mavlink.is.drone.mission.survey.CameraInfo;
 import com.dronegcs.mavlink.is.drone.mission.survey.SurveyData;
@@ -16,6 +15,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_i
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
 import com.geo_tools.Coordinate;
 import com.geo_tools.GeoTools;
+import com.geo_tools.shapes.Polygon;
 
 public class MavlinkStructureScanner extends SpatialCoordItemDrone {
 	
