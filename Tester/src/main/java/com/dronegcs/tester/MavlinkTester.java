@@ -3,10 +3,8 @@ package com.dronegcs.tester;
 import com.dronegcs.mavlink.core.gcs.GCSHeartbeat;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
-import com.dronegcs.mavlink.is.drone.mission.commands.MavlinkTakeoff;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkArm;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkModes;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,16 +52,19 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Start Mavlink Drone Tester");
         byte[] buff = new byte[100];
         Scanner reader = new Scanner(System.in);
-        while (reader.hasNext()) {
-            String s = reader.next();
+        while (reader.hasNextLine()) {
+            String s = reader.nextLine();
             String params = null;
             System.out.println("Received '" + s + "' from user");
             int index = s.indexOf(" ");
-            if (index != -1)
+            String cmd = s;
+            if (index != -1) {
+                cmd = s.substring(0, index);
                 params = s.substring(index + 1);
-            switch (s) {
+            }
+            switch (cmd) {
                 case "listports":
-                    listPort();
+                    listports();
                     break;
                 case "connect":
                     connect(params);
@@ -105,6 +107,8 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                     break;
                 case "exit":
                     System.exit(0);
+                default:
+                    System.out.println("Unrecognized input: '" + cmd + "' (" + s + ")");
             }
         }
     }
@@ -161,7 +165,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         drone.getMavClient().sendMavPacket(mavLinkPacket);
     }
 
-    private void listPort() {
+    private void listports() {
         Object[] ports = serialConnection.listPorts();
         if (ports.length == 0) {
             System.out.println("No ports found");
@@ -170,10 +174,10 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
         System.out.println("Available ports:");
         for (int i = 0 ; i < ports.length ; i++) {
-            System.out.println("-> " + ports[i]);
+            System.out.println(i + ") " + ports[i]);
         }
 
-        System.out.println("Supported Bauds: " + serialConnection.baudList());
+        System.out.println("Supported Bauds: " + Arrays.asList(serialConnection.baudList()).toString());
         System.out.println("Default Baud: " + serialConnection.getDefaultBaud());
     }
 
@@ -185,19 +189,22 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         }
         //int baud = 56700;
         int baud = 115200;
-        int portIndex = 1;
+        int portIndex = 2;
 
         if (param != null) {
             String[] paramsList = param.split(" ");
+            if ((portIndex = Integer.parseInt(paramsList[0])) >= ports.length) {
+                System.out.println("Index out of bound!");
+                return;
+            }
             if (paramsList.length == 2) {
-                if ((portIndex = Integer.parseInt(paramsList[0])) >= ports.length) {
-                    System.out.println("Index out of bound!");
-                    return;
-                }
                 baud = Integer.parseInt(paramsList[1]);
             }
         }
-        serialConnection.setPortName((String) ports[portIndex]);
+
+        String portName = (String) ports[portIndex];
+        System.out.println("Connecting to port: " + portName + ", with baudRate: " + baud);
+        serialConnection.setPortName(portName);
         serialConnection.setBaud(baud);
 
         drone.getMavClient().connect();
@@ -276,7 +283,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     @Override
     public void onDroneEvent(DroneInterfaces.DroneEventsType event, Drone drone) {
-        System.out.println(System.currentTimeMillis() + " " + event);
+//        System.out.println(System.currentTimeMillis() + " " + event);
     }
 
     @Override

@@ -104,8 +104,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
-		String description = parameterDetailsParser.get(m_value);
-		Parameter param = new Parameter(m_value, description);
+		ParameterDetail parameterDetail = parameterDetailsParser.get(m_value);
+		Parameter param = new Parameter(m_value, parameterDetail.getRange(), parameterDetail.getDescription());
 		LOGGER.debug("Received parameter update {}", param);
 		if (m_value.param_index == UNINDEX_PARAM) { // Unique value that represent an updated parameter
 			Parameter currentParam = getParameter(param.name);

@@ -15,6 +15,7 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 	public String name;
 	public double value;
 	public int type;
+	public String range;
 	public String description;
 
 	private final static DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
@@ -22,15 +23,16 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		format.applyPattern("0.###");
 	}
 
-	public Parameter(String name, double value, int type, String description) {
+	public Parameter(String name, double value, int type, String range, String description) {
 		this.name = name;
 		this.value = value;
 		this.type = type;
+		this.range = range;
 		this.description = description;
 	}
 
-	public Parameter(msg_param_value m_value, String description) {
-		this(m_value.getParam_Id(), m_value.param_value, m_value.param_type, description);
+	public Parameter(msg_param_value m_value, String range, String description) {
+		this(m_value.getParam_Id(), m_value.param_value, m_value.param_type, range, description);
 	}
 
 //	public Parameter(String name, Double value) {
@@ -72,6 +74,14 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		}
 	}
 
+	public String getRange() {
+		return range;
+	}
+
+	public void setRange(String range) {
+		this.range = range;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -110,6 +120,8 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 				"name='" + name + '\'' +
 				", value=" + value +
 				", type=" + type +
+				", range='" + range + '\'' +
+				", description='" + description + '\'' +
 				'}';
 	}
 }
