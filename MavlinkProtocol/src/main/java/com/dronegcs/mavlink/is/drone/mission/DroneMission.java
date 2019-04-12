@@ -12,6 +12,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_i
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
 import com.dronegcs.mavlink.is.units.Speed;
 import com.generic_tools.logger.Logger;
+import com.generic_tools.Pair.Pair;
 import com.geo_tools.Coordinate;
 import com.geo_tools.GeoTools;
 
@@ -24,7 +25,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -176,13 +176,13 @@ public class DroneMission extends DroneVariable implements Serializable {
 
 		boolean wasUpdated = false;
 		for (Pair<DroneMissionItem, DroneMissionItem> updatePair : updatesList) {
-			final DroneMissionItem oldItem = updatePair.getKey();
+			final DroneMissionItem oldItem = updatePair.getFirst();
 			final int index = items.indexOf(oldItem);
 			if (index == -1) {
 				continue;
 			}
 
-			final DroneMissionItem newItem = updatePair.getValue();
+			final DroneMissionItem newItem = updatePair.getSecond();
 			items.remove(index);
 			items.add(index, newItem);
 
