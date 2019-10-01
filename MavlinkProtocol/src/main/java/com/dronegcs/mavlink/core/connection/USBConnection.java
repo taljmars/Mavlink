@@ -52,6 +52,11 @@ public class USBConnection extends MavLinkConnection {
 	public boolean openConnection() throws Exception {
 		LOGGER.debug("openConnection");
 		boolean res = serialConnection.connect();
+		if (!res) {
+			LOGGER.debug("Failed to open USB connection");
+			return res;
+		}
+
 		scheduledFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
 		return res;
 	}

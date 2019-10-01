@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+
 /**
  * Created by taljmars on 4/5/17.
  */
@@ -48,67 +49,98 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         environment.setBaseRunningDirectoryByClass(".");
     }
 
+    enum Options {
+        listports("listports"),
+        connect("connect"),
+        arm("arm"),
+        disarm("disarm"),
+        takeoff("takeoff"),
+        land("land"),
+        rc("rc"),
+        rcfree("rcfree"),
+        disconnect("disconnect"),
+        sync("sync"),
+        getver("getver"),
+        push("push"),
+        fetch("fetch"),
+        ping("ping"),
+        exit("exit");
+
+        final String stringVal;
+        Options(String val) {
+            this.stringVal = val;
+        }
+    }
+
     public void go() throws IOException {
         System.out.println("Start Mavlink Drone Tester");
+        System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
         byte[] buff = new byte[100];
         Scanner reader = new Scanner(System.in);
         while (reader.hasNextLine()) {
-            String s = reader.nextLine();
-            String params = null;
-            System.out.println("Received '" + s + "' from user");
-            int index = s.indexOf(" ");
-            String cmd = s;
-            if (index != -1) {
-                cmd = s.substring(0, index);
-                params = s.substring(index + 1);
+            try {
+                String s = reader.nextLine();
+                String params = null;
+                System.out.println("Received '" + s + "' from user");
+                int index = s.indexOf(" ");
+                String cmd = s;
+                if (index != -1) {
+                    cmd = s.substring(0, index);
+                    params = s.substring(index + 1);
+                }
+                switch (Options.valueOf(cmd.toLowerCase())) {
+                    case listports:
+                        listports();
+                        break;
+                    case connect:
+                        connect(params);
+                        break;
+                    case arm:
+                        arm_disarm(true);
+                        break;
+                    case disarm:
+                        arm_disarm(false);
+                        break;
+                    case takeoff:
+                        takeoff(params);
+                        break;
+                    case land:
+                        land();
+                        break;
+                    case rc:
+                        rc(params);
+                        break;
+                    case rcfree:
+                        rcfree();
+                        break;
+                    case disconnect:
+                        disconnect();
+                        break;
+                    case sync:
+                        sync();
+                        break;
+                    case getver:
+                        checkVerson();
+                        break;
+                    case push:
+                        pushWaypoints();
+                        break;
+                    case fetch:
+                        fetchWaypoints();
+                        break;
+                    case ping:
+                        ping();
+                        break;
+                    case exit:
+                        System.exit(0);
+                    default:
+                        System.out.println("Unrecognized input: '" + cmd + "' (" + s + ")");
+                        System.out.println("Options are: " + Options.values().toString());
+                }
             }
-            switch (cmd) {
-                case "listports":
-                    listports();
-                    break;
-                case "connect":
-                    connect(params);
-                    break;
-                case "arm":
-                    arm_disarm(true);
-                    break;
-                case "disarm":
-                    arm_disarm(false);
-                    break;
-                case "takeoff":
-                    takeoff(params);
-                    break;
-                case "land":
-                    land();
-                    break;
-                case "rc":
-                    rc(params);
-                    break;
-                case "rcfree":
-                    rcfree();
-                    break;
-                case "disconnect":
-                    disconnect();
-                    break;
-                case "sync":
-                    sync();
-                    break;
-                case "getver":
-                    checkVerson();
-                    break;
-                case "push":
-                    pushWaypoints();
-                    break;
-                case "fetch":
-                    fetchWaypoints();
-                    break;
-                case "ping":
-                    ping();
-                    break;
-                case "exit":
-                    System.exit(0);
-                default:
-                    System.out.println("Unrecognized input: '" + cmd + "' (" + s + ")");
+            catch (Exception e) {
+                System.out.println("Error: '" + e.getMessage() + "'");
+                System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
             }
         }
     }
@@ -187,7 +219,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
             System.out.println("No ports found");
             return;
         }
-        //int baud = 56700;
+//        int baud = 56700;
         int baud = 115200;
         int portIndex = 2;
 
@@ -273,7 +305,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     @Override
     public void onParameterReceived(Parameter parameter, int index, int count) {
-        System.out.println("Received " + index + "/" + count + " param=" + parameter.name + " description=" + parameter.getDescription());
+        System.out.println("Received " + (index + 1) + "/" + count + " param=" + parameter.name + " description=" + parameter.getDescription());
     }
 
     @Override

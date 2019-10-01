@@ -76,6 +76,7 @@ public abstract class MavLinkConnection {
 	/**
 	 * Listen for incoming data on the com.dronegcs.mavlink.is.mavlink connection.
 	 */
+	private Future<?> SendFuture;
 	private final Runnable mConnectingTask = new Runnable() {
 
 		@Override
@@ -102,8 +103,9 @@ public abstract class MavLinkConnection {
 				LOGGER.debug("Mavlink connected");
 
 				// Launch the 'Sending' thread
-				sendingThread = new Thread(mSendingTask, "MavLinkConnection-Sending Thread");
-				sendingThread.start();
+//				sendingThread = new Thread(mSendingTask, "MavLinkConnection-Sending Thread");
+//				sendingThread.start();
+				SendFuture = Executors.newSingleThreadExecutor().submit(mSendingTask);
 
 				logger.LogGeneralMessege("Preparing Mavlink parser");
 				LOGGER.debug("Preparing Mavlink parser");
@@ -136,14 +138,24 @@ public abstract class MavLinkConnection {
 					}
 				}
 
+				System.out.println("Receive thread terminated ");
+
 				// When connection is closed we will wait for the sending thread
-				sendingThread.join();
+//				sendingThread.join();
+				SendFuture.cancel(true);
+				if (SendFuture.isCancelled()) {
+					System.out.println("Sending is canceled");
+				}
+				if (SendFuture.isDone()) {
+					System.out.println("Sending is done");
+				}
 
 				logger.LogGeneralMessege("Mavlink disconnected");
 				LOGGER.debug("Mavlink disconnected");
 			} 
 			catch (IOException e) {
 				// Ignore errors while shutting down
+				System.out.println("Receive thread interrrupted " + e.getMessage());
 				if (mConnectionStatus.get() != MAVLINK_DISCONNECTED) {
 					reportComError(e.getMessage());
 				}
@@ -156,6 +168,7 @@ public abstract class MavLinkConnection {
 			catch (Exception e) {
 				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
 				LOGGER.error("Mavlink disconnected unexpectedly", e);
+				System.out.println("Receive thread unknown " + e.getMessage());
 				disconnect();
 			}
 			finally {
@@ -248,13 +261,20 @@ public abstract class MavLinkConnection {
 					msgSeqNumber = (msgSeqNumber + 1) % (MAX_PACKET_SEQUENCE + 1);
 				}
 				logger.LogGeneralMessege("Mavlink sending thread is shutting down");
+				System.out.println("Sending thread terminated");
 				LOGGER.debug("Mavlink sending thread is shutting down");
-			} catch (InterruptedException e) {
+			}
+			catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				System.out.println("Thread was interrupted, Failed to complete operation");
 				logger.LogErrorMessege("Interrupted exception:");
 				logger.LogErrorMessege(e.getMessage());
+				System.out.println("Sending thread interrupter");
 				LOGGER.error("Interrupted exception:", e);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				LOGGER.error("exception:", e);
+				System.out.println("Sending thread unknown " + e.getMessage());
 				disconnect();
 			}
 		}
@@ -280,6 +300,14 @@ public abstract class MavLinkConnection {
 	 * be reported through the MavLinkConnectionListener interface.
 	 */
 	public void connect() {
+		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTING, MAVLINK_DISCONNECTED)) {
+			logger.LogAlertMessage("Found connection on hold, kill it");
+			disconnect(true);
+		}
+		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTED, MAVLINK_DISCONNECTED)) {
+			logger.LogAlertMessage("Found existing connection, kill it");
+			disconnect(true);
+		}
 		connectionStatistics = new ConnectionStatistics();
 		if (mConnectionStatus.compareAndSet(MAVLINK_DISCONNECTED, MAVLINK_CONNECTING)) {
 			scheduledMonitorFuture = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(monitorTask, 0, 1, TimeUnit.SECONDS);
@@ -293,9 +321,15 @@ public abstract class MavLinkConnection {
 	 * be reported through the MavLinkConnectionListener interface.
 	 */
 	public void disconnect() {
-		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTED, MAVLINK_DISCONNECTED)) {
+		this.disconnect(false);
+	}
+	public void disconnect(boolean force) {
+		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTED, MAVLINK_DISCONNECTED) || force) {
 			try {
-				mConnectingThread.join();
+				if (mConnectingThread != null) {
+					mConnectingThread.join();
+					mConnectingThread = null;
+				}
 				if (scheduledMonitorFuture != null) {
 					scheduledMonitorFuture.cancel(false);
 					scheduledMonitorFuture = null;
