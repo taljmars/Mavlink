@@ -165,6 +165,10 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				//break;
 			case msg_camera_feedback.MAVLINK_MSG_ID_CAMERA_FEEDBACK:
 				drone.getCameraFootprints().newImageLocation((msg_camera_feedback) msg);
+				break;
+			case msg_ping.MAVLINK_MSG_ID_PING:
+				System.out.println("Got pinged back");
+				break;
 			default:
 				break;
 		}		
@@ -191,7 +195,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 		boolean failsafe2 = msg_heart.system_status == (byte) MAV_STATE.MAV_STATE_CRITICAL;
 		if (failsafe2) {
 			drone.getState().setWarning("Failsafe");
-			logger.LogErrorMessege("FailSafe procedure started!");
+//			logger.LogErrorMessege("FailSafe procedure started!");
 			LOGGER.error("FailSafe procedure started!");
 		}
 	}

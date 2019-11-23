@@ -99,6 +99,8 @@ public abstract class MavLinkConnection {
 				mConnectionStatus.set(MAVLINK_CONNECTED);
 				reportConnect();
 
+				connectionStatistics.reset();
+
 				logger.LogGeneralMessege("Mavlink connected");
 				LOGGER.debug("Mavlink connected");
 
@@ -110,6 +112,7 @@ public abstract class MavLinkConnection {
 				logger.LogGeneralMessege("Preparing Mavlink parser");
 				LOGGER.debug("Preparing Mavlink parser");
 				final Parser parser = new Parser();
+				parser.getMavlinkStats().resetStats();
 
 				logger.LogGeneralMessege("Reset connection statistics");
 				LOGGER.debug("Reset connection statistics");
@@ -123,6 +126,8 @@ public abstract class MavLinkConnection {
 				long packetsSinceLastRead = 0;
 				long lastReadTimestamp = System.currentTimeMillis();
 
+				int tester = 0;
+
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					int bufferSize = readDataBlock(readBuffer);
 					int packetsAmount = handleData(parser, bufferSize, readBuffer);
@@ -135,10 +140,16 @@ public abstract class MavLinkConnection {
 								((System.currentTimeMillis() - lastReadTimestamp) / 1000)));
 						lastReadTimestamp = System.currentTimeMillis();
 						packetsSinceLastRead = 0;
+
+						tester++;
+						if (tester == 5) {
+							connectionStatistics.dump(System.out);
+							tester = 0;
+						}
 					}
 				}
 
-				System.out.println("Receive thread terminated ");
+				System.out.println("Receive thread terminated");
 
 				// When connection is closed we will wait for the sending thread
 //				sendingThread.join();
@@ -155,7 +166,7 @@ public abstract class MavLinkConnection {
 			} 
 			catch (IOException e) {
 				// Ignore errors while shutting down
-				System.out.println("Receive thread interrrupted " + e.getMessage());
+				System.out.println("Receive thread interrupted " + e.getMessage());
 				if (mConnectionStatus.get() != MAVLINK_DISCONNECTED) {
 					reportComError(e.getMessage());
 				}
@@ -466,8 +477,8 @@ public abstract class MavLinkConnection {
 	public void ping() {
 		msg_ping msg = new msg_ping();
 		msg.target_component = 1;
-		msg.compid = 1;
-		msg.time_usec = System.currentTimeMillis();
+		msg.target_system = 1;
+		msg.time_usec = 0;//System.currentTimeMillis();
 		sendMavPacket(msg.pack());
 	}
 }

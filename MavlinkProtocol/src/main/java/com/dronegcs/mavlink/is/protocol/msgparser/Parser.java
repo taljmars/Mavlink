@@ -101,7 +101,8 @@ public class Parser {
 					m.crc.start_checksum();
 				}
 				mavlinkStats.advancedCrcError();
-				LOGGER.error("Checksum Failed !!!");
+				System.out.println("Checksum Failed - LSB");
+				LOGGER.error("Checksum Failed - LSB !!!");
 
 //				for (int i = 0 ; i < index ; i++)
 //					System.err.print(debugBuffer[i] + ",");
@@ -121,7 +122,8 @@ public class Parser {
 					m.crc.start_checksum();
 				}
 				mavlinkStats.advancedCrcError();
-				LOGGER.error("Checksum Failed");
+				System.out.println("Checksum Failed - MSB");
+				LOGGER.error("Checksum Failed - MSB");
 
 //				for (int i = 0 ; i < index ; i++)
 //					System.err.print(debugBuffer[i] + ",");

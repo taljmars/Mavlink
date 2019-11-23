@@ -11,7 +11,18 @@ public interface Preferences {
 
 	public abstract Rates getRates();
 
+	public abstract void setRates(Rates rates);
+
 	public class Rates {
+
+		public final static int DEFAULT_RATE_ALTITUDE = 10;
+		public final static int DEFAULT_RATE_STATUS = 1;
+		public final static int DEFAULT_RATE_SENSORS = 1;
+		public final static int DEFAULT_RATE_POSITION = 1;
+		public final static int DEFAULT_RATE_RC_CHANNELS = 1;
+		public final static int DEFAULT_RATE_CONTROLLER = 1;
+
+
 		public int extendedStatus;
 		public int extra1;
 		public int extra2;

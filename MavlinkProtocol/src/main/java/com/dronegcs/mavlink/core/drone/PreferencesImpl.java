@@ -15,6 +15,8 @@ import com.dronegcs.mavlink.core.firmware.FirmwareType;
 import com.dronegcs.mavlink.is.drone.Preferences;
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 
+import static com.dronegcs.mavlink.is.drone.Preferences.Rates.*;
+
 @ComponentScan(basePackages = "com.generic_tools")
 @Component
 public class PreferencesImpl implements Preferences {
@@ -39,7 +41,7 @@ public class PreferencesImpl implements Preferences {
 		switch (firmwareType) {
 			case ARDU_COPTER:
 				type = FirmwareType.ARDU_COPTER;
-				rates = new Rates(1, 1, 1, 1, 4, 1, 1, 1);
+				rates = new Rates(DEFAULT_RATE_STATUS, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_SENSORS, DEFAULT_RATE_POSITION, DEFAULT_RATE_RC_CHANNELS, DEFAULT_RATE_SENSORS, DEFAULT_RATE_CONTROLLER);
 				profile = new ArduCopterProfile();
 				logger.LogDesignedMessege("ArduCopter Profile was created");
 				LOGGER.debug("ArduCopter Profile was created");
@@ -64,4 +66,8 @@ public class PreferencesImpl implements Preferences {
 		return rates;
 	}
 
+	@Override
+	public void setRates(Rates rates) {
+		this.rates = rates;
+	}
 }

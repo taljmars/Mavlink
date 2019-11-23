@@ -120,8 +120,8 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	}
 
 	private void notifyConnected() {
-		System.err.println("HB Notification");
-		LOGGER.debug("HB Notification");
+		System.err.println("HB Notification - restart Heartbeat Watchdog");
+		LOGGER.debug("HB Notification - restart Heartbeat Watchdog");
 		restartWatchdog(HEARTBEAT_NORMAL_TIMEOUT);
 	}
 

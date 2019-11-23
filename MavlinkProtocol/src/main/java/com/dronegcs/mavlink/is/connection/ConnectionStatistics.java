@@ -1,5 +1,7 @@
 package com.dronegcs.mavlink.is.connection;
 
+import java.io.PrintStream;
+
 /**
  * Created by taljmars on 6/9/2017.
  */
@@ -118,17 +120,18 @@ public class ConnectionStatistics {
     @Override
     public String toString() {
         return "ConnectionStatistics{" +
-                "receivedBytes=" + receivedBytes +
-                ", transmittedBytes=" + transmittedBytes +
-                ", receivedBytesPerSecond=" + receivedBytesPerSecond +
-                ", transmittedBytesPerSecond=" + transmittedBytesPerSecond +
-                ", receivedPackets=" + receivedPackets +
-                ", receivedErrorPackets=" + receivedErrorPackets +
+                "latency=" + latency +
                 ", lostPackets=" + lostPackets +
-                ", transmittedPackets=" + transmittedPackets +
-                ", transmittedErrorPackets=" + transmittedErrorPackets +
+                ", receivedBytes=" + receivedBytes +
+                ", receivedBytesPerSecond=" + receivedBytesPerSecond +
+                ", receivedPackets=" + receivedPackets +
                 ", receivedPacketsPerSecond=" + receivedPacketsPerSecond +
+                ", receivedErrorPackets=" + receivedErrorPackets +
+                ", transmittedBytes=" + transmittedBytes +
+                ", transmittedBytesPerSecond=" + transmittedBytesPerSecond +
+                ", transmittedPackets=" + transmittedPackets +
                 ", transmittedPacketsPerSecond=" + transmittedPacketsPerSecond +
+                ", transmittedErrorPackets=" + transmittedErrorPackets +
                 '}';
     }
 
@@ -138,5 +141,26 @@ public class ConnectionStatistics {
 
     public long getLatency() {
         return latency;
+    }
+
+    public void reset() {
+        setLatency(0);
+        setLostPackets(0);
+
+        setReceivedBytes(0);
+        setReceivedBytesPerSecond(0);
+        setReceivedErrorPackets(0);
+        setReceivedPackets(0);
+        setReceivedPacketsPerSecond(0);
+
+        setTransmittedBytes(0);
+        setTransmittedBytesPerSecond(0);
+        setTransmittedErrorPackets(0);
+        setTransmittedPackets(0);
+        setTransmittedPacketsPerSecond(0);
+    }
+
+    public void dump(PrintStream out) {
+        out.println(this.toString());
     }
 }

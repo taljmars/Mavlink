@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 
 import com.generic_tools.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import com.dronegcs.mavlink.is.drone.DroneVariable;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces.DroneEventsType;
@@ -14,13 +13,17 @@ import com.geo_tools.Coordinate;
 @Component
 public class Perimeter extends DroneVariable {
 
+	public enum PerimeterMode {
+		ALERT,
+		ENFORCE,
+		OFF,
+	}
 	private Compound pCompound;
-	private boolean pEnforce;
-	private boolean pAlertOnly;
+	private PerimeterMode pPerMode;
 	private Coordinate pLastPosition = null;
 	private Coordinate pLastPositionInPerimeter = null;
 	private ApmModes pMode;
-	private boolean pEnforcePermeterRunning = false;
+	private boolean pEnforcePerimeterRunning = false;
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
 	private Logger logger;
@@ -28,9 +31,8 @@ public class Perimeter extends DroneVariable {
 	static int called;
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
-		pEnforce = false;
-		pAlertOnly = false;
+			throw new RuntimeException("Not a Singleton");
+		pPerMode = PerimeterMode.ALERT;
 		pCompound = null;
 		pMode = drone.getState().getMode();
 	}
@@ -43,17 +45,17 @@ public class Perimeter extends DroneVariable {
 	public void setPosition(Coordinate position) {
 		pLastPosition = position;
 		
-		if (pEnforce) {
+		if (pPerMode.equals(PerimeterMode.ENFORCE)) {
 			if (pLastPosition != null && !pCompound.isContained(position)) {
 				drone.notifyDroneEvent(DroneEventsType.LEFT_PERIMETER);
-				if (!pAlertOnly && drone.getState().isFlying()) {
+				if (drone.getState().isFlying()) {
 					drone.notifyDroneEvent(DroneEventsType.ENFORCING_PERIMETER);
 					try {
-						if (!pEnforcePermeterRunning) {
+						if (!pEnforcePerimeterRunning) {
 							pMode = drone.getState().getMode();							
 							logger.LogErrorMessege("Changing flight from " + pMode.getName() + " to " + ApmModes.ROTOR_GUIDED.getName() + " (Enforcing perimeter)");
 							drone.getGuidedPoint().forcedGuidedCoordinate(getClosestPointOnPerimeterBorder());
-							pEnforcePermeterRunning = true;
+							pEnforcePerimeterRunning = true;
 						}
 					} catch (Exception e) {
 						logger.LogErrorMessege(e.toString());
@@ -63,30 +65,29 @@ public class Perimeter extends DroneVariable {
 			}
 			else {
 				pLastPositionInPerimeter = pLastPosition;
-				if (pEnforcePermeterRunning) {
+				if (pEnforcePerimeterRunning) {
 					logger.LogErrorMessege("Changing flight from " + ApmModes.ROTOR_GUIDED.getName() + " back to " + pMode.getName());
 					drone.getState().changeFlightMode(pMode);
-					pEnforcePermeterRunning = false;
+					pEnforcePerimeterRunning = false;
 				}
 				
 			}
 		}
 	}
 	
-	public void setEnforce(boolean enforce) {
-		if (enforce)
+	public void setPerimeterMode(PerimeterMode mode) {
+		if (mode.equals(PerimeterMode.ENFORCE))
 			logger.LogGeneralMessege("Enable Perimeter enforcement");
-		else
-			logger.LogGeneralMessege("Disable Perimeter enforcement");
-		pEnforce = enforce;
-	}
-	
-	public void setAlertOnly(boolean alert) {
-		if (alert)
+		else if (mode.equals(PerimeterMode.ALERT))
 			logger.LogGeneralMessege("Enable perimeter alert only");
 		else
-			logger.LogGeneralMessege("Disable perimeter alert only");
-		pAlertOnly = alert;
+			logger.LogGeneralMessege("Disable perimeter enforcement/alert");
+
+		pPerMode = mode;
+	}
+
+	public PerimeterMode getPerimeterMode() {
+		return pPerMode;
 	}
 	
 	public Coordinate getClosestPointOnPerimeterBorder() {
@@ -103,10 +104,10 @@ public class Perimeter extends DroneVariable {
 	}
 
 	public boolean isAlertOnly() {
-		return pAlertOnly;
+		return pPerMode.equals(PerimeterMode.ALERT);
 	}
 
 	public boolean isEnforce() {
-		return pEnforce;
+		return pPerMode.equals(PerimeterMode.ENFORCE);
 	}
 }
