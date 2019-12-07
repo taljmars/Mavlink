@@ -1,6 +1,6 @@
 /** SERIAL_CONTROL device types
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class SERIAL_CONTROL_DEV {
 	public static final int SERIAL_CONTROL_DEV_TELEM1 = 0; /* First telemetry port | */

@@ -219,7 +219,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		this.parameterListeners.add(parameterListener);
 	}
 
-	public int getPrecentageComplete() {
+	public int getPercentageComplete() {
 		return (int) (((double) (getLoadedDownloadedParameters()) / getExpectedParameterAmount()) * 100);
 	}
 }

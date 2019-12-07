@@ -1,6 +1,6 @@
 /** 
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class FENCE_ACTION {
 	public static final int FENCE_ACTION_NONE = 0; /* Disable fenced mode | */

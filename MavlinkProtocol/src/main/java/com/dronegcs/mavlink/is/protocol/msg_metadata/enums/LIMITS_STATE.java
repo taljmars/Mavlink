@@ -1,6 +1,6 @@
 /** 
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class LIMITS_STATE {
 	public static final int LIMITS_INIT = 0; /*  pre-initialization | */

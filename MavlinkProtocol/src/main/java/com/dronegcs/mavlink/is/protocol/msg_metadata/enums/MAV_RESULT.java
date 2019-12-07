@@ -1,6 +1,6 @@
 /** result from a com.dronegcs.mavlink.is.mavlink command
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class MAV_RESULT {
 	public static final int MAV_RESULT_ACCEPTED = 0; /* Command ACCEPTED and EXECUTED | */

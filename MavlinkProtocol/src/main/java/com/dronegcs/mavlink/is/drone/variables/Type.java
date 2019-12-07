@@ -28,7 +28,7 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 	static int called;
 	public void init() {
 		if (called++ > 1)
-			throw new RuntimeException("Not a Singletone");
+			throw new RuntimeException("Not a Singleton");
 		drone.addDroneListener(this);
 	}
 

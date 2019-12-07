@@ -1,11 +1,16 @@
 package com.dronegcs.mavlink.is.connection;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.USBConnection;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPayload;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_ping;
 import com.generic_tools.logger.Logger;
 import gnu.io.PortInUseException;
@@ -82,7 +87,7 @@ public abstract class MavLinkConnection {
 		@Override
 		public void run() {
 			LOGGER.debug("Starting Connection Tasks Thread (Reader)");
-			Thread sendingThread = null; 
+			Thread sendingThread = null;
 
 			// Load the connection specific preferences
 			loadPreferences();
@@ -95,7 +100,7 @@ public abstract class MavLinkConnection {
 					drone.notifyDroneEvent(DroneEventsType.DISCONNECTED);
 					return;
 				}
-				
+
 				mConnectionStatus.set(MAVLINK_CONNECTED);
 				reportConnect();
 
@@ -130,6 +135,9 @@ public abstract class MavLinkConnection {
 
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					int bufferSize = readDataBlock(readBuffer);
+					for (MirrorHandler mirrorHandler : mirrorHandlers) {
+						mirrorHandler.take(readBuffer, bufferSize);
+					}
 					int packetsAmount = handleData(parser, bufferSize, readBuffer);
 
 					// Statistics
@@ -163,7 +171,7 @@ public abstract class MavLinkConnection {
 
 				logger.LogGeneralMessege("Mavlink disconnected");
 				LOGGER.debug("Mavlink disconnected");
-			} 
+			}
 			catch (IOException e) {
 				// Ignore errors while shutting down
 				System.out.println("Receive thread interrupted " + e.getMessage());
@@ -180,6 +188,7 @@ public abstract class MavLinkConnection {
 				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
 				LOGGER.error("Mavlink disconnected unexpectedly", e);
 				System.out.println("Receive thread unknown " + e.getMessage());
+				drone.notifyDroneEvent(DroneEventsType.DISCONNECTED);
 				disconnect();
 			}
 			finally {
@@ -290,7 +299,7 @@ public abstract class MavLinkConnection {
 			}
 		}
 	};
-	
+
 	private Thread mConnectingThread;
 
 	private ScheduledFuture scheduledMonitorFuture;
@@ -305,7 +314,10 @@ public abstract class MavLinkConnection {
 			listeners.onConnectionStatistics(connectionStatistics);
 		}
 	};
-	
+
+	protected Set<MirrorHandler> mirrorHandlers = new HashSet<>();
+	protected boolean mirrorMode = false;
+
 	/**
 	 * Establish a mavlink connection. If the connection is successful, it will
 	 * be reported through the MavLinkConnectionListener interface.
@@ -368,7 +380,7 @@ public abstract class MavLinkConnection {
 
 	/**
 	 * Adds a listener to the mavlink connection.
-	 * 
+	 *
 	 * @param listener
 	 * @param tag
 	 *            Listener tag
@@ -394,7 +406,7 @@ public abstract class MavLinkConnection {
 
 	/**
 	 * Removes the specified listener.
-	 * 
+	 *
 	 * @param tag
 	 *            Listener tag
 	 */
@@ -412,6 +424,18 @@ public abstract class MavLinkConnection {
 
 	protected abstract void loadPreferences();
 
+	public void addMirrorHandler(MirrorHandler mirrorHandler) {
+		this.mirrorHandlers.add(mirrorHandler);
+	}
+
+	public void removeMirrorHandler(MirrorHandler mirrorHandler) {
+		this.mirrorHandlers.remove(mirrorHandler);
+	}
+
+	public boolean isMirrorMode() {
+		return this.mirrorHandlers.size() > 0;
+	}
+
 	/**
 	 * @return The type of this mavlink connection.
 	 */
@@ -420,7 +444,7 @@ public abstract class MavLinkConnection {
 	/**
 	 * Utility method to notify the mavlink listeners about communication
 	 * errors.
-	 * 
+	 *
 	 * @param errMsg
 	 */
 	private void reportComError(String errMsg) {
@@ -457,7 +481,7 @@ public abstract class MavLinkConnection {
 
 	/**
 	 * Utility method to notify the mavlink listeners about received messages.
-	 * 
+	 *
 	 * @param msg
 	 *            received mavlink message
 	 */
@@ -469,7 +493,7 @@ public abstract class MavLinkConnection {
 			listener.onReceiveMessage(msg);
 		}
 	}
-	
+
 	public boolean isConnected() {
 		return mConnectionStatus.get() == MAVLINK_CONNECTED;
 	}

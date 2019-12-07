@@ -22,8 +22,13 @@ public class USBConnection extends MavLinkConnection {
 
 	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(USBConnection.class);
 
-	@Autowired
+//	@Autowired
 	private SerialConnection serialConnection;
+
+	@Autowired
+	public void setSerialConnection( SerialConnection serialConnection) {
+		this.serialConnection = serialConnection;
+	}
 	
 	@Autowired
 	private DroneUpdateListener droneUpdateListener;

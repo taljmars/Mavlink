@@ -1,6 +1,6 @@
 /** Flags in RALLY_POINT message
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class RALLY_FLAGS {
 	public static final int FAVORABLE_WIND = 1; /* Flag set when requiring favorable winds for landing.  | */

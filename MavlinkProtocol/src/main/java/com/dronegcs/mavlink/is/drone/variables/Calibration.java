@@ -1,6 +1,7 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
 
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_command_long;
 import org.springframework.stereotype.Component;
 
 import com.dronegcs.mavlink.is.drone.DroneVariable;
@@ -15,19 +16,28 @@ public class Calibration extends DroneVariable {
 	private String mavMsg;
 	private boolean calibrating;
 
-	public boolean startCalibration() {
+	public boolean startAccelerometerCalibration() {
         if(drone.getState().isFlying()) {
             calibrating = false;
         }
         else {
             calibrating = true;
-            MavLinkCalibration.sendStartCalibrationMessage(drone);
+            MavLinkCalibration.sendStartAccelCalibrationMessage(drone);
         }
         return calibrating;
 	}
 
-	public void sendAckk(int step) {
-		MavLinkCalibration.sendCalibrationAckMessage(step, drone);
+	public boolean startLevelCalibration() {
+		if(drone.getState().isFlying()) {
+			return false;
+		}
+
+		MavLinkCalibration.sendStartLevelCalibrationMessage(drone);
+		return true;
+	}
+
+	public void sendAck(int step) {
+		MavLinkCalibration.sendAccelCalibrationAckMessage(step, drone);
 	}
 
 	public void processMessage(MAVLinkMessage msg) {

@@ -1,6 +1,6 @@
 /** 
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class PARACHUTE_ACTION {
 	public static final int PARACHUTE_DISABLE = 0; /* Disable parachute release | */

@@ -1,6 +1,6 @@
 /** Enumeration of battery functions
 */
-package main.java.is.mavlink.protocol.msg_metadata.enums;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public class MAV_BATTERY_FUNCTION {
 	public static final int MAV_BATTERY_FUNCTION_UNKNOWN = 0; /* Lithium polymere battery | */
