@@ -340,9 +340,9 @@ BATT2_AMP_PERVOL||17.0||9||||Not Yet
 BATT2_AMP_OFFSET||0.0||9||||Not Yet
 BATT2_CAPACITY||3300.0||6||||Not Yet
 BRD_SERIAL_NUM||0.0||4||||Not Yet
-MIS_TOTAL||0.0||4||||Not Yet
-MIS_RESTART||0.0||2||||Not Yet
+MIS_TOTAL||||0 32766||||The number of mission mission items that has been loaded by the ground station. Do not change this manually.
+MIS_RESTART||0||2||||0:Resume Mission 1:Restart Mission||Controls mission starting point when entering Auto mode (either restart from beginning of mission or resume from last command run)
 RALLY_TOTAL||0.0||2||||Not Yet
 RALLY_LIMIT_KM||5.0||9||||Not Yet
 RALLY_INCL_HOME||0.0||2||||Not Yet
-COMPASS_DEC||0.06944434344768524||9||||Not Yet
+COMPASS_DEC||0.06944434344768524||Radians||-3.142 3.142||An angle to compensate between the true north and magnetic north

@@ -20,7 +20,7 @@ public class ParameterDetailsParser {
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ParameterDetailsParser.class);
 
-    private static final String ParametersListFileName = "MavlinkParamsCopter";
+//    private static final String ParametersListFileName = "MavlinkParamsCopter";
     private static final String ParametersListSeperator = "\\|\\|";
     private static final Integer ParametersListTokens = 5;
 
