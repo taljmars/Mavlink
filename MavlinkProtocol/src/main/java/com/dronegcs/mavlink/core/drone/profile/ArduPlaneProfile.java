@@ -2,16 +2,15 @@ package com.dronegcs.mavlink.core.drone.profile;
 
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 
-public class ArduCopterProfile extends VehicleProfile {
-	
-	public ArduCopterProfile() {
+public class ArduPlaneProfile extends VehicleProfile {
+
+	public ArduPlaneProfile() {
 		super();
 		super.getDefault().setMaxAltitude(100);
-		super.getDefault().setWpNavSpeed(3);
 	}
 
 	@Override
 	public String getParametersDetailsFilePath() {
-		return "/com/dronegcs/mavlink/MavlinkParamsCopter";
+		return "/com/dronegcs/mavlink/MavlinkParamsPlane";
 	}
 }

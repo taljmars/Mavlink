@@ -48,8 +48,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 
-	@Autowired @NotNull(message = "Internal Error: Failed to get parameter details parser")
-	private ParameterDetailsParser parameterDetailsParser;
+//	@Autowired @NotNull(message = "Internal Error: Failed to get parameter details parser")
+//	private ParameterDetailsParser parameterDetailsParser;
 	
 	public Runnable watchdogCallback = () -> onParameterStreamStopped();
 
@@ -104,8 +104,9 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
-		ParameterDetail parameterDetail = parameterDetailsParser.get(m_value);
+		ParameterDetail parameterDetail = drone.getVehicleProfile().getParametersMetadata().get(m_value.getParam_Id());
 		Parameter param = new Parameter(m_value, parameterDetail.getRange(), parameterDetail.getDescription());
+
 		LOGGER.debug("Received parameter update {}", param);
 		if (m_value.param_index == UNINDEX_PARAM) { // Unique value that represent an updated parameter
 			Parameter currentParam = getParameter(param.name);

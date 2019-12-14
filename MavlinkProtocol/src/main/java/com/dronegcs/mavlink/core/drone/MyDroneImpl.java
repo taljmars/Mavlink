@@ -36,6 +36,7 @@ import com.dronegcs.mavlink.is.drone.variables.StreamRates;
 import com.dronegcs.mavlink.is.drone.variables.Type;
 import com.dronegcs.mavlink.is.gcs.follow.Follow;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
 
 import com.generic_tools.validations.RuntimeValidator;
@@ -257,13 +258,13 @@ public class MyDroneImpl implements Drone {
 	}
 
 	@Override
-	public void setType(int type) {
-		this.type.setType(type);
+	public void setType(MAV_TYPE type) {
+		this.type.setDroneType(type);
 	}
 
 	@Override
-	public int getType() {
-		return type.getType();
+	public Type getType() {
+		return type;
 	}
 
 	@Override

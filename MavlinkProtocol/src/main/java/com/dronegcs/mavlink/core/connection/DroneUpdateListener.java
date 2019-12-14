@@ -7,6 +7,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_MODE_FLAG;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_STATE;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 import com.generic_tools.logger.Logger;
 import com.geo_tools.Coordinate;
 import org.slf4j.LoggerFactory;
@@ -94,11 +95,11 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 	
 			case msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT:
 				msg_heartbeat msg_heart = (msg_heartbeat) msg;
-				drone.setType(msg_heart.type);
+				drone.setType(MAV_TYPE.getType(msg_heart.type));
 				drone.getState().setIsFlying(
 						((msg_heartbeat) msg).system_status == MAV_STATE.MAV_STATE_ACTIVE);
 				processState(msg_heart);
-				ApmModes newMode = ApmModes.getMode(msg_heart.custom_mode, drone.getType());
+				ApmModes newMode = ApmModes.getMode(msg_heart.custom_mode, drone.getType().getDroneType());
 				drone.getState().setMode(newMode);
 				drone.onHeartbeat(msg_heart);
 				return;

@@ -1,6 +1,5 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
-import com.dronegcs.mavlink.is.drone.parameters.Parameter;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_param_value;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -16,34 +15,33 @@ import java.util.Scanner;
 /**
  * Created by taljmars on 6/17/2017.
  */
-@Component
+//@Component
 public class ParameterDetailsParser {
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ParameterDetailsParser.class);
 
-    private static final String ParametersListFileName = "MavlinkParams";
+    private static final String ParametersListFileName = "MavlinkParamsCopter";
     private static final String ParametersListSeperator = "\\|\\|";
     private static final Integer ParametersListTokens = 5;
 
-    Map<String,ParameterDetail> parametersDetails;
+//    private Map<String,ParameterDetail> parametersDetails;
 
-    @PostConstruct
-    public void init() {
-        parametersDetails = parse();
-    }
+//    @PostConstruct
+//    public void init() {
+//        parametersDetails = buildParser();
+//    }
 
-    private Map<String, ParameterDetail> parse() {
+    public Map<String,ParameterDetail> parse(String filePath) {
 
-        Map res = new HashMap<String, ParameterDetail>();
+        Map<String,ParameterDetail> parametersDetails = new HashMap<String, ParameterDetail>();
 
         try {
-            ClassPathResource resource = new ClassPathResource("/com/dronegcs/mavlink/" + ParametersListFileName);
-            InputStream inputStream = resource.getInputStream();
+            ClassPathResource resource = new ClassPathResource(filePath);
             File file = resource.getFile();
             if (file == null || !file.exists()) {
                 LOGGER.error("Failed to find file '{}'", file.getAbsoluteFile());
                 System.err.println("Failed to find file '" + file.getAbsoluteFile() + "'");
-                return res;
+                return parametersDetails;
             }
 
             int i = 0;
@@ -64,22 +62,22 @@ public class ParameterDetailsParser {
 
                 ParameterDetail parameterDetail = new ParameterDetail(i++, paramName, paramUnit, paramRange, paramDescription);
 //                System.out.println(parameterDetail);
-                res.put(paramName, parameterDetail);
+                parametersDetails.put(paramName, parameterDetail);
             }
             scanner.close();
         }
         catch (Exception e) {
-            LOGGER.error("Failed parse configuration file", e);
-            System.err.println("Failed parse configuration file '" + e.getMessage() + "'");
+            LOGGER.error("Failed buildParser configuration file", e);
+            System.err.println("Failed buildParser configuration file '" + e.getMessage() + "'");
         }
 
-        return res;
+        return parametersDetails;
     }
 
-    public ParameterDetail get(msg_param_value m_value) {
-        if (!parametersDetails.containsKey(m_value.getParam_Id()))
-            return null;
-
-        return parametersDetails.get(m_value.getParam_Id());
-    }
+//    public ParameterDetail get(msg_param_value m_value) {
+//        if (!parametersDetails.containsKey(m_value.getParam_Id()))
+//            return null;
+//
+//        return parametersDetails.get(m_value.getParam_Id());
+//    }
 }

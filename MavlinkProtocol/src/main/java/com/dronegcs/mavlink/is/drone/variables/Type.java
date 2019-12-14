@@ -16,13 +16,13 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 @Component
 public class Type extends DroneVariable implements DroneInterfaces.OnDroneListener {
 	
-	private static final int DEFAULT_TYPE = MAV_TYPE.MAV_TYPE_GENERIC;
+	private static final MAV_TYPE DEFAULT_TYPE = MAV_TYPE.MAV_TYPE_GENERIC;
 	
 	@Autowired
 	@NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
 	private Logger logger;
 
-	private int type = DEFAULT_TYPE;
+	private MAV_TYPE droneType = DEFAULT_TYPE;
 	private String firmwareVersion = null;
 
 	static int called;
@@ -32,32 +32,32 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 		drone.addDroneListener(this);
 	}
 
-	public void setType(int type) {
-		if (this.type != type) {
-			this.type = type;
+	public void setDroneType(MAV_TYPE droneType) {
+		if (this.droneType != droneType) {
+			this.droneType = droneType;
 			drone.notifyDroneEvent(DroneEventsType.TYPE);
 			drone.loadVehicleProfile();
 		}
 	}
 
-	public int getType() {
-		return type;
+	public MAV_TYPE getDroneType() {
+		return droneType;
 	}
 
 	public FirmwareType getFirmwareType() {
 		if (drone.getMavClient().isConnected()) {
-			switch (this.type) {
+			switch (this.droneType) {
 
-			case MAV_TYPE.MAV_TYPE_FIXED_WING:
+			case MAV_TYPE_FIXED_WING:
 				return FirmwareType.ARDU_PLANE;
 
-			case MAV_TYPE.MAV_TYPE_GENERIC:
-			case MAV_TYPE.MAV_TYPE_QUADROTOR:
-			case MAV_TYPE.MAV_TYPE_COAXIAL:
-			case MAV_TYPE.MAV_TYPE_HELICOPTER:
-			case MAV_TYPE.MAV_TYPE_HEXAROTOR:
-			case MAV_TYPE.MAV_TYPE_OCTOROTOR:
-			case MAV_TYPE.MAV_TYPE_TRICOPTER:
+			case MAV_TYPE_GENERIC:
+			case MAV_TYPE_QUADROTOR:
+			case MAV_TYPE_COAXIAL:
+			case MAV_TYPE_HELICOPTER:
+			case MAV_TYPE_HEXAROTOR:
+			case MAV_TYPE_OCTOROTOR:
+			case MAV_TYPE_TRICOPTER:
 				return FirmwareType.ARDU_COPTER;
 
 			default:
@@ -78,13 +78,17 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 		drone.notifyDroneEvent(DroneEventsType.FIRMWARE);
 	}
 
-    public static boolean isCopter(int type){
+	public boolean isCopter() {
+		return Type.isCopter(this.droneType);
+	}
+
+    public static boolean isCopter(MAV_TYPE type){
         switch (type) {
-            case MAV_TYPE.MAV_TYPE_TRICOPTER:
-            case MAV_TYPE.MAV_TYPE_QUADROTOR:
-            case MAV_TYPE.MAV_TYPE_HEXAROTOR:
-            case MAV_TYPE.MAV_TYPE_OCTOROTOR:
-            case MAV_TYPE.MAV_TYPE_HELICOPTER:
+            case MAV_TYPE_TRICOPTER:
+            case MAV_TYPE_QUADROTOR:
+            case MAV_TYPE_HEXAROTOR:
+            case MAV_TYPE_OCTOROTOR:
+            case MAV_TYPE_HELICOPTER:
                 return true;
 
             default:
@@ -92,7 +96,11 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
         }
     }
 
-    public static boolean isPlane(int type){
+	public boolean isPlane() {
+		return Type.isPlane(this.droneType);
+	}
+
+	public static boolean isPlane(MAV_TYPE type){
         return type == MAV_TYPE.MAV_TYPE_FIXED_WING;
     }
 
@@ -101,7 +109,7 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
     public void onDroneEvent(DroneEventsType event, Drone drone) {
         switch(event){
             case DISCONNECTED:
-                setType(DEFAULT_TYPE);
+                setDroneType(DEFAULT_TYPE);
                 break;
         }
     }

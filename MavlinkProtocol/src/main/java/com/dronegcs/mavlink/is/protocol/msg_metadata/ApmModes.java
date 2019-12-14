@@ -41,10 +41,10 @@ public enum ApmModes {
 	private final int number;
     private final String name;
 	private final boolean superSimpleOrSimpleModeAvailable;
-	private final int type;
+	private final MAV_TYPE type;
 
 	ApmModes(int number,String name,
-			 boolean superSimpleOrSimpleModeAvailable, int type){
+			 boolean superSimpleOrSimpleModeAvailable, MAV_TYPE type){
 		this.number = number;
 		this.name = name;
 		this.superSimpleOrSimpleModeAvailable = superSimpleOrSimpleModeAvailable;
@@ -63,11 +63,11 @@ public enum ApmModes {
 		return superSimpleOrSimpleModeAvailable;
 	}
 
-	public int getType() {
+	public MAV_TYPE getType() {
 		return type;
 	}
 
-	public static ApmModes getMode(int i, int type) {
+	public static ApmModes getMode(int i, MAV_TYPE type) {
         if (isCopter(type)) {
             type = MAV_TYPE.MAV_TYPE_QUADROTOR;
         }
@@ -80,7 +80,7 @@ public enum ApmModes {
 		return UNKNOWN;
 	}
 
-	public static ApmModes getMode(String str, int type) {
+	public static ApmModes getMode(String str, MAV_TYPE type) {
         if (isCopter(type)) {
             type = MAV_TYPE.MAV_TYPE_QUADROTOR;
         }
@@ -93,7 +93,7 @@ public enum ApmModes {
 		return UNKNOWN;
 	}
 
-	public static List<ApmModes> getModeList(int type) {
+	public static List<ApmModes> getModeList(MAV_TYPE type) {
 		List<ApmModes> modeList = new ArrayList<ApmModes>();
 
 		if (isCopter(type)) {
@@ -113,13 +113,13 @@ public enum ApmModes {
 	}
 
 
-	public static boolean isCopter(int type){
+	public static boolean isCopter(MAV_TYPE type){
 		switch (type) {
-		case MAV_TYPE.MAV_TYPE_TRICOPTER:
-		case MAV_TYPE.MAV_TYPE_QUADROTOR:
-		case MAV_TYPE.MAV_TYPE_HEXAROTOR:
-		case MAV_TYPE.MAV_TYPE_OCTOROTOR:
-		case MAV_TYPE.MAV_TYPE_HELICOPTER:
+		case MAV_TYPE_TRICOPTER:
+		case MAV_TYPE_QUADROTOR:
+		case MAV_TYPE_HEXAROTOR:
+		case MAV_TYPE_OCTOROTOR:
+		case MAV_TYPE_HELICOPTER:
 			return true;
 
 		default:

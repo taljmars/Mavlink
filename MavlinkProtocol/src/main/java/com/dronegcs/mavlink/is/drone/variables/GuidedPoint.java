@@ -1,5 +1,6 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 import org.springframework.stereotype.Component;
 
 import com.dronegcs.mavlink.is.drone.Drone;
@@ -52,7 +53,7 @@ public class GuidedPoint extends DroneVariable implements OnDroneListener {
 	}
 
     public static boolean isGuidedMode(Drone drone){
-        final int droneType = drone.getType();
+        final MAV_TYPE droneType = drone.getType().getDroneType();
         final ApmModes droneMode = drone.getState().getMode();
 
         if(Type.isCopter(droneType)){
@@ -76,11 +77,11 @@ public class GuidedPoint extends DroneVariable implements OnDroneListener {
 
     public static void changeToGuidedMode(Drone drone){
         final State droneState = drone.getState();
-        final int droneType = drone.getType();
-        if(Type.isCopter(droneType)){
+        final Type droneType = drone.getType();
+        if (droneType.isCopter()) {
             droneState.changeFlightMode(ApmModes.ROTOR_GUIDED);
         }
-        else if(Type.isPlane(droneType)){
+        else if(droneType.isPlane()){
             //You have to send a guided point to the plane in order to trigger guided mode.
             forceSendGuidedPoint(drone, drone.getGps().getPosition(),
                     getDroneAltConstrained(drone));
@@ -93,7 +94,7 @@ public class GuidedPoint extends DroneVariable implements OnDroneListener {
 	
 	@SuppressWarnings("unused")
 	public void doGuidedTakeoff(Coordinate target_coord, double alt) {
-        if(Type.isCopter(drone.getType())) {
+		if (drone.getType().isCopter()) {
             coord = drone.getGps().getPosition();
             altitude = target_coord.getAltitude();
             state = GuidedStates.IDLE;
@@ -224,11 +225,10 @@ public class GuidedPoint extends DroneVariable implements OnDroneListener {
 	}
 
     public static float getMinAltitude(Drone drone){
-        final int droneType = drone.getType();
-        if(Type.isCopter(droneType)){
+		if (drone.getType().isCopter()) {
             return 2f;
         }
-        else if(Type.isPlane(droneType)){
+		if (drone.getType().isPlane()) {
             return 15f;
         }
         else{

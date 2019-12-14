@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
 import com.dronegcs.mavlink.core.connection.DroneUpdateListener;
+import com.dronegcs.mavlink.core.drone.profile.ArduPlaneProfile;
 import com.generic_tools.logger.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class PreferencesImpl implements Preferences {
 	private VehicleProfile profile;
 	private Rates rates;
 	
-	// Create a factory instead of this
+//	 Create a factory instead of this
 	@PostConstruct
 	public void TemporaryLoadMe() {
 		loadVehicleProfile(FirmwareType.ARDU_COPTER);
@@ -45,6 +46,15 @@ public class PreferencesImpl implements Preferences {
 				profile = new ArduCopterProfile();
 				logger.LogDesignedMessege("ArduCopter Profile was created");
 				LOGGER.debug("ArduCopter Profile was created");
+				LOGGER.debug("The following rates were selected '{}'", rates);
+
+				return profile;
+			case ARDU_PLANE:
+				type = FirmwareType.ARDU_PLANE;
+				rates = new Rates(DEFAULT_RATE_STATUS, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_SENSORS, DEFAULT_RATE_POSITION, DEFAULT_RATE_RC_CHANNELS, DEFAULT_RATE_SENSORS, DEFAULT_RATE_CONTROLLER);
+				profile = new ArduPlaneProfile();
+				logger.LogDesignedMessege("ArduPlane Profile was created");
+				LOGGER.debug("ArduPlane Profile was created");
 				LOGGER.debug("The following rates were selected '{}'", rates);
 
 				return profile;

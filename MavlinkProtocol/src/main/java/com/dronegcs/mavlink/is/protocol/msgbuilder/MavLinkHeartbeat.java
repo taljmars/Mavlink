@@ -18,7 +18,7 @@ public class MavLinkHeartbeat {
 	 */
 	private static final msg_heartbeat sMsg = new msg_heartbeat();
 	static {
-		sMsg.type = MAV_TYPE.MAV_TYPE_GCS;
+		sMsg.type = (byte) MAV_TYPE.MAV_TYPE_GCS.getIndex();
 		sMsg.autopilot = MAV_AUTOPILOT.MAV_AUTOPILOT_GENERIC;
 	}
 

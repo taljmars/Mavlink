@@ -1,12 +1,20 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
-public class VehicleProfile {
-	private String parameterMetadataType;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.File;
+import java.util.Map;
+
+public abstract class VehicleProfile {
+	private final Map<String, ParameterDetail> parametersMetadata;
+//	private String parameterMetadataType;
 	private Default default_ = new Default();
 
-	public String getParameterMetadataType() {
-		return parameterMetadataType;
-	}
+	protected abstract String getParametersDetailsFilePath();
+
+//	public String getParameterMetadataType() {
+//		return parameterMetadataType;
+//	}
 
 	public Default getDefault() {
 		return default_;
@@ -16,8 +24,17 @@ public class VehicleProfile {
 		this.default_ = default_;
 	}
 
-	public void setParameterMetadataType(String parameterMetadataType) {
-		this.parameterMetadataType = parameterMetadataType;
+//	public void setParameterMetadataType(String parameterMetadataType) {
+//		this.parameterMetadataType = parameterMetadataType;
+//	}
+
+	public VehicleProfile() {
+		ParameterDetailsParser parameterDetailsParser = new ParameterDetailsParser();
+		parametersMetadata = parameterDetailsParser.parse(getParametersDetailsFilePath());
+	}
+
+	public Map<String, ParameterDetail> getParametersMetadata() {
+		return parametersMetadata;
 	}
 
 	public static class Default {
