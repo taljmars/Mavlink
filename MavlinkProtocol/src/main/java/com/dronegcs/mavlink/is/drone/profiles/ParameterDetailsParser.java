@@ -1,6 +1,7 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
@@ -41,7 +42,8 @@ public class ParameterDetailsParser {
             // Create an object of file reader
             // class with CSV file as a parameter.
             filereader = new FileReader(resource.getURL().getPath());
-            csvReader = new CSVReader(filereader);
+            csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+
             String[] tokens;
 
             // we are going to read data line by line
