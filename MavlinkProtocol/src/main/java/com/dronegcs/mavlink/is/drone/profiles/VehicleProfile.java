@@ -1,10 +1,16 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.util.Map;
 
 public abstract class VehicleProfile {
-	private final Map<String, ParameterDetail> parametersMetadata;
-//	private String parameterMetadataType;
+
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(VehicleProfile.class);
+
+	private Map<String, ParameterDetail> parametersMetadata;
+	//	private String parameterMetadataType;
 	private Default default_ = new Default();
 
 	protected abstract String getParametersDetailsFilePath();
@@ -25,9 +31,15 @@ public abstract class VehicleProfile {
 //		this.parameterMetadataType = parameterMetadataType;
 //	}
 
-	public VehicleProfile() {
-		ParameterDetailsParser parameterDetailsParser = new ParameterDetailsParser();
-		parametersMetadata = parameterDetailsParser.parse(getParametersDetailsFilePath());
+	public void init() {
+		try {
+			ParameterDetailsParser parameterDetailsParser = new ParameterDetailsParser();
+			parametersMetadata = parameterDetailsParser.parse(getParametersDetailsFilePath());
+		}
+		catch (IOException e) {
+			LOGGER.error("Failed buildParser configuration file", e);
+			System.err.println("Failed buildParser configuration file '" + e.getMessage() + "'");
+		}
 	}
 
 	public Map<String, ParameterDetail> getParametersMetadata() {

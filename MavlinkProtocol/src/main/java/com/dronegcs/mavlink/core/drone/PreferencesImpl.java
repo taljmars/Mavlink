@@ -44,6 +44,7 @@ public class PreferencesImpl implements Preferences {
 				type = FirmwareType.ARDU_COPTER;
 				rates = new Rates(DEFAULT_RATE_STATUS, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_SENSORS, DEFAULT_RATE_POSITION, DEFAULT_RATE_RC_CHANNELS, DEFAULT_RATE_SENSORS, DEFAULT_RATE_CONTROLLER);
 				profile = new ArduCopterProfile();
+				profile.init();
 				logger.LogDesignedMessege("ArduCopter Profile was created");
 				LOGGER.debug("ArduCopter Profile was created");
 				LOGGER.debug("The following rates were selected '{}'", rates);
@@ -53,6 +54,7 @@ public class PreferencesImpl implements Preferences {
 				type = FirmwareType.ARDU_PLANE;
 				rates = new Rates(DEFAULT_RATE_STATUS, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_ALTITUDE, DEFAULT_RATE_SENSORS, DEFAULT_RATE_POSITION, DEFAULT_RATE_RC_CHANNELS, DEFAULT_RATE_SENSORS, DEFAULT_RATE_CONTROLLER);
 				profile = new ArduPlaneProfile();
+				profile.init();
 				logger.LogDesignedMessege("ArduPlane Profile was created");
 				LOGGER.debug("ArduPlane Profile was created");
 				LOGGER.debug("The following rates were selected '{}'", rates);

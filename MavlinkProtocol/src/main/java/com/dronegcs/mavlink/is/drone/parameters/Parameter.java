@@ -74,6 +74,10 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		}
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public String getRange() {
 		return range;
 	}
