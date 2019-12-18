@@ -32,24 +32,24 @@ TKOFF_THR_MINACC,0.0,9,0 30,Takeoff throttle min acceleration (Increment 0.1 m/s
 TKOFF_THR_DELAY,2.0,2,0 127,Takeoff throttle delay (Increment 1 deciseconds)
 TKOFF_TDRAG_ELEV,0.0,2,,FBWA taildragger channel
 TKOFF_TDRAG_SPD1,0.0,9,0 30,Takeoff tail dragger speed1  (Increment 0.1 m/s)
-TKOFF_ROTATE_SPD,0.0,9,,Not Yet
-TKOFF_THR_SLEW,0.0,2,,Not Yet
-TKOFF_FLAP_PCNT,0.0,2,,Not Yet
-FBWA_TDRAG_CHAN,0.0,2,,Not Yet
-LEVEL_ROLL_LIMIT,5.0,2,,Not Yet
-LAND_PITCH_CD,0.0,4,,Not Yet
-LAND_FLARE_ALT,3.0,9,,Not Yet
-LAND_FLARE_SEC,2.0,9,,Not Yet
-LAND_DISARMDELAY,20.0,2,,Not Yet
-NAV_CONTROLLER,1.0,2,,Not Yet
+TKOFF_ROTATE_SPD,0.0,9,0 30,Takeoff rotate speed (Increment 0.1 m/s)
+TKOFF_THR_SLEW,0.0,2,-1 127,Takeoff throttle slew rate (Increment 1)
+TKOFF_FLAP_PCNT,0.0,2,0 100,Takeoff flap percentage
+FBWA_TDRAG_CHAN,0.0,2,,FBWA taildragger channel
+LEVEL_ROLL_LIMIT,5.0,2,0 45,Level flight roll limit (Increment 1 degrees)
+LAND_PITCH_CD,0.0,4,,Landing Pitch
+LAND_FLARE_ALT,3.0,9,,Landing flare altitude (Increment 0.1 degrees)
+LAND_FLARE_SEC,2.0,9,,Landing flare time (Increment 0.1 degrees)
+LAND_DISARMDELAY,20.0,2,0 127,Landing disarm delay (Increment 1 seconds)
+NAV_CONTROLLER,1.0,2,0: Default 1:L1Controller,Navigation controller selection
 ALT_MIX,1.0,9,,Not Yet
-ALT_CTRL_ALG,0.0,2,,Not Yet
-ALT_OFFSET,0.0,4,,Not Yet
-WP_RADIUS,90.0,4,,Not Yet
-WP_MAX_RADIUS,0.0,4,,Not Yet
-WP_LOITER_RAD,60.0,4,,Not Yet
-FENCE_ACTION,0.0,2,,Not Yet
-FENCE_TOTAL,0.0,2,,Not Yet
+ALT_CTRL_ALG,0.0,2,0:Automatic,Altitude control algorithm
+ALT_OFFSET,0.0,4,-32767 32767,Altitude offset (Increment 1 meters)
+WP_RADIUS,90.0,4,1 32767,Waypoint Radius (Increment 1 meters)
+WP_MAX_RADIUS,0.0,4,0 32767,Waypoint Maximum Radius (Increment 1 meters)
+WP_LOITER_RAD,60.0,4,-32767 32767,Waypoint Loiter Radius
+FENCE_ACTION,0.0,2,0:None 1:GuidedMode 2:ReportOnly 3:GuidedModeThrPass 4:RTL_Mode,Action on geofence breach
+FENCE_TOTAL,0.0,2,,Fence Total
 FENCE_CHANNEL,0.0,2,,Not Yet
 FENCE_MINALT,0.0,4,,Not Yet
 FENCE_MAXALT,0.0,4,,Not Yet
