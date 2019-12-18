@@ -50,22 +50,22 @@ WP_MAX_RADIUS,0.0,4,0 32767,Waypoint Maximum Radius (Increment 1 meters)
 WP_LOITER_RAD,60.0,4,-32767 32767,Waypoint Loiter Radius
 FENCE_ACTION,0.0,2,0:None 1:GuidedMode 2:ReportOnly 3:GuidedModeThrPass 4:RTL_Mode,Action on geofence breach
 FENCE_TOTAL,0.0,2,,Fence Total
-FENCE_CHANNEL,0.0,2,,Not Yet
-FENCE_MINALT,0.0,4,,Not Yet
-FENCE_MAXALT,0.0,4,,Not Yet
-FENCE_RETALT,0.0,4,,Not Yet
-FENCE_AUTOENABLE,0.0,2,,Not Yet
-FENCE_RET_RALLY,0.0,2,,Not Yet
-STALL_PREVENTION,1.0,2,,Not Yet
-ARSPD_FBW_MIN,9.0,4,,Not Yet
-ARSPD_FBW_MAX,22.0,4,,Not Yet
-FBWB_ELEV_REV,0.0,2,,Not Yet
-FBWB_CLIMB_RATE,2.0,2,,Not Yet
-THR_MIN,0.0,2,,Not Yet
-THR_MAX,75.0,2,,Not Yet
-TKOFF_THR_MAX,0.0,2,,Not Yet
-THR_SLEWRATE,100.0,2,,Not Yet
-FLAP_SLEWRATE,75.0,2,,Not Yet
+FENCE_CHANNEL,0.0,2,,Fence Channel
+FENCE_MINALT,0.0,4,0 32767,Fence Minimum Altitude (Increment 1 meters)
+FENCE_MAXALT,0.0,4,0 32767,Fence Maximum Altitude (Increment 1 meters)
+FENCE_RETALT,0.0,4,0 32767,Fence Return Altitude (Increment 1 meters)
+FENCE_AUTOENABLE,0.0,2,0:NoAutoEnable 1:AutoEnable 2:AutoEnableDisableFloorOnly 3:EnableWhenArmed,Fence automatic enable
+FENCE_RET_RALLY,0.0,2,0:FenceReturnPoint 1:NearestRallyPoint,Fence Return to Rally
+STALL_PREVENTION,1.0,2,0:Disabled 1:Enabled,Enable stall prevention
+ARSPD_FBW_MIN,9.0,4,5 100,Minimum Airspeed (Increment 1 m/s)
+ARSPD_FBW_MAX,22.0,4,5 100,Maximum Airspeed (Increment 1 m/s)
+FBWB_ELEV_REV,0.0,2,0:Disabled 1:Enabled,Fly By Wire elevator reverse
+FBWB_CLIMB_RATE,2.0,2,1 10,Fly By Wire B altitude change rate (Increment 0.1 m/s)
+THR_MIN,0.0,2,-100 100,Minimum Throttle (Increment 1 precent)
+THR_MAX,75.0,2,0 100,Maximum Throttle (Increment 1 precent)
+TKOFF_THR_MAX,0.0,2,0 100,Maximum Throttle for takeoff (Increment 1 precent)
+THR_SLEWRATE,100.0,2,0 127,Throttle slew rate
+FLAP_SLEWRATE,75.0,2,0 100,Flap slew rate
 THR_SUPP_MAN,0.0,2,,Not Yet
 THR_FAILSAFE,1.0,2,,Not Yet
 THR_FS_VALUE,950.0,4,,Not Yet
