@@ -102,6 +102,22 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		return false;
 	}
 
+	public List<Parameter> getParametersMetadata() {
+		List<Parameter> parameters = new ArrayList<>();
+		for (Map.Entry<String, ParameterDetail> parameterDetailEntry : drone.getVehicleProfile().getParametersMetadata().entrySet()) {
+			ParameterDetail parameterDetail = parameterDetailEntry.getValue();
+			parameters.add(new Parameter(
+					parameterDetail.getName(),
+					-1,
+					0,
+					parameterDetail.getRange(),
+					parameterDetail.getDescription()
+			));
+		}
+
+		return parameters;
+	}
+
 	private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
 		ParameterDetail parameterDetail = drone.getVehicleProfile().getParametersMetadata().get(m_value.getParam_Id());

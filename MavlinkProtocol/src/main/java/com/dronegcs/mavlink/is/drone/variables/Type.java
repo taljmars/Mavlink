@@ -45,7 +45,7 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 	}
 
 	public FirmwareType getFirmwareType() {
-		if (drone.getMavClient().isConnected()) {
+//		if (drone.getMavClient().isConnected()) {
 			switch (this.droneType) {
 
 			case MAV_TYPE_FIXED_WING:
@@ -63,9 +63,10 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 			default:
 				// unsupported - fall thru to offline condition
 				logger.LogErrorMessege("Unsupported Profile");
+				return FirmwareType.ARDU_COPTER;
 			}
-		}
-		return drone.getPreferences().getVehicleType(); // offline or
+//		}
+//		return drone.getPreferences().getVehicleType(); // offline or
 															// unsupported
 	}
 

@@ -50,11 +50,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDroneImpl implements Drone {
 
-	@Bean
-	public VehicleProfile profile() {
-		loadVehicleProfile();
-		return profile;
-	}
+//	@Bean
+//	public VehicleProfile profile() {
+//		loadVehicleProfile();
+//		return profile;
+//	}
 	
 	@NotNull(message="Missing GPS parameter")
 	@Autowired
@@ -174,7 +174,7 @@ public class MyDroneImpl implements Drone {
 	@Autowired
 	private RuntimeValidator runtimeValidator;
 
-	private VehicleProfile profile;
+//	private VehicleProfile profile;
 	
 	static int called = 0;
 	@PostConstruct
@@ -274,12 +274,12 @@ public class MyDroneImpl implements Drone {
 
 	@Override
 	public void loadVehicleProfile() {
-		profile = preferences.loadVehicleProfile(getFirmwareType());
+		preferences.loadVehicleProfile(getFirmwareType());
 	}
 
 	@Override
 	public VehicleProfile getVehicleProfile() {
-		return profile;
+		return preferences.getProfile();
 	}
 
 	@Override

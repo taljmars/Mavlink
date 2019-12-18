@@ -74,6 +74,11 @@ public class PreferencesImpl implements Preferences {
 	}
 
 	@Override
+	public VehicleProfile getProfile() {
+		return profile;
+	}
+
+	@Override
 	public Rates getRates() {
 		return rates;
 	}

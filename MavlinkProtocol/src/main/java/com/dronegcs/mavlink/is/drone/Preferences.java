@@ -9,6 +9,8 @@ public interface Preferences {
 
 	public abstract VehicleProfile loadVehicleProfile(FirmwareType firmwareType);
 
+	VehicleProfile getProfile();
+
 	public abstract Rates getRates();
 
 	public abstract void setRates(Rates rates);
