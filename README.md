@@ -3,10 +3,7 @@ ArduCopter Parameters
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
 ACRO_BAL_PITCH | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
-
 ACRO_BAL_ROLL | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Roll | rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
-
-
 ACRO_EXPO | 0.3 | 1 | unknown | | false |  | Coming soon
 ACRO_RP_P | 4.5 | 1 |  | | false |  | Converts pilot roll and pitch into a desired rate of rotation in ACRO and SPORT mode. Higher values mean faster rate of rotation.
 ACRO_TRAINER | 2 | 1 | list | 0:Disabled 1:Leveling 2:LevelingAndLimited  | false | Acro Trainer | 
