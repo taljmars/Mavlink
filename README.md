@@ -35,7 +35,10 @@ BATT_CAPACITY | 4000 | 1 | mAh | | false |  | Capacity of the battery in MILLIAM
 BATT_CURR_PIN | 3 | 1 | list | -1:Disabled 1:A1 2:A2 3:Pixhawk 101:PX4 12:A12  | false |  | Setting this to 0 ~ 13 will enable battery current sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 12. On the PX4 it should be set to 101. On the Pixhawk powered from the PM connector it should be set to 3.
 BATT_MONITOR | 4 | 1 | list | 0:Disabled 3:Analog_Voltage_Only 4:Analog_Voltage_and_Current 5:SMBus 6:Bebop  | false |  | Controls enabling monitoring of the battery's voltage and current
 BATT_VOLT_MULT | 10.1 | 1 | unknown | | false |  | Used to convert the voltage of the voltage sensing pin (MAV_PARAM_GROUP.ARDUCOPTER,BATT_VOLT_PIN) to the actual battery's voltage (MAV_PARAM_GROUP.ARDUCOPTER,pin_voltage * VOLT_MULT). For the 3DR Power brick on APM2 or Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX4 using the PX4IO power supply this should be set to 1.
-BATT_VOLT_PIN | 2 | 1 | list | -1:Disabled 0:A0 1:A1 2:Pixhawk 100:PX4 13:A13  | false |  | Setting this to 0 ~ 13 will enable battery voltage sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 13. On the PX4 it should be set to 100. On the Pixhawk powered from the PM connector it should be set to 2.
+BATT_VOLT_PIN | 2 | 1 | list | -1:Disabled
+0:A0
+1:A1
+2:Pixhawk 100:PX4 13:A13  | false |  | Setting this to 0 ~ 13 will enable battery voltage sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 13. On the PX4 it should be set to 100. On the Pixhawk powered from the PM connector it should be set to 2.
 BATT_VOLT2_MULT | 1 | 1 | unknown | | false |  | Coming soon
 BATT_VOLT2_PIN | -1 | 1 | unknown | | false |  | Coming soon
 CAM_DURATION | 10 | 1 | second | 0 50 | false |  | How long the shutter will be held open in 10ths of a second (MAV_PARAM_GROUP.ARDUCOPTER,i.e. enter 10 for 1second, 50 for 5seconds)
