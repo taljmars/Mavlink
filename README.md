@@ -1,4 +1,6 @@
 ArduCopter Parameters
+
+
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
 ACRO_BAL_PITCH | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
@@ -307,6 +309,7 @@ WPNAV_SPEED_UP | 250 | 1 | cm/s | 10 1000 | false | Waypoint Climb Speed Target 
 
 
 ArduPilot Parameters
+
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
 THR_PASS_STAB | 0 | 1 | unknown | -100 100 | false |  | Throttle passthru in stabilize
