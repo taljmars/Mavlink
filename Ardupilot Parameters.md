@@ -3,33 +3,33 @@
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
 THR_PASS_STAB | 0 | 1 | unknown | -100 100 | false |  | Throttle passthru in stabilize
-THR_FAILSAFE | 1 | 1 | list | 0:Disable 1:Enable  | false |  | 
-GPS_SBAS_MODE | 2 | 1 | list | 0:Disabled 1:Enable 2:NoChange  | false |  | 
+THR_FAILSAFE | 1 | 1 | list | 0:Disable<br/>1:Enable<br/> | false |  | 
+GPS_SBAS_MODE | 2 | 1 | list | 0:Disabled<br/>1:Enable<br/>2:NoChange<br/> | false |  | 
 FORMAT_VERSION | 13 | 1 | unknown | 1 255 | false |  | Eeprom format version number
 SYSID_SW_TYPE | 0 | 1 | unknown | | false |  | Unknown
 SYSID_THISMAV | 1 | 1 | unknown | 1 255 | false |  | MAVLink system ID of this vehicle
 SYSID_MYGCS | 255 | 1 | unknown | 1 255 | false |  | Ground station MAVLink system ID
-SERIAL0_PROTOCOL | 1 | 1 | list | 1:MAVlink1 2:MAVlink2  | false |  | 
-SERIAL0_BAUD | 115 | 1 | list | 0:1200 256:256000 2:2400 4:4800 38:38400 9:9600 460:460800 111:111100 19:19200 115:115200 500:500000 57:57600 921:921600 1500:1500000  | false |  | 
-SERIAL1_PROTOCOL | 1 | 1 | list | 1:MAVlink1 2:MAVlink2  | false |  | 
-SERIAL1_BAUD | 57 | 1 | list | 0:1200 256:256000 2:2400 4:4800 38:38400 9:9600 460:460800 111:111100 19:19200 115:115200 500:500000 57:57600 921:921600 1500:1500000  | false |  | 
-SERIAL2_PROTOCOL | 1 | 1 | list | 1:MAVlink1 2:MAVlink2  | false |  | 
-SERIAL2_BAUD | 57 | 1 | list | 0:1200 256:256000 2:2400 4:4800 38:38400 9:9600 460:460800 111:111100 19:19200 115:115200 500:500000 57:57600 921:921600 1500:1500000  | false |  | 
-SERIAL3_PROTOCOL | 5 | 1 | list | 1:MAVlink1 2:MAVlink2  | false |  | 
-SERIAL3_BAUD | 38 | 1 | list | 0:1200 256:256000 2:2400 4:4800 38:38400 9:9600 460:460800 111:111100 19:19200 115:115200 500:500000 57:57600 921:921600 1500:1500000  | false |  | 
-SERIAL4_PROTOCOL | 5 | 1 | list | 1:MAVlink1 2:MAVlink2  | false |  | 
-SERIAL4_BAUD | 38 | 1 | list | 0:1200 256:256000 2:2400 4:4800 38:38400 9:9600 460:460800 111:111100 19:19200 115:115200 500:500000 57:57600 921:921600 1500:1500000  | false |  | 
+SERIAL0_PROTOCOL | 1 | 1 | list | 1:MAVlink1<br/>2:MAVlink2<br/> | false |  | 
+SERIAL0_BAUD | 115 | 1 | list | 0:1200<br/>256:256000<br/>2:2400<br/>4:4800<br/>38:38400<br/>9:9600<br/>460:460800<br/>111:111100<br/>19:19200<br/>115:115200<br/>500:500000<br/>57:57600<br/>921:921600<br/>1500:1500000<br/> | false |  | 
+SERIAL1_PROTOCOL | 1 | 1 | list | 1:MAVlink1<br/>2:MAVlink2<br/> | false |  | 
+SERIAL1_BAUD | 57 | 1 | list | 0:1200<br/>256:256000<br/>2:2400<br/>4:4800<br/>38:38400<br/>9:9600<br/>460:460800<br/>111:111100<br/>19:19200<br/>115:115200<br/>500:500000<br/>57:57600<br/>921:921600<br/>1500:1500000<br/> | false |  | 
+SERIAL2_PROTOCOL | 1 | 1 | list | 1:MAVlink1<br/>2:MAVlink2<br/> | false |  | 
+SERIAL2_BAUD | 57 | 1 | list | 0:1200<br/>256:256000<br/>2:2400<br/>4:4800<br/>38:38400<br/>9:9600<br/>460:460800<br/>111:111100<br/>19:19200<br/>115:115200<br/>500:500000<br/>57:57600<br/>921:921600<br/>1500:1500000<br/> | false |  | 
+SERIAL3_PROTOCOL | 5 | 1 | list | 1:MAVlink1<br/>2:MAVlink2<br/> | false |  | 
+SERIAL3_BAUD | 38 | 1 | list | 0:1200<br/>256:256000<br/>2:2400<br/>4:4800<br/>38:38400<br/>9:9600<br/>460:460800<br/>111:111100<br/>19:19200<br/>115:115200<br/>500:500000<br/>57:57600<br/>921:921600<br/>1500:1500000<br/> | false |  | 
+SERIAL4_PROTOCOL | 5 | 1 | list | 1:MAVlink1<br/>2:MAVlink2<br/> | false |  | 
+SERIAL4_BAUD | 38 | 1 | list | 0:1200<br/>256:256000<br/>2:2400<br/>4:4800<br/>38:38400<br/>9:9600<br/>460:460800<br/>111:111100<br/>19:19200<br/>115:115200<br/>500:500000<br/>57:57600<br/>921:921600<br/>1500:1500000<br/> | false |  | 
 AUTOTUNE_LEVEL | 6 | 1 | unknown | | false |  | Autotune level
 TELEM_DELAY | 0 | 1 | unknown | 0 30 | false |  | Telemetry startup delay
-GCS_PID_MASK | 0 | 1 | list | 0:Roll 1:Pitch 2:Yaw 3:Steering 4:Landing  | false |  | 
+GCS_PID_MASK | 0 | 1 | list | 0:Roll<br/>1:Pitch<br/>2:Yaw<br/>3:Steering<br/>4:Landing<br/> | false |  | 
 KFF_RDDRMIX | 0.5 | 0.01 | unknown | 0 1 | false |  | Rudder Mix
 KFF_THR2PTCH | 0 | 0.01 | unknown | 0 1 | false |  | Throttle to Pitch Mix
 STAB_PITCH_DOWN | 2 | 0.01 | unknown | 0 15 | false |  | Low throttle pitch down trim
 GLIDE_SLOPE_MIN | 15 | 1 | meter | 0 1000 | false |  | Glide slope minimum
 GLIDE_SLOPE_THR | 5 | 1 | unknown | 0 100 | false |  | Glide slope threshold
-STICK_MIXING | 1 | 1 | list | 0:Disabled 1:FBWMixing 2:DirectMixing  | false |  | 
+STICK_MIXING | 1 | 1 | list | 0:Disabled<br/>1:FBWMixing<br/>2:DirectMixing<br/> | false |  | 
 SKIP_GYRO_CAL | 0 | 1 | unknown | | false |  | Unknown
-AUTO_FBW_STEER | 0 | 1 | list | 0:Disabled 42:Enabled  | false |  | Use FBWA steering in AUTO, 0:Disabled 42:Enabled
+AUTO_FBW_STEER | 0 | 1 | list | 0:Disabled<br/>42:Enabled<br/> | false |  | Use FBWA steering in AUTO, 0:Disabled 42:Enabled
 TKOFF_THR_MINSPD | 0 | 0.1 | m/s | 0 30 | false |  | Takeoff throttle min speed
 TKOFF_THR_MINACC | 0 | 0.1 | m/s/s | 0 30 | false |  | Takeoff throttle min acceleration
 TKOFF_THR_DELAY | 2 | 1 | unknown | 0 127 | false |  | Takeoff throttle delay (MAV_PARAM_GROUP.ARDUPLANE,Increment 1 deciseconds)
@@ -44,25 +44,25 @@ LAND_PITCH_CD | 0 | 1 | unknown | | false |  | Landing Pitch
 LAND_FLARE_ALT | 3 | 0.1 | degree | | false |  | Landing flare altitude
 LAND_FLARE_SEC | 2 | 0.1 | degree | | false |  | Landing flare time
 LAND_DISARMDELAY | 20 | 1 | second | 0 127 | false |  | Landing disarm delay
-NAV_CONTROLLER | 1 | 1 | list | 0:Default 1:L1Controller  | false |  | Navigation controller selection
+NAV_CONTROLLER | 1 | 1 | list | 0:Default<br/>1:L1Controller<br/> | false |  | Navigation controller selection
 ALT_MIX | 1 | 1 | unknown | | false |  | Not Yet
-ALT_CTRL_ALG | 0 | 1 | list | 0:Automatic  | false |  | Altitude control algorithm
+ALT_CTRL_ALG | 0 | 1 | list | 0:Automatic<br/> | false |  | Altitude control algorithm
 ALT_OFFSET | 0 | 1 | meter | -32767 32767 | false |  | Altitude offset
 WP_RADIUS | 90 | 1 | meter | 1 32767 | false |  | Waypoint Radius
 WP_MAX_RADIUS | 0 | 1 | meter | 0 32767 | false |  | Waypoint Maximum Radius
 WP_LOITER_RAD | 60 | 1 | unknown | -32767 32767 | false |  | Waypoint Loiter Radius
-FENCE_ACTION | 0 | 1 | list | 0:None 1:GuidedMode 2:ReportOnly 3:GuidedModeThrPass 4:RTL_Mode  | false |  | Action on geofence breach
+FENCE_ACTION | 0 | 1 | list | 0:None<br/>1:GuidedMode<br/>2:ReportOnly<br/>3:GuidedModeThrPass<br/>4:RTL_Mode<br/> | false |  | Action on geofence breach
 FENCE_TOTAL | 0 | 1 | unknown | | false |  | Fence Total
 FENCE_CHANNEL | 0 | 1 | unknown | | false |  | Fence Channel
 FENCE_MINALT | 0 | 1 | meter | 0 32767 | false |  | Fence Minimum Altitude
 FENCE_MAXALT | 0 | 1 | meter | 0 32767 | false |  | Fence Maximum Altitude
 FENCE_RETALT | 0 | 1 | meter | 0 32767 | false |  | Fence Return Altitude
-FENCE_AUTOENABLE | 0 | 1 | list | 0:NoAutoEnable 1:AutoEnable 2:AutoEnableDisableFloorOnly 3:EnableWhenArmed  | false |  | Fence automatic enable
-FENCE_RET_RALLY | 0 | 1 | list | 0:FenceReturnPoint 1:NearestRallyPoint  | false |  | Fence Return to Rally
-STALL_PREVENTION | 1 | 1 | list | 0:Disabled 1:Enabled  | false |  | Enable stall prevention
+FENCE_AUTOENABLE | 0 | 1 | list | 0:NoAutoEnable<br/>1:AutoEnable<br/>2:AutoEnableDisableFloorOnly<br/>3:EnableWhenArmed<br/> | false |  | Fence automatic enable
+FENCE_RET_RALLY | 0 | 1 | list | 0:FenceReturnPoint<br/>1:NearestRallyPoint<br/> | false |  | Fence Return to Rally
+STALL_PREVENTION | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> | false |  | Enable stall prevention
 ARSPD_FBW_MIN | 9 | 1 | m/s | 5 100 | false |  | Minimum Airspeed
 ARSPD_FBW_MAX | 22 | 1 | m/s | 5 100 | false |  | Maximum Airspeed
-FBWB_ELEV_REV | 0 | 1 | list | 0:Disabled 1:Enabled  | false |  | Fly By Wire elevator reverse
+FBWB_ELEV_REV | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> | false |  | Fly By Wire elevator reverse
 FBWB_CLIMB_RATE | 2 | 0.1 | m/s | 1 10 | false |  | Fly By Wire B altitude change rate
 THR_MIN | 0 | 1 | percent | -100 100 | false |  | Minimum Throttle
 THR_MAX | 75 | 1 | percent | 0 100 | false |  | Maximum Throttle
@@ -341,7 +341,7 @@ BATT2_AMP_OFFSET | 0 | 1 | unknown | | false |  | Not Yet
 BATT2_CAPACITY | 3300 | 1 | unknown | | false |  | Not Yet
 BRD_SERIAL_NUM | 0 | 1 | unknown | | false |  | Not Yet
 MIS_TOTAL | 0 | 1 | unknown | | false |  | The number of mission mission items that has been loaded by the ground station. Do not change this manually.
-MIS_RESTART | 0 | 1 | list | 0:ResumeMission 1:RestartMission  | false |  | Not Yet
+MIS_RESTART | 0 | 1 | list | 0:ResumeMission<br/>1:RestartMission<br/> | false |  | Not Yet
 RALLY_TOTAL | 0 | 1 | unknown | | false |  | Not Yet
 RALLY_LIMIT_KM | 5 | 1 | unknown | | false |  | Not Yet
 RALLY_INCL_HOME | 0 | 1 | unknown | | false |  | Not Yet
