@@ -1,5 +1,4 @@
-ArduCopter Parameters
-
+# ArduCopter Parameters
 
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
@@ -308,7 +307,7 @@ WPNAV_SPEED_DN | 150 | 1 | cm/s | 10 500 | false |  | Defines the speed in CENTI
 WPNAV_SPEED_UP | 250 | 1 | cm/s | 10 1000 | false | Waypoint Climb Speed Target | Defines the speed in CENTIMETER/s which the aircraft will attempt to maintain while climbing during a WP mission
 
 
-ArduPilot Parameters
+# ArduPilot Parameters
 
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---

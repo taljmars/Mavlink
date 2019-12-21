@@ -15,16 +15,16 @@ public class GenerateParametersGithubDoc {
     public static void main(String[] args) throws Exception {
         FileWriter fileWriter = new FileWriter("README.md");
 
-        fileWriter.write("ArduCopter Parameters");
-        fileWriter.write("\n");
+        fileWriter.write("# ArduCopter Parameters");
+        fileWriter.write("\n\n");
         CSVWriter csvWriter = new CSVWriter(fileWriter,'|');
         appendParameters(csvWriter, MAV_PARAM_COPTER.values());
 
         fileWriter.write("\n");
         fileWriter.write("\n");
 
-        fileWriter.write("ArduPilot Parameters");
-        fileWriter.write("\n");
+        fileWriter.write("# ArduPilot Parameters");
+        fileWriter.write("\n\n");
         appendParameters(csvWriter, MAV_PARAM_PLANE.values());
 
         csvWriter.close();
