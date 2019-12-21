@@ -308,7 +308,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     @Override
     public void onParameterReceived(Parameter parameter, int index, int count) {
-        System.out.println("Received " + (index + 1) + "/" + count + " param=" + parameter.name + " description=" + parameter.getDescription());
+        System.out.println("Received " + (index + 1) + "/" + count + " param=" + parameter.getName() + " description=" + parameter.getDescription());
     }
 
     @Override
