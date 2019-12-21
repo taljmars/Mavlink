@@ -6,7 +6,7 @@ ACRO_BAL_PITCH | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Pitch | rate at 
 ACRO_BAL_ROLL | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Roll | rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
 ACRO_EXPO | 0.3 | 1 | unknown | | false |  | Coming soon
 ACRO_RP_P | 4.5 | 1 |  | | false |  | Converts pilot roll and pitch into a desired rate of rotation in ACRO and SPORT mode. Higher values mean faster rate of rotation.
-ACRO_TRAINER | 2 | 1 | list | 0:Disabled\n1:Leveling\n2:LevelingAndLimited  | false | Acro Trainer | 
+ACRO_TRAINER | 2 | 1 | list | 0:Disabled<br/>1:Leveling<br/>2:LevelingAndLimited  | false | Acro Trainer | 
 ACRO_YAW_P | 4.5 | 1 |  | | false |  | Converts pilot yaw input into a desired rate of rotation in ACRO, Stabilize and SPORT modes. Higher values mean faster rate of rotation.
 AHRS_COMP_BETA | 0.1 | 1 | unknown | 0.001 0.5 | false |  | This controls the time constant for the cross-over frequency used to fuse AHRS (MAV_PARAM_GROUP.ARDUCOPTER,airspeed and heading) and GPS data to estimate ground velocity. Time constant is 0.1/beta. A larger time constant will use GPS data less and a small time constant will use air data less.
 AHRS_GPS_GAIN | 1 | 1 | unknown | 0.0 1.0 | false |  | This controls how how much to use the GPS to correct the attitude. This should never be set to zero for a plane as it would result in the plane losing control in turns. For a plane please use the default value of 1.0.
