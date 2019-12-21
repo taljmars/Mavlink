@@ -32,31 +32,31 @@ public class GenerateParametersGithubDoc {
     }
 
     private static void appendParameters(CSVWriter csvWriter, MAV_PARAM_I[] params) {
-        csvWriter.writeNext(new String[]{"Name","Possible Value","Increment","Unit","Range", "Read Only", "Title" ,"Description"}, false);
-        csvWriter.writeNext(new String[]{"---","---","---","---","---", "---", "---" ,"---"},false);
+        csvWriter.writeNext(new String[]{"Name "," Possible Value "," Increment "," Unit "," Range ", " Read Only ", " Title " ," Description"}, false);
+        csvWriter.writeNext(new String[]{"--- "," --- "," --- "," --- "," --- ", " ---", " --- " ," ---"},false);
         for (MAV_PARAM_I val : params) {
             List<String> line = new ArrayList();
-            line.add(val.getName());
-            line.add(""+val.getDefaultValue());
-            line.add(val.getIncrement() + "");
-            line.add(val.getUnit() + "");
+            line.add(val.getName() + " ");
+            line.add(" " + val.getDefaultValue() + " ");
+            line.add(" " + val.getIncrement() + " ");
+            line.add(" " + val.getUnit() + " ");
 //            line.add(val) //range
             if (val.getRange() != null) {
-                line.add(val.getRange().getMin() + " " + val.getRange().getMax());
+                line.add(" " + val.getRange().getMin() + " " + val.getRange().getMax() + " ");
             }
             else if (val.getOptions() != null) {
-                String optionString = "";
+                String optionString = " ";
                 for (Map.Entry<Integer, String> option : val.getOptions().entrySet()) {
                     optionString += option.getKey() + ":" + option.getValue() + " ";
                 }
-                line.add(optionString.trim());
+                line.add(optionString + " ");
             }
             else {
-                line.add("");
+                line.add(" ");
             }
-            line.add(val.isReadOnly() + "");
-            line.add(val.getTitle());
-            line.add(val.getDescription());
+            line.add(" " + val.isReadOnly()  + " ");
+            line.add(" " + val.getTitle() + " ");
+            line.add(" " + val.getDescription());
             String[] res = line.toArray(new String[0]);
             csvWriter.writeNext(res,false);
         }
