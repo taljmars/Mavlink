@@ -13,21 +13,23 @@ import java.util.Map;
 public class GenerateParametersGithubDoc {
 
     public static void main(String[] args) throws Exception {
-        FileWriter fileWriter = new FileWriter("README.md");
+        FileWriter fileWriter;
+        CSVWriter csvWriter;
 
+        fileWriter = new FileWriter("ArduCopter Parameters.md");
         fileWriter.write("# ArduCopter Parameters");
         fileWriter.write("\n\n");
-        CSVWriter csvWriter = new CSVWriter(fileWriter,'|');
+        csvWriter = new CSVWriter(fileWriter,'|');
         appendParameters(csvWriter, MAV_PARAM_COPTER.values());
+        csvWriter.close();
 
-        fileWriter.write("\n");
-        fileWriter.write("\n");
-
+        fileWriter = new FileWriter("Ardupilot Parameters.md");
         fileWriter.write("# ArduPilot Parameters");
         fileWriter.write("\n\n");
+        csvWriter = new CSVWriter(fileWriter,'|');
         appendParameters(csvWriter, MAV_PARAM_PLANE.values());
-
         csvWriter.close();
+
         return;
     }
 
