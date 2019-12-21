@@ -44,7 +44,7 @@ public class GenerateParametersGithubDoc {
             line.add(" " + val.getUnit() + " ");
 //            line.add(val) //range
             if (val.getRange() != null) {
-                line.add(" " + val.getRange().getMin() + " " + val.getRange().getMax() + " ");
+                line.add(" " + val.getRange().getMin() + " - " + val.getRange().getMax() + " ");
             }
             else if (val.getOptions() != null) {
                 String optionString = " ";
@@ -56,7 +56,7 @@ public class GenerateParametersGithubDoc {
             else {
                 line.add(" ");
             }
-            line.add(" " + val.isReadOnly()  + " ");
+            line.add(" " + (val.isReadOnly() ? "V" : "")  + " ");
             line.add(" " + val.getTitle() + " ");
             line.add(" " + val.getDescription());
             String[] res = line.toArray(new String[0]);
