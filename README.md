@@ -1,5 +1,4 @@
 ArduCopter Parameters
-
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
 ACRO_BAL_PITCH | 1 | 0.1 | unknown | 0 3 | false | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
