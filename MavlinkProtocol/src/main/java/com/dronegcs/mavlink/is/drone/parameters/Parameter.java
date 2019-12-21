@@ -1,9 +1,12 @@
 package com.dronegcs.mavlink.is.drone.parameters;
 
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_param_value;
+import com.dronegcs.mavlink.is.units.Range;
+import com.generic_tools.Pair.Pair;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.Map;
 
 public class Parameter implements Comparable<Parameter>, Serializable {
 
@@ -11,41 +14,72 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4968235225796045915L;
-	
-	public String name;
-	public double value;
-	public int type;
-	public String range;
-	public String description;
+
+	private final String name;
+	private final Map<Integer, String> options;
+	private final String title;
+	private final String group;
+	private Number value;
+	private final Number defaultValue;
+	private final int type;
+	private final Range range;
+	private final String description;
+	private final String unit;
+	private final boolean readOnly;
 
 	private final static DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
 	static {
 		format.applyPattern("0.###");
 	}
 
-	public Parameter(String name, double value, int type, String range, String description) {
+	public Parameter(String name, String group, Number value, Number defaultValue, String unit, int type, boolean readOnly, Range range, String title, String description) {
 		this.name = name;
 		this.value = value;
+		this.defaultValue = defaultValue;
+		this.unit = unit;
+		this.readOnly = readOnly;
 		this.type = type;
+		this.options = null;
 		this.range = range;
+		this.title = title;
 		this.description = description;
+		this.group = group;
 	}
 
-	public Parameter(msg_param_value m_value, String range, String description) {
-		this(m_value.getParam_Id(), m_value.param_value, m_value.param_type, range, description);
+	public Parameter(String name, String group, Number value, Number defaultValue, String unit, int type, boolean readOnly, Map<Integer,String> options, String title, String description) {
+		this.name = name;
+		this.value = value;
+		this.defaultValue = defaultValue;
+		this.unit = unit;
+		this.readOnly = readOnly;
+		this.type = type;
+		this.options = options;
+		this.range = null;
+		this.title = title;
+		this.description = description;
+		this.group = group;
 	}
 
-//	public Parameter(String name, Double value) {
-//		this(name, value, 0); // TODO Setting type to Zero may cause an error
+	public Parameter(String name, String group, Number value, Number defaultValue, String unit, int type, boolean readOnly, String title, String description) {
+		this.name = name;
+		this.value = value;
+		this.defaultValue = defaultValue;
+		this.unit = unit;
+		this.readOnly = readOnly;
+		this.type = type;
+		this.options = null;
+		this.range = null;
+		this.title = title;
+		this.description = description;
+		this.group = group;
+	}
+
+	public Number getValue() {
+		return value;
+	}
+//	public String getValue() {
+//		return format.format(value);
 //	}
-//
-//	public Parameter(String name) {
-//		this(name, 0, 0); // TODO Setting type to Zero may cause an error
-//	}
-
-	public String getValue() {
-		return format.format(value);
-	}
 
 	public static void checkParameterName(String name) throws Exception {
 		if (name.equals("SYSID_SW_MREV")) {
@@ -78,20 +112,40 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		return name;
 	}
 
-	public String getRange() {
+	public String getGroup() {
+		return group;
+	}
+
+	public Number getDefaultValue() {
+		return defaultValue;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public Map<Integer, String> getOptions() {
+		return options;
+	}
+
+	public Range getRange() {
 		return range;
 	}
 
-	public void setRange(String range) {
-		this.range = range;
+	public String getTitle() {
+		return title;
 	}
 
 	public String getDescription() {
 		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public static DecimalFormat getFormat() {
@@ -127,5 +181,9 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 				", range='" + range + '\'' +
 				", description='" + description + '\'' +
 				'}';
+	}
+
+	public void setValue(Number value) {
+		this.value = value;
 	}
 }

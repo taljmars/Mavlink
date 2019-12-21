@@ -15,12 +15,14 @@ public class MavLinkParameters {
 	}
 
 	public static void sendParameter(Drone drone, Parameter parameter) {
+		if (parameter.getType() == -1)
+			throw new RuntimeException("Type is missing for parameter " + parameter.getName());
 		msg_param_set msg = new msg_param_set();
 		msg.target_system = 1;
 		msg.target_component = 1;
-		msg.setParam_Id(parameter.name);
-		msg.param_type = (byte) parameter.type;
-		msg.param_value = (float) parameter.value;
+		msg.setParam_Id(parameter.getName());
+ 		msg.param_type = (byte) parameter.getType();
+		msg.param_value = (float) parameter.getValue();
 		drone.getMavClient().sendMavPacket(msg.pack());
 	}
 

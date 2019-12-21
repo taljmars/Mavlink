@@ -1,19 +1,20 @@
 package com.dronegcs.mavlink.is.drone.profiles;
 
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PARAM_I;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class VehicleProfile {
 
 	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(VehicleProfile.class);
 
-	private Map<String, ParameterDetail> parametersMetadata;
+	private Map<String, MAV_PARAM_I> parametersMetadata;
 	//	private String parameterMetadataType;
 	private Default default_ = new Default();
 
-	protected abstract String getParametersDetailsFilePath();
+	protected abstract MAV_PARAM_I[] getParametersMetadataList();
 
 //	public String getParameterMetadataType() {
 //		return parameterMetadataType;
@@ -32,17 +33,13 @@ public abstract class VehicleProfile {
 //	}
 
 	public void init() {
-		try {
-			ParameterDetailsParser parameterDetailsParser = new ParameterDetailsParser();
-			parametersMetadata = parameterDetailsParser.parse(getParametersDetailsFilePath());
-		}
-		catch (IOException e) {
-			LOGGER.error("Failed buildParser configuration file", e);
-			System.err.println("Failed buildParser configuration file '" + e.getMessage() + "'");
+		parametersMetadata = new HashMap<>();
+		for (MAV_PARAM_I val : getParametersMetadataList()) {
+			parametersMetadata.put(val.getName(), val);
 		}
 	}
 
-	public Map<String, ParameterDetail> getParametersMetadata() {
+	public Map<String, MAV_PARAM_I> getParametersMetadataMap() {
 		return parametersMetadata;
 	}
 

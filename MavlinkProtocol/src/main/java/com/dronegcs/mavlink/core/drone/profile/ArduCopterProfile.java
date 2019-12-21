@@ -1,6 +1,8 @@
 package com.dronegcs.mavlink.core.drone.profile;
 
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PARAM_COPTER;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PARAM_I;
 
 public class ArduCopterProfile extends VehicleProfile {
 	
@@ -10,7 +12,7 @@ public class ArduCopterProfile extends VehicleProfile {
 	}
 
 	@Override
-	public String getParametersDetailsFilePath() {
-		return "/com/dronegcs/mavlink/MavlinkParamsCopter.csv";
+	public MAV_PARAM_I[] getParametersMetadataList() {
+		return MAV_PARAM_COPTER.values();
 	}
 }

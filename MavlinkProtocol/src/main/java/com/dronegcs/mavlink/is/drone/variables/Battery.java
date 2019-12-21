@@ -32,7 +32,7 @@ public class Battery extends DroneVariable {
 		if (battCap == null || battRemain == -1) {
 			return null;			
 		}
-		return (1-battRemain/100.0)*battCap.value; 
+		return (1 - battRemain / 100.0) * battCap.getValue().doubleValue();
 	}
 	
 	public void setBatteryState(double battVolt, double battRemain, double battCurrent) {

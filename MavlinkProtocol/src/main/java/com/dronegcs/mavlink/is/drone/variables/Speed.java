@@ -59,7 +59,7 @@ public class Speed extends DroneVariable {
 		if (param == null ) {
 			return null;			
 		}else{
-			return new com.dronegcs.mavlink.is.units.Speed(param.value/100);
+			return new com.dronegcs.mavlink.is.units.Speed(param.getValue().doubleValue() / 100);
 		}
 			
 	}

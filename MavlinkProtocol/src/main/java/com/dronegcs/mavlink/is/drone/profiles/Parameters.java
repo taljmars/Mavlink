@@ -2,6 +2,9 @@ package com.dronegcs.mavlink.is.drone.profiles;
 
 import java.util.*;
 
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PARAM_COPTER;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PARAM_I;
+import com.generic_tools.Pair.Pair;
 import com.generic_tools.logger.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +50,6 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
-
-//	@Autowired @NotNull(message = "Internal Error: Failed to get parameter details parser")
-//	private ParameterDetailsParser parameterDetailsParser;
 	
 	public Runnable watchdogCallback = () -> onParameterStreamStopped();
 
@@ -104,14 +104,17 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	public List<Parameter> getParametersMetadata() {
 		List<Parameter> parameters = new ArrayList<>();
-		for (Map.Entry<String, ParameterDetail> parameterDetailEntry : drone.getVehicleProfile().getParametersMetadata().entrySet()) {
-			ParameterDetail parameterDetail = parameterDetailEntry.getValue();
+		for (Map.Entry<String, MAV_PARAM_I> val : drone.getVehicleProfile().getParametersMetadataMap().entrySet()) {
 			parameters.add(new Parameter(
-					parameterDetail.getName(),
+					val.getKey(),
+                    val.getValue().getGroup().getName(),
+					val.getValue().getDefaultValue(),
+					val.getValue().getDefaultValue(),
+					val.getValue().getUnit().toString(),
 					-1,
-					0,
-					parameterDetail.getRange(),
-					parameterDetail.getDescription()
+					val.getValue().isReadOnly(),
+					val.getValue().getTitle(),
+					val.getValue().getDescription()
 			));
 		}
 
@@ -120,24 +123,45 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
-		ParameterDetail parameterDetail = drone.getVehicleProfile().getParametersMetadata().get(m_value.getParam_Id());
+		MAV_PARAM_I parameterDetail = drone.getVehicleProfile().getParametersMetadataMap().get(m_value.getParam_Id());
 		Parameter param = null;
 		if (parameterDetail != null) {
-			param = new Parameter(m_value, parameterDetail.getRange(), parameterDetail.getDescription());
+			param = new Parameter(
+					m_value.getParam_Id(),
+                    parameterDetail.getGroup().getName(),
+					m_value.param_value,
+					parameterDetail.getDefaultValue(),
+					parameterDetail.getUnit().toString(),
+					m_value.param_type,
+					parameterDetail.isReadOnly(),
+					parameterDetail.getRange(),
+					parameterDetail.getTitle(),
+					parameterDetail.getDescription());
 			LOGGER.debug("Received parameter update {}", param);
 		}
 		else {
-			param = new Parameter(m_value, "Unknown range", "unknown desc");
+			param = new Parameter(
+					m_value.getParam_Id(),
+                    parameterDetail.getGroup().getName(),
+                    m_value.param_value,
+					0,
+					"unknown",
+					m_value.param_type,
+					false,
+					"unknown",
+					"unknown"
+					);
 			LOGGER.debug("Received un-known parameter update {}", param);
 		}
 
 		if (m_value.param_index == UNINDEX_PARAM) { // Unique value that represent an updated parameter
-			Parameter currentParam = getParameter(param.name);
+			Parameter currentParam = getParameter(param.getName());
 			if (currentParam == null) {
 				LOGGER.error("Unfamiliar Parameter {}", param);
 				return;
 			}
-			currentParam.value = param.value;
+
+			currentParam.setValue(param.getValue());
 		}
 		else {
 			parameters.put((int) m_value.param_index, param);
@@ -188,7 +212,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	public Parameter getParameter(String name) {
 		for (int key : parameters.keySet()) {
-			if (parameters.get(key).name.equalsIgnoreCase(name))
+			if (parameters.get(key).getName().equalsIgnoreCase(name))
 				return parameters.get(key);
 		}
 		return null;
