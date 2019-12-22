@@ -2,9 +2,9 @@
 
 Name | Possible Value | Increment | Unit | Range | Read Only | Title | Description
 --- | --- | --- | --- | --- | ---| --- | ---
-ACRO_BAL_PITCH | 1 | 0.1 | unknown | 0 - 3 |  | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
-ACRO_BAL_ROLL | 1 | 0.1 | unknown | 0 - 3 |  | Acro Balance Roll | rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
-ACRO_EXPO | 0.3 | 1 | unknown | |  |  | Coming soon
+ACRO_BAL_PITCH | 1 | 0.1 |  | 0 - 3 |  | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
+ACRO_BAL_ROLL | 1 | 0.1 |  | 0 - 3 |  | Acro Balance Roll | rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
+ACRO_EXPO | 0.3 | 0.1 | list | 0:Disabled<br/>0.3:Medium<br/>0.5:Very High<br/>0.1:Very Low<br/>0.2:Low<br/>0.4:High<br/> |  | Acro Expo | Acro roll/pitch Expo to allow faster rotation when stick at edges
 ACRO_RP_P | 4.5 | 1 |  | |  |  | Converts pilot roll and pitch into a desired rate of rotation in ACRO and SPORT mode. Higher values mean faster rate of rotation.
 ACRO_TRAINER | 2 | 1 | list | 0:Disabled<br/>1:Leveling<br/>2:LevelingAndLimited<br/> |  | Acro Trainer | 
 ACRO_YAW_P | 4.5 | 1 |  | |  |  | Converts pilot yaw input into a desired rate of rotation in ACRO, Stabilize and SPORT modes. Higher values mean faster rate of rotation.
@@ -13,12 +13,12 @@ AHRS_GPS_GAIN | 1 | 0.01 |  | 0.0 - 1.0 |  | AHRS GPS gain | This controls how h
 AHRS_GPS_MINSATS | 6 | 1 |  | 0 - 10 |  | AHRS GPS Minimum satellites | Minimum number of satellites visible to use GPS for velocity based corrections attitude correction. This defaults to 6, which is about the point at which the velocity numbers from a GPS become too unreliable for accurate correction of the accelerometers.
 AHRS_GPS_USE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | AHRS use GPS for navigation | This controls whether to use dead-reckoning or GPS based navigation. If set to 0 then the GPS won’t be used for navigation, and only dead reckoning will be used. A value of zero should never be used for normal flight. Currently this affects only the DCM-based AHRS: the EKF uses GPS whenever it is available.
 AHRS_ORIENTATION | 0 | 1 | list | 0:None<br/>1:Yaw45<br/>2:Yaw90<br/>3:Yaw135<br/>4:Yaw180<br/>5:Yaw225<br/>6:Yaw270<br/>7:Yaw315<br/>8:Roll180<br/>9:Roll180Yaw45<br/>10:Roll180Yaw90<br/>11:Roll180Yaw135<br/>12:Pitch180<br/>13:Roll180Yaw225<br/>14:Roll180Yaw270<br/>15:Roll180Yaw315<br/>16:Roll90<br/>17:Roll90Yaw45<br/>18:Roll90Yaw90<br/>19:Roll90Yaw135<br/>20:Roll270<br/>21:Roll270Yaw45<br/>22:Roll270Yaw90<br/>23:Roll270Yaw136<br/>24:Pitch90<br/>25:Pitch270<br/>26:Pitch180Yaw90<br/>27:Pitch180Yaw270<br/>28:Roll90Pitch90<br/>29:Roll180Pitch90<br/>30:Roll270Pitch90<br/>31:Roll90Pitch180<br/>32:Roll270Pitch180<br/>33:Roll90Pitch270<br/>34:Roll180Pitch270<br/>35:Roll270Pitch270<br/>36:Roll90Pitch180Yaw90<br/>37:Roll90Yaw270<br/> |  | Board Orientation | Overall board orientation relative to the standard orientation for the board type. This rotates the IMU and compass readings to allow the board to be oriented in your vehicle at any 90 or 45 degree angle. This option takes affect on next boot. After changing you will need to re-level your vehicle.
-AHRS_RP_P | 0.1 | 0.01 | unknown | 0.1 - 0.4 |  | AHRS RP_P | This controls how fast the accelerometers correct the attitude
+AHRS_RP_P | 0.1 | 0.01 |  | 0.1 - 0.4 |  | AHRS RP_P | This controls how fast the accelerometers correct the attitude
 AHRS_TRIM_X | 4.882812E-4 | 0.01 | radian | -0.1745 - 0.1745 |  | AHRS Trim Roll | Compensates for the roll angle difference between the control board and the frame. Positive values make the vehicle roll right.
 AHRS_TRIM_Y | 0.02518386 | 0.01 | radian | -0.1745 - 0.1745 |  | AHRS Trim Pitch | Compensates for the pitch angle difference between the control board and the frame. Positive values make the vehicle pitch up/back.
 AHRS_TRIM_Z | 0 | 0.01 | radian | -0.1745 - 0.1745 |  | AHRS Trim Yaw | Not Used
 AHRS_WIND_MAX | 0 | 1 | m/s | 0 - 127 |  | Maximum wind | This sets the maximum allowable difference between ground speed and airspeed. This allows the plane to cope with a failing airspeed sensor. A value of zero means to use the airspeed as is.
-AHRS_YAW_P | 0.1 | 1 | unknown | 0.1 - 0.4 |  |  | This controls the weight the compass or GPS has on the heading. A higher value means the heading will track the yaw source (MAV_PARAM_GROUP.ARDUCOPTER,GPS or compass) more rapidly.
+AHRS_YAW_P | 0.1 | 1 |  | 0.1 - 0.4 |  |  | This controls the weight the compass or GPS has on the heading. A higher value means the heading will track the yaw source (MAV_PARAM_GROUP.ARDUCOPTER,GPS or compass) more rapidly.
 ANGLE_MAX | 4500 | 1 | centidegree | 1000 - 8000 |  | Angle Max | Maximum lean angle in all flight modes
 ARMING_CHECK | 94 | 1 | list | 0:Disabled<br/>-17:SkipINS<br/>-33:SkipParams/Rangefinder<br/>-65:SkipRC<br/>1:Enabled<br/>-3:SkipBaro<br/>-5:SkipCompass<br/>-9:SkipGPS<br/>127:SkipVoltage<br/> |  |  | Allows enabling or disabling of pre-arming checks of receiver, accelerometer, barometer, compass and GPS
 ATC_ACCEL_RP_MAX | 0 | 1000 | list | 0:Disabled<br/>18000:Slow<br/>36000:Medium<br/>54000:Fast<br/>9000:VerySlow<br/> |  | Acceleration Max for Roll/Pitch | Maximum acceleration in roll/pitch axis
@@ -27,19 +27,19 @@ ATC_RATE_FF_ENAB | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | Controls
 ATC_RATE_RP_MAX | 18000 | 1 | list | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Pitch/Roll | Maximum angular velocity in pitch/roll axis
 ATC_RATE_Y_MAX | 9000 | 1 | list | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Yaw | Maximum angular velocity in yaw axis
 ATC_SLEW_YAW | 1000 | 1 | centidegrees/s | 500 - 18000 |  | Yaw target slew rate | Maximum rate the yaw target can be updated in Loiter, RTL, Auto flight modes
-BAROGLTCH_ACCEL | 1500 | 1 | unknown | |  |  | Coming soon
-BAROGLTCH_DIST | 500 | 1 | unknown | |  |  | Coming soon
-BAROGLTCH_ENABLE | 1 | 1 | unknown | |  |  | Coming soon
+BAROGLTCH_ACCEL | 1500 | 100 | cm/s/s | 100 - 2000 |  | Baro glitch protection’s max vehicle acceleration assumption | Baro glitch protection’s max vehicle acceleration assumption
+BAROGLTCH_DIST | 500 | 100 | cm | 100 - 2000 |  | Baro glitch protection distance within which alt update is immediately accepted | Baro glitch protection distance within which alt update is immediately accepted
+BAROGLTCH_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | Baro Glitch protection enable/disable | Allows you to enable (1) or disable (0) baro glitch protection
 BATT_AMP_OFFSET | 0 | 1 | volt | |  | AMP offset | Voltage offset at zero current on current sensor
 BATT_AMP_PERVOLT | 17 | 1 | amper/volt | |  | Amps per volt | Number of amps that a 1V reading on the current sensor corresponds to. On the APM2 or Pixhawk using the 3DR Power brick this should be set to 17. For the Pixhawk with the 3DR 4in1 ESC this should be 17.
 BATT_AMP_PERVLT | 17 | 1 | amper/volt | |  | Amps per volt | Number of amps that a 1V reading on the current sensor corresponds to. On the APM2 or Pixhawk using the 3DR Power brick this should be set to 17. For the Pixhawk with the 3DR 4in1 ESC this should be 17.
 BATT_CAPACITY | 4000 | 1 | mAh | |  | Battery capacity | Capacity of the battery in mAh when full
 BATT_CURR_PIN | 3 | 1 | list | -1:Disabled<br/>1:A1<br/>2:A2<br/>3:Pixhawk<br/>101:PX4<br/>12:A12<br/> |  |  | Setting this to 0 ~ 13 will enable battery current sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 12. On the PX4 it should be set to 101. On the Pixhawk powered from the PM connector it should be set to 3.
 BATT_MONITOR | 4 | 1 | list | 0:Disabled<br/>3:Analog_Voltage_Only<br/>4:Analog_Voltage_and_Current<br/>5:SMBus<br/>6:Bebop<br/> |  | Battery monitoring | Controls enabling monitoring of the battery's voltage and current
-BATT_VOLT_MULT | 10.1 | 1 | unknown | |  | Voltage Multiplier | Used to convert the voltage of the voltage sensing pin (BATT_VOLT_PIN) to the actual battery's voltage (MAV_PARAM_GROUP.ARDUCOPTER,pin_voltage * VOLT_MULT). For the 3DR Power brick on APM2 or Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX4 using the PX4IO power supply this should be set to 1.
+BATT_VOLT_MULT | 10.1 | 1 |  | |  | Voltage Multiplier | Used to convert the voltage of the voltage sensing pin (BATT_VOLT_PIN) to the actual battery's voltage (MAV_PARAM_GROUP.ARDUCOPTER,pin_voltage * VOLT_MULT). For the 3DR Power brick on APM2 or Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX4 using the PX4IO power supply this should be set to 1.
 BATT_VOLT_PIN | 2 | 1 | list | -1:Disabled<br/>0:A0<br/>1:A1<br/>2:Pixhawk<br/>100:PX4<br/>13:A13<br/> |  | Battery Voltage sensing pin | Setting this to 0 ~ 13 will enable battery voltage sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 13. On the PX4 it should be set to 100. On the Pixhawk powered from the PM connector it should be set to 2.
-BATT_VOLT2_MULT | 1 | 1 | unknown | |  | Voltage Multiplier | Used to convert the voltage of the voltage sensing pin (BATT_VOLT_PIN) to the actual battery’s voltage (pin_voltage * VOLT_MULT). For the 3DR Power brick with a Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX using the PX4IO power supply this should be set to 1
-BATT_VOLT2_PIN | -1 | 1 | unknown | |  | Battery Voltage sensing pin | Sets the analog input pin that should be used for voltage monitoring.
+BATT_VOLT2_MULT | 1 | 1 |  | |  | Voltage Multiplier | Used to convert the voltage of the voltage sensing pin (BATT_VOLT_PIN) to the actual battery’s voltage (pin_voltage * VOLT_MULT). For the 3DR Power brick with a Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX using the PX4IO power supply this should be set to 1
+BATT_VOLT2_PIN | -1 | 1 | list | -1:Disabled<br/>0:A0<br/>1:A1<br/>2:Pixhawk<br/>100:PX4<br/>13:A13<br/> |  | Battery Voltage sensing pin | Sets the analog input pin that should be used for voltage monitoring.
 CAM_DURATION | 10 | 1 | decisecond | 0 - 50 |  | Duration that shutter is held open | How long the shutter will be held open in 10ths of a second (i.e. enter 10 for 1second, 50 for 5seconds)
 CAM_SERVO_OFF | 1100 | 1 | PWM/ms | 1000 - 2000 |  | Servo OFF PWM value | PWM value to move servo to when shutter is deactivated
 CAM_SERVO_ON | 1300 | 1 | PWM/ms | 1000 - 2000 |  | Servo ON PWM value | PWM value to move servo to when shutter is activated
@@ -62,9 +62,9 @@ COMPASS_OFS_Y | 29 | 1 | milligauss | -400 - 400 |  | Compass offsets in milliga
 COMPASS_OFS_Z | -18 | 1 | milligauss | -400 - 400 |  | Compass offsets in milligauss on the X axis | Offset to be added to the compass z-axis values to compensate for metal in the frame
 COMPASS_ORIENT | 0 | 1 | list | 0:None<br/>1:Yaw45<br/>2:Yaw90<br/>3:Yaw135<br/>4:Yaw180<br/>5:Yaw225<br/>6:Yaw270<br/>7:Yaw315<br/>8:Roll180<br/>9:Roll180Yaw45<br/>10:Roll180Yaw90<br/>11:Roll180Yaw135<br/>12:Pitch180<br/>13:Roll180Yaw225<br/>14:Roll180Yaw270<br/>15:Roll180Yaw315<br/>16:Roll90<br/>17:Roll90Yaw45<br/>18:Roll90Yaw90<br/>19:Roll90Yaw135<br/>20:Roll270<br/>21:Roll270Yaw45<br/>22:Roll270Yaw90<br/>23:Roll270Yaw136<br/>24:Pitch90<br/>25:Pitch270<br/>26:Pitch180Yaw90<br/>27:Pitch180Yaw270<br/>28:Roll90Pitch90<br/>29:Roll180Pitch90<br/>30:Roll270Pitch90<br/>31:Roll90Pitch180<br/>32:Roll270Pitch180<br/>33:Roll90Pitch270<br/>34:Roll180Pitch270<br/>35:Roll270Pitch270<br/>36:Roll90Pitch180Yaw90<br/>37:Roll90Yaw270<br/>38:Yaw293Pitch68Roll90<br/> |  |  | The orientation of the compass relative to the autopilot board. This will default to the right value for each board type, but can be changed if you have an external compass. See the documentation for your external compass for the right value. The correct orientation should give the X axis forward, the Y axis to the right and the Z axis down. So if your aircraft is pointing west it should show a positive value for the Y axis, and a value close to zero for the X axis. On a PX4 or Pixhawk with an external compass the correct value is zero if the compass is correctly oriented. NOTE: This orientation is combined with any AHRS_ORIENTATION setting.
 COMPASS_USE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | Use compass for yaw | Enable or disable the use of the compass (MAV_PARAM_GROUP.ARDUCOPTER,instead of the GPS) for determining heading
-DCM_CHECK_THRESH | 0.8 | 1 | unknown | |  |  | Coming soon
-EKF_CHECK_THRESH | 0.8 | 1 | unknown | |  |  | Coming soon
-ESC | 0 | 1 | unknown | |  |  | Coming soon
+DCM_CHECK_THRESH | 0.8 | 1 | list | 0:Disabled<br/>0.8:Default<br/>0.98:Relaxed<br/> |  | DCM yaw error threshold | Allows setting the maximum acceptable yaw error as a sin of the yaw error (0 to disable check)
+EKF_CHECK_THRESH | 0.8 | 1 | list | 0:Disabled<br/>1.0:Relaxed<br/>0.8:Default<br/> |  | EKF check compass and velocity variance threshold | Allows setting the maximum acceptable compass and velocity variance (0 to disable check)
+ESC | 0 | 1 | list | 0:Normal Start-up<br/>1:Start-up in ESC Calibration mode if throttle high<br/>2:Start-up in ESC Calibration mode regardless of throttle<br/> |  | ESC Calibration | Controls whether ArduCopter will enter ESC calibration on the next restart. Do not adjust this parameter manually
 FENCE_ACTION | 1 | 1 | list | 0:ReportOnly<br/>1:RTL-or-Land<br/> |  |  | What action should be taken when fence is breached
 FENCE_ALT_MAX | 100 | 1 | meter | 10 - 1000 |  | Fence Maximum Altitude | Maximum altitude allowed before geofence triggers
 FENCE_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | Allows you to enable (1) or disable (0) the fence functionality
@@ -83,21 +83,21 @@ FS_BATT_ENABLE | 0 | 1 | list | 0:Disabled<br/>1:Land<br/>2:RTL<br/> |  |  | Con
 FS_BATT_MAH | 0 | 1 | mAh | |  |  | Battery capacity remaining to trigger failsafe. Set to 0 to disable battery remaining failsafe. If the battery remaining drops below this level then the copter will RTL
 FS_BATT_VOLTAGE | 14 | 1 | volt | |  |  | Battery voltage to trigger failsafe. Set to 0 to disable battery voltage failsafe. If the battery voltage drops below this voltage then the copter will RTL
 FS_GCS_ENABLE | 0 | 1 | list | 0:Disabled<br/>1:Enabled_always_RTL<br/>2:Enabled_Continue_with_Mission_in_Auto_Mode<br/> |  |  | Controls whether failsafe will be invoked (MAV_PARAM_GROUP.ARDUCOPTER,and what action to take) when connection with Ground station is lost for at least 5 seconds. NB. The GCS Failsafe is only active when RC_OVERRIDE is being used to control the vehicle.
-FS_GPS_ENABLE | 1 | 1 | unknown | |  |  | Coming soon
+FS_GPS_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Land<br/>2:AltHold<br/>3:Land even from Stabilize<br/> |  | GPS Failsafe Enable | Controls what action will be taken if GPS signal is lost for at least 5 seconds
 FS_THR_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled_Always_RTL<br/>2:Enabled_Continue_with_Mission_in_Auto_Mode<br/>3:Enabled_Always_LAND<br/> |  |  | The throttle failsafe allows you to configure a software failsafe activated by a setting on the throttle input channel
 FS_THR_VALUE | 975 | 1 | PWM | 925 - 1100 |  |  | The PWM level on channel 3 below which throttle failsafe triggers
 GND_ABS_PRESS | 50362.25 | 1 | pascal | | V |  | calibrated ground pressure in PASCAL
 GND_ALT_OFFSET | 0 | 1 | meter | |  |  | altitude offset in meters added to barometric altitude. This is used to allow for automatic adjustment of the base barometric altitude by a ground station equipped with a barometer. The value is added to the barometric altitude read by the aircraft. It is automatically reset to 0 when the barometer is calibrated on each reboot or when a preflight calibration is performed.
 GND_TEMP | 29.32966 | 1 | degrees-celsius | |  |  | calibrated ground temperature in degrees Celsius
-GPS_HDOP_GOOD | 230 | 1 | unknown | 100 - 900 |  |  | GPS Hdop value at or below this value represent a good position. Used for pre-arm checks
+GPS_HDOP_GOOD | 230 | 1 |  | 100 - 900 |  | GPS Hdop Good | GPS Hdop value at or below this value represent a good position. Used for pre-arm checks
 GPS_NAVFILTER | 8 | 1 | list | 0:Portable<br/>2:Stationary<br/>3:Pedestrian<br/>4:Automotive<br/>5:Sea<br/>6:Airborne1G<br/>7:Airborne2G<br/>8:Airborne4G<br/> |  |  | Navigation filter engine setting
 GPS_TYPE | 1 | 1 | list | 0:None<br/>1:AUTO<br/>2:uBlox<br/>3:MTK<br/>4:MTK19<br/>5:NMEA<br/>6:SiRF<br/>7:HIL<br/>8:SwiftNav<br/>9:PX4-UAVCAN<br/>10:SBF<br/>11:GSOF<br/>12:QURT<br/>13:ERB<br/>14:MAV<br/>15:NOVA<br/> |  |  | GPS type
-GPSGLITCH_ACCEL | 1000 | 1 | unknown | |  |  | Coming soon
-GPSGLITCH_ENABLE | 1 | 1 | unknown | |  |  | Coming soon
-GPSGLITCH_RADIUS | 200 | 1 | unknown | |  |  | Coming soon
-HLD_LAT_P | 1 | 1 | unknown | |  |  | Coming soon
-INAV_TC_XY | 2.5 | 1 | unknown | |  |  | Coming soon
-INAV_TC_Z | 5 | 1 | unknown | |  |  | Coming soon
+GPSGLITCH_ACCEL | 1000 | 100 | centidegrees/s/s | 100 - 2000 |  | GPS glitch protection - accel | GPS glitch protection’s max vehicle acceleration assumption
+GPSGLITCH_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | GPS Glitch protection enable/disable | Allows you to enable (1) or disable (0) gps glitch protection
+GPSGLITCH_RADIUS | 200 | 100 | cm | 100 - 2000 |  | GPS glitch protection - radius | GPS glitch protection radius within which all new positions are accepted
+HLD_LAT_P | 1 | 0.001 |  | 0.5 - 2.0 |  | Loiter position controller P gain | Loiter position controller P gain. Converts the distance (in the latitude direction) to the target location into a desired speed which is then passed to the loiter latitude rate controller
+INAV_TC_XY | 2.5 | 0.1 |  | 0 - 10 |  | Horizontal Time Constant | Time constant for GPS and accel mixing. Higher TC decreases GPS impact on position estimate
+INAV_TC_Z | 5 | 0.1 |  | 0 - 10 |  | Vertical Time Constant | Time constant for baro and accel mixing. Higher TC decreases barometers impact on altitude estimate
 INS_ACCOFFS_X | 0.02704384 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of X axis | This is setup using the acceleration calibration or level operations
 INS_ACCOFFS_Y | 0.07232188 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of Y axis | This is setup using the acceleration calibration or level operations
 INS_ACCOFFS_Z | -0.2916607 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of Z axis | This is setup using the acceleration calibration or level operations
@@ -107,19 +107,19 @@ INS_ACCSCAL_Z | 1.0001 | 1 | unknown | 0.8 - 1.2 |  | Accelerometer scaling of Z
 INS_GYROFFS_X | -0.003293759 | 1 | rad/s | |  | Gyro sensor offsets of X axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Y | -0.07851811 | 1 | rad/s | |  | Gyro sensor offsets of Y axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Z | 0.02421099 | 1 | rad/s | |  | Gyro sensor offsets of Z axis | This is setup on each boot during gyro calibrations
-INS_MPU6K_FILTER | 0 | 1 | unknown | |  |  | Coming soon
-INS_PRODUCT_ID | 0 | 1 | list | 0:Unknown<br/>256:unused<br/>1:unused<br/>257:Linux<br/>2:unused<br/>3:SITL<br/>4:PX4v1<br/>5:PX4v2<br/>88:unused<br/> |  |  | Which type of IMU is installed (MAV_PARAM_GROUP.ARDUCOPTER,read-only).
+INS_MPU6K_FILTER | 0 | 1 | list | 0:Default<br/>98:98Hz<br/>20:20Hz<br/>5:5Hz<br/>10:10Hz<br/>42:42Hz<br/> |  | MPU6000 filter frequency | Filter frequency to ask the MPU6000 to apply to samples. This can be set to a lower value to try to cope with very high vibration levels in aircraft. The default value on ArduPlane, APMrover2 and ArduCopter is 20Hz. This option takes effect on the next reboot or gyro initialisation
+INS_PRODUCT_ID | 0 | 1 | list | 0:Unknown<br/>256:unused<br/>1:unused<br/>257:Linux<br/>2:unused<br/>3:SITL<br/>4:PX4v1<br/>5:PX4v2<br/>88:unused<br/> |  |  | Which type of IMU is installed (read-only).
 LAND_REPOSITION | 1 | 1 | list | 0:NoRepositioning<br/>1:Repositioning<br/> |  |  | Enables user input during LAND mode, the landing phase of RTL, and auto mode landings.
 LAND_SPEED | 50 | 1 | cm/s | 30 - 200 |  |  | The descent speed for the final stage of landing in CENTIMETER/s
 LOG_BITMASK | 26622 | 1 | list | 0:Disabled<br/>-6146:NearlyAll-AC315<br/>655358:All+FullIMU<br/>397310:All+FastIMU+PID<br/>393214:All+FastIMU<br/>262142:All+MotBatt<br/>830:Default<br/>894:Default+RCIN<br/>958:Default+IMU<br/>1854:Default+Motors<br/>45054:NearlyAll<br/>131071:All+FastATT<br/> |  |  | 4 byte bitmap of log types to enable, Bitmask: 0:ATTITUDE_FAST,1:ATTITUDE_MED,2:GPS,3:PM,4:CTUN,5:NTUN,6:RCIN,7:IMU,8:CMD,9:CURRENT,10:RCOUT,11:OPTFLOW,12:PID,13:COMPASS,14:INAV,15:CAMERA,17:MOTBATT,18:IMU_FAST,19:IMU_RAW
-LOITER_LAT_D | 0 | 1 | unknown | |  |  | Coming soon
-LOITER_LAT_I | 0.5 | 1 | unknown | |  |  | Coming soon
-LOITER_LAT_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
-LOITER_LAT_P | 1 | 1 | unknown | |  |  | Coming soon
-LOITER_LON_D | 0 | 1 | unknown | |  |  | Coming soon
-LOITER_LON_I | 0.5 | 1 | unknown | |  |  | Coming soon
-LOITER_LON_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
-LOITER_LON_P | 1 | 1 | unknown | |  |  | Coming soon
+LOITER_LAT_D | 0 | 0.01 |  | 0 - 0.6 |  | Loiter latitude rate controller D gain | Loiter latitude rate controller D gain. Compensates for short-term change in desired speed vs actual speed
+LOITER_LAT_I | 0.5 | 0.01 |  | 0.02 - 1.0 |  | Loiter latitude rate controller I gain | Loiter latitude rate controller I gain. Corrects long-term difference in desired speed and actual speed in the latitude direction
+LOITER_LAT_IMAX | 1000 | 10 | centidegree | 0 - 4500 |  | Loiter rate controller I gain maximum | Loiter rate controller I gain maximum. Constrains the lean angle that the I gain will output
+LOITER_LAT_P | 1 | 0.1 |  | 0.1 - 6 |  | Loiter latitude rate controller P gain  | Loiter latitude rate controller P gain. Converts the difference between desired speed and actual speed into a lean angle in the latitude direction
+LOITER_LON_D | 0 | 0.01 |  | 0 - 0.6 |  | Loiter longitude rate controller D gain | Loiter longitude rate controller D gain. Compensates for short-term change in desired speed vs actual speed
+LOITER_LON_I | 0.5 | 0.01 |  | 0.02 - 1.0 |  | Loiter longitude rate controller I gain | Loiter longitude rate controller I gain. Corrects long-term difference in desired speed and actual speed in the longitude direction
+LOITER_LON_IMAX | 1000 | 10 | centidegree | 0 - 4500 |  |  | Loiter longitude rate controller I gain maximum. Constrains the lean angle that the I gain will output
+LOITER_LON_P | 1 | 0.1 |  | 0.1 - 6 |  | Loiter longitude rate controller P gain  | Loiter longitude rate controller P gain. Converts the difference between desired speed and actual speed into a lean angle in the longitude direction
 MAG_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | Setting this to Enabled(1) will enable the compass. Setting this to Disabled(0) will disable the compass
 MIS_RESTART | 0 | 1 | list | 0:ResumeMission<br/>1:RestartMission<br/> |  | Mission Restart when entering Auto mode | Controls mission starting point when entering Auto mode (either restart from beginning of mission or resume from last command run)
 MIS_TOTAL | 6 | 1 |  | 0 - 32766 | V | Total mission commands | The number of mission mission items that has been loaded by the ground station. Do not change this manually.
@@ -240,7 +240,7 @@ RCMAP_YAW | 4 | 1 |  | |  |  | Yaw channel number. This is useful when you have 
 RELAY_PIN | 13 | 1 | list | -1:Disabled<br/>13:APM2 A9 pin<br/>47:APM1 relay<br/>111:PX4 FMU Relay1<br/>112:PX4 FMU Relay2<br/>113:PX4IO Relay1<br/>50:Pixhawk AUXOUT1<br/>114:PX4IO Relay2<br/>51:Pixhawk AUXOUT2<br/>115:PX4IO ACC1<br/>52:Pixhawk AUXOUT3<br/>116:PX4IO ACC2<br/>53:Pixhawk AUXOUT4<br/>54:Pixhawk AUXOUT5<br/>55:Pixhawk AUXOUT6<br/> |  |  | Digital pin number for first relay control. This is the pin used for camera control.
 RELAY_PIN2 | -1 | 1 | list | -1:Disabled<br/>13:APM2 A9 pin<br/>47:APM1 relay<br/>111:PX4 FMU Relay1<br/>112:PX4 FMU Relay2<br/>113:PX4IO Relay1<br/>50:Pixhawk AUXOUT1<br/>114:PX4IO Relay2<br/>51:Pixhawk AUXOUT2<br/>115:PX4IO ACC1<br/>52:Pixhawk AUXOUT3<br/>116:PX4IO ACC2<br/>53:Pixhawk AUXOUT4<br/>54:Pixhawk AUXOUT5<br/>55:Pixhawk AUXOUT6<br/> |  |  | Digital pin number for 2nd relay control.
 RNGFND_FUNCTION | 0 | 1 | list | 0:Linear<br/>1:Inverted<br/>2:Hyperbolic<br/> |  |  | Control over what function is used to calculate distance. For a linear function, the distance is (MAV_PARAM_GROUP.ARDUCOPTER,voltage-offset)*scaling. For a inverted function the distance is (MAV_PARAM_GROUP.ARDUCOPTER,offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(MAV_PARAM_GROUP.ARDUCOPTER,voltage-offset). The functions return the distance in meters.
-RNGFND_GAIN | 0.8 | 1 | unknown | 0.01 - 2.0 |  |  | Used to adjust the speed with which the target altitude is changed when objects are sensed below the copter
+RNGFND_GAIN | 0.8 | 0.01 |  | 0.01 - 2.0 |  |  | Used to adjust the speed with which the target altitude is changed when objects are sensed below the copter
 RNGFND_MAX_CM | 700 | 1 | cm | |  |  | Maximum distance in centimeters that rangefinder can reliably read
 RNGFND_MIN_CM | 20 | 1 | cm | |  |  | Minimum distance in centimeters that rangefinder can reliably read
 RNGFND_OFFSET | 0 | 1 | volt | |  |  | Offset in volts for zero distance for analog rangefinders. Offset added to distance in centimeters for PWM and I2C Lidars
@@ -258,39 +258,39 @@ RTL_LOIT_TIME | 5000 | 1 | m/s | 0 - 60000 |  |  | Time (in milliseconds) to loi
 SCHED_DEBUG | 0 | 1 | list | 0:Disabled<br/>2:ShowSlips<br/>3:ShowOverruns<br/> |  | Scheduler debug level |" Set to non-zero to enable scheduler debug messages. When set to show ""Slips"" the scheduler will display a message whenever a scheduled task is delayed due to too much CPU load. When set to ShowOverruns the scheduled will display a message whenever a task takes longer than the limit promised in the task table."
 SERIAL0_BAUD | 115 | 1 | list | 1:1200<br/>2:2400<br/>19:19200<br/>115:115200<br/>4:4800<br/>500:500000<br/>38:38400<br/>9:9600<br/>57:57600<br/>921:921600<br/>1500:1500000<br/>111:111100<br/> |  |  | The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.
 SERIAL1_BAUD | 57 | 1 | list | 1:1200<br/>2:2400<br/>19:19200<br/>115:115200<br/>4:4800<br/>500:500000<br/>38:38400<br/>9:9600<br/>57:57600<br/>921:921600<br/>1500:1500000<br/>111:111100<br/> |  |  | The baud rate used on the Telem1 port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.
-SIMPLE | 18 | 1 | unknown | |  |  | Bitmask which holds which flight modes use simple heading mode (eg bit 0 = 1 means Flight Mode 0 uses simple mode)
-SR0_EXT_STAT | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station
-SR0_EXTRA1 | 4 | 1 | Hz | 0 - 10 |  |  | Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station
-SR0_EXTRA2 | 4 | 1 | Hz | 0 - 10 |  |  | Stream rate of VFR_HUD to ground station
-SR0_EXTRA3 | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station
-SR0_PARAMS | 10 | 1 | Hz | 0 - 10 |  |  | Stream rate of PARAM_VALUE to ground station
-SR0_POSITION | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of GLOBAL_POSITION_INT to ground station
-SR0_RAW_CTRL | 1 | 1 | Hz | 0 - 10 |  |  | Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station
-SR0_RAW_SENS | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station
-SR0_RC_CHAN | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS to ground station
-SR1_EXT_STAT | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station
-SR1_EXTRA1 | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station
-SR1_EXTRA2 | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of VFR_HUD to ground station
-SR1_EXTRA3 | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station
-SR1_PARAMS | 0 | 1 | Hz | 0 - 10 |  |  | Stream rate of PARAM_VALUE to ground station
-SR1_POSITION | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of GLOBAL_POSITION_INT to ground station
-SR1_RAW_CTRL | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station
-SR1_RAW_SENS | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station
-SR1_RC_CHAN | 2 | 1 | Hz | 0 - 10 |  |  | Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS to ground station
-STB_PIT_P | 0.016 | 1 | unknown | |  |  | Coming soon
-STB_RLL_P | 0.016 | 1 | unknown | |  |  | Coming soon
-STB_YAW_P | 4 | 1 | unknown | |  |  | Coming soon
-SUPER_SIMPLE | 5 | 1 | list | 0:Disabled<br/>1:Mode1<br/>2:Mode2<br/>3:Mode1+2<br/>4:Mode3<br/>5:Mode1+3<br/>6:Mode2+3<br/>7:Mode1+2+3<br/>8:Mode4<br/>9:Mode1+4<br/>10:Mode2+4<br/>11:Mode1+2+4<br/>12:Mode3+4<br/>13:Mode1+3+4<br/>14:Mode2+3+4<br/>15:Mode1+2+3+4<br/>16:Mode5<br/>17:Mode1+5<br/>18:Mode2+5<br/>19:Mode1+2+5<br/>20:Mode3+5<br/>21:Mode1+3+5<br/>22:Mode2+3+5<br/>23:Mode1+2+3+5<br/>24:Mode4+5<br/>25:Mode1+4+5<br/>26:Mode2+4+5<br/>27:Mode1+2+4+5<br/>28:Mode3+4+5<br/>29:Mode1+3+4+5<br/>30:Mode2+3+4+5<br/>31:Mode1+2+3+4+5<br/>32:Mode6<br/>33:Mode1+6<br/>34:Mode2+6<br/>35:Mode1+2+6<br/>36:Mode3+6<br/>37:Mode1+3+6<br/>38:Mode2+3+6<br/>39:Mode1+2+3+6<br/>40:Mode4+6<br/>41:Mode1+4+6<br/>42:Mode2+4+6<br/>43:Mode1+2+4+6<br/>44:Mode3+4+6<br/>45:Mode1+3+4+6<br/>46:Mode2+3+4+6<br/>47:Mode1+2+3+4+6<br/>48:Mode5+6<br/>49:Mode1+5+6<br/>50:Mode2+5+6<br/>51:Mode1+2+5+6<br/>52:Mode3+5+6<br/>53:Mode1+3+5+6<br/>54:Mode2+3+5+6<br/>55:Mode1+2+3+5+6<br/>56:Mode4+5+6<br/>57:Mode1+4+5+6<br/>58:Mode2+4+5+6<br/>59:Mode1+2+4+5+6<br/>60:Mode3+4+5+6<br/>61:Mode1+3+4+5+6<br/>62:Mode2+3+4+5+6<br/>63:Mode1+2+3+4+5+6<br/> |  |  | Bitmask to enable Super Simple mode for some flight modes. Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will disable Super Simple Mode
+SIMPLE | 18 | 1 |  | |  | Simple mode bitmask | Bitmask which holds which flight modes use simple heading mode (eg bit 0 = 1 means Flight Mode 0 uses simple mode)
+SUPER_SIMPLE | 5 | 1 | list | 0:Disabled<br/>1:Mode1<br/>2:Mode2<br/>3:Mode1+2<br/>4:Mode3<br/>5:Mode1+3<br/>6:Mode2+3<br/>7:Mode1+2+3<br/>8:Mode4<br/>9:Mode1+4<br/>10:Mode2+4<br/>11:Mode1+2+4<br/>12:Mode3+4<br/>13:Mode1+3+4<br/>14:Mode2+3+4<br/>15:Mode1+2+3+4<br/>16:Mode5<br/>17:Mode1+5<br/>18:Mode2+5<br/>19:Mode1+2+5<br/>20:Mode3+5<br/>21:Mode1+3+5<br/>22:Mode2+3+5<br/>23:Mode1+2+3+5<br/>24:Mode4+5<br/>25:Mode1+4+5<br/>26:Mode2+4+5<br/>27:Mode1+2+4+5<br/>28:Mode3+4+5<br/>29:Mode1+3+4+5<br/>30:Mode2+3+4+5<br/>31:Mode1+2+3+4+5<br/>32:Mode6<br/>33:Mode1+6<br/>34:Mode2+6<br/>35:Mode1+2+6<br/>36:Mode3+6<br/>37:Mode1+3+6<br/>38:Mode2+3+6<br/>39:Mode1+2+3+6<br/>40:Mode4+6<br/>41:Mode1+4+6<br/>42:Mode2+4+6<br/>43:Mode1+2+4+6<br/>44:Mode3+4+6<br/>45:Mode1+3+4+6<br/>46:Mode2+3+4+6<br/>47:Mode1+2+3+4+6<br/>48:Mode5+6<br/>49:Mode1+5+6<br/>50:Mode2+5+6<br/>51:Mode1+2+5+6<br/>52:Mode3+5+6<br/>53:Mode1+3+5+6<br/>54:Mode2+3+5+6<br/>55:Mode1+2+3+5+6<br/>56:Mode4+5+6<br/>57:Mode1+4+5+6<br/>58:Mode2+4+5+6<br/>59:Mode1+2+4+5+6<br/>60:Mode3+4+5+6<br/>61:Mode1+3+4+5+6<br/>62:Mode2+3+4+5+6<br/>63:Mode1+2+3+4+5+6<br/> |  | Super Simple Mode | Bitmask to enable Super Simple mode for some flight modes. Setting this to Disabled(0) will disable Super Simple Mode
+SR0_EXT_STAT | 2 | 1 | Hz | 0 - 10 |  | Extended status stream rate to ground station | Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station
+SR0_EXTRA1 | 4 | 1 | Hz | 0 - 10 |  | Extra data type 1 stream rate to ground station | Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station
+SR0_EXTRA2 | 4 | 1 | Hz | 0 - 10 |  | Extra data type 2 stream rate to ground station | Stream rate of VFR_HUD to ground station
+SR0_EXTRA3 | 2 | 1 | Hz | 0 - 10 |  | Extra data type 3 stream rate to ground station | Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station
+SR0_PARAMS | 10 | 1 | Hz | 0 - 10 |  | Parameter stream rate to ground station | Stream rate of PARAM_VALUE to ground station
+SR0_POSITION | 2 | 1 | Hz | 0 - 10 |  | Position stream rate to ground station | Stream rate of GLOBAL_POSITION_INT to ground station
+SR0_RAW_CTRL | 1 | 1 | Hz | 0 - 10 |  | Raw Control stream rate to ground station | Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station
+SR0_RAW_SENS | 2 | 1 | Hz | 0 - 10 |  | Raw sensor stream rate | Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station
+SR0_RC_CHAN | 2 | 1 | Hz | 0 - 10 |  | RC Channel stream rate to ground station | Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS to ground station
+SR1_EXT_STAT | 2 | 1 | Hz | 0 - 10 |  | Extended status stream rate to ground station | Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station
+SR1_EXTRA1 | 2 | 1 | Hz | 0 - 10 |  | Extra data type 1 stream rate to ground station | Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station
+SR1_EXTRA2 | 2 | 1 | Hz | 0 - 10 |  | Extra data type 2 stream rate to ground station | Stream rate of VFR_HUD to ground station
+SR1_EXTRA3 | 2 | 1 | Hz | 0 - 10 |  | Extra data type 3 stream rate to ground station | Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station
+SR1_PARAMS | 0 | 1 | Hz | 0 - 10 |  | Parameter stream rate to ground station | Stream rate of PARAM_VALUE to ground station
+SR1_POSITION | 2 | 1 | Hz | 0 - 10 |  | Position stream rate to ground station | Stream rate of GLOBAL_POSITION_INT to ground station
+SR1_RAW_CTRL | 2 | 1 | Hz | 0 - 10 |  | Raw Control stream rate to ground station | Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station
+SR1_RAW_SENS | 2 | 1 | Hz | 0 - 10 |  | Raw sensor stream rate | Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station
+SR1_RC_CHAN | 2 | 1 | Hz | 0 - 10 |  | RC Channel stream rate to ground station | Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS to ground station
+STB_PIT_P | 0.016 | 0.001 |  | 3 - 12 |  | Pitch axis stabilize controller P gain | Pitch axis stabilize (i.e. angle) controller P gain. Converts the error between the desired pitch angle and actual angle to a desired pitch rate
+STB_RLL_P | 0.016 | 0.001 |  | 3 - 12 |  | Roll axis stabilize controller P gain | Roll axis stabilize (i.e. angle) controller P gain. Converts the error between the desired roll angle and actual angle to a desired roll rate
+STB_YAW_P | 4 | 0.001 |  | 3 - 6 |  | Yaw axis stabilize controller P gain | Yaw axis stabilize (i.e. angle) controller P gain. Converts the error between the desired yaw angle and actual angle to a desired yaw rate
 SYSID_MYGCS | 255 | 1 | list | 252:AP Planner 2<br/>255:Mission Planner and DroidPlanner<br/> |  | My ground station number | Allows restricting radio overrides to only come from my ground station
 SYSID_SW_MREV | 120 | 1 |  | | V | Eeprom format version number | This value is incremented when changes are made to the eeprom format
 SYSID_SW_TYPE | 10 | 1 | list | 0:ArduPlane<br/>4:AntennaTracker<br/>20:Rover<br/>10:Copter<br/> |  |  | This is used by the ground station to recognise the software type (MAV_PARAM_GROUP.ARDUCOPTER,eg ArduPlane vs ArduCopter)
-SYSID_THISMAV | 1 | 1 | unknown | 1 - 255 |  |  | Allows setting an individual MAVLink system id for this vehicle to distinguish it from others on the same network
-TELEM_DELAY | 0 | 1 | second | 0 - 30 |  |  | The amount of time (in seconds) to delay radio telemetry to prevent an Xbee bricking on power up
-THR_ACCEL_D | 0 | 1 | unknown | |  |  | Coming soon
-THR_ACCEL_I | 1 | 1 | unknown | |  |  | Coming soon
-THR_ACCEL_IMAX | 800 | 1 | unknown | |  |  | Coming soon
-THR_ACCEL_P | 0.5 | 1 | unknown | |  |  | Coming soon
-THR_ALT_P | 1 | 1 | unknown | |  |  | Coming soon
+SYSID_THISMAV | 1 | 1 |  | 1 - 255 |  | Allows recognising the mavlink version | Allows setting an individual MAVLink system id for this vehicle to distinguish it from others on the same network
+TELEM_DELAY | 0 | 1 | second | 0 - 10 |  | Telemetry startup delay | The amount of time (in seconds) to delay radio telemetry to prevent an Xbee bricking on power up
+THR_ACCEL_D | 0 | 0.001 |  | 0 - 0.4 |  | Throttle acceleration controller D gain | Throttle acceleration controller D gain. Compensates for short-term change in desired vertical acceleration vs actual acceleration
+THR_ACCEL_I | 1 | 0.001 |  | 0 - 3 |  | Throttle acceleration controller I gain | Throttle acceleration controller I gain. Corrects long-term difference in desired vertical acceleration and actual acceleration
+THR_ACCEL_IMAX | 800 | 10 | percent | 0 - 1000 |  | Throttle acceleration controller I gain maximum | Throttle acceleration controller I gain maximum. Constrains the maximum pwm that the I term will generate
+THR_ACCEL_P | 0.5 | 0.001 |  | 0.5 - 1.5 |  | Throttle acceleration controller P gain | Throttle acceleration controller P gain. Converts the difference between desired vertical acceleration and actual acceleration into a motor output
+THR_ALT_P | 1 | 0.001 |  | 1 - 3 |  | Altitude controller P gain | Altitude controller P gain. Converts the difference between the desired altitude and actual altitude into a climb or descent rate which is passed to the throttle rate controller
 THR_DZ | 100 | 1 | PWM | 0 - 300 |  |  | The deadzone above and below mid throttle. Used in AltHold, Loiter, PosHold flight modes
 THR_MAX | 1000 | 1 | percent | 800 - 1000 |  | Throttle Maximum | The maximum throttle that will be sent to the motors. This should normally be left as 1000. 
 THR_MID | 510 | 1 | percent | 300 - 700 |  | Throttle Mid Position | The throttle output (0 ~ 1000) when throttle stick is in mid position. Used to scale the manual throttle so that the mid throttle stick position is close to the throttle required to hover

@@ -368,7 +368,7 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     private final Map<Number, String> options;
     private final MAV_PARAM_GROUP_I group;
 
-    MAV_PARAM_PLANE(MAV_PARAM_GROUP_I group, Number defaultValue, int increment, MAV_PARAM_UNIT unit, Map<Number, String> options, boolean readOnly, String title, String description) {
+    MAV_PARAM_PLANE(MAV_PARAM_GROUP_I group, Number defaultValue, Number increment, MAV_PARAM_UNIT unit, Map<Number, String> options, boolean readOnly, String title, String description) {
         this.group = group;
         this.defaultValue = defaultValue;
         this.increment = increment;

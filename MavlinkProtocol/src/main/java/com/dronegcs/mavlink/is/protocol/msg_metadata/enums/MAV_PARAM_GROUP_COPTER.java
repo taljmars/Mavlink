@@ -58,6 +58,7 @@ public enum MAV_PARAM_GROUP_COPTER implements MAV_PARAM_GROUP_I {
     H("H"),
     HRSC("HRSC"),
     IM("IM"),
+    INAV("INAV"),
     INS("INS - Inertial Navigation System"),
     INSHNTCH("INSHNTCH"),
     INSLOG("INSLOG"),
@@ -114,7 +115,7 @@ public enum MAV_PARAM_GROUP_COPTER implements MAV_PARAM_GROUP_I {
     RSSI("RSSI"),
     SCHED("Scheduler"),
     SCR("SCR"),
-    SERIAL("SERIAL"),
+    SERIAL("Serial"),
     SERVO("SERVO"),
     SERVO10("SERVO10"),
     SERVO11("SERVO11"),
@@ -151,6 +152,8 @@ public enum MAV_PARAM_GROUP_COPTER implements MAV_PARAM_GROUP_I {
     WENC("WENC"),
     WINCH("WINCH"),
     WPNAV("WPNAV"),
+
+    BAROGLTCH("Barometer Glitch")
 
     ;
 
