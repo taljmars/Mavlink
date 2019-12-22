@@ -1,9 +1,6 @@
 package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 public enum MAV_PARAM_UNIT {
-//    I43475,
-//    I43473,
-//    Amps_Volt,
 
     // Fields,
     MILLIGAUSS("milligauss"),
@@ -13,6 +10,7 @@ public enum MAV_PARAM_UNIT {
     VOLT("volt"),
     PWM("PWM"),
     MILLIAMPER_PER_HOUR("mAh"),
+    AMPER_PER_VOLT("amper/volt"),
 
     // Size,
     CENTIMETER("cm"),
@@ -24,6 +22,7 @@ public enum MAV_PARAM_UNIT {
 
     // Time,
     SECOND("second"),
+    DECISECOND("decisecond"),
 
     // Temp
     DEGREE_CELSIUS("degrees-celsius"),
@@ -39,7 +38,8 @@ public enum MAV_PARAM_UNIT {
     CENTIMETER_PER_SECOND_PER_SECOND_PER_SECOND("cm/s/s/s"),
     CENTIDEGREE_PER_SECOND("centidegrees/s"),
     CENTIDEGREE_PER_SECOND_PER_SECOND("centidegrees/s/s"),
-//    meters_Volt,
+    METER_PER_VOLT("m/volt"),
+    PWM_PER_MICROSECOND("PWM/ms"),
 
     // General
     PERCENT("percent"),

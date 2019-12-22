@@ -142,7 +142,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		else {
 			param = new Parameter(
 					m_value.getParam_Id(),
-                    parameterDetail.getGroup().getName(),
+                    "unknown",
                     m_value.param_value,
 					0,
 					"unknown",
