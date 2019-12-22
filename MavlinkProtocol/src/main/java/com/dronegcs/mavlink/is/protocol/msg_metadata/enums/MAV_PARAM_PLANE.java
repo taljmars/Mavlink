@@ -12,33 +12,33 @@ import java.util.Map;
 public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
 
     THR_PASS_STAB(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new Range(-100,100),false,"","Throttle passthru in stabilize"),
-    THR_FAILSAFE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disable");put(1,"Enable");}},false,"",""),
-    GPS_SBAS_MODE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disabled");put(1,"Enable");put(2,"NoChange");}},false,"",""),
+    THR_FAILSAFE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disable");put(1,"Enable");}},false,"",""),
+    GPS_SBAS_MODE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"Enable");put(2,"NoChange");}},false,"",""),
     FORMAT_VERSION(MAV_PARAM_GROUP_PLANE.ARDUPLANE,13,1,MAV_PARAM_UNIT.UNKNOWN,new Range(1,255),false,"","Eeprom format version number"),
     SYSID_SW_TYPE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Unknown"),
     SYSID_THISMAV(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,new Range(1,255),false,"","MAVLink system ID of this vehicle"),
     SYSID_MYGCS(MAV_PARAM_GROUP_PLANE.ARDUPLANE,255,1,MAV_PARAM_UNIT.UNKNOWN,new Range(1,255),false,"","Ground station MAVLink system ID"),
-    SERIAL0_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
-    SERIAL0_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,115,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
-    SERIAL1_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
-    SERIAL1_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,57,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
-    SERIAL2_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
-    SERIAL2_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,57,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
-    SERIAL3_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
-    SERIAL3_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,38,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
-    SERIAL4_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
-    SERIAL4_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,38,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
+    SERIAL0_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
+    SERIAL0_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,115,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
+    SERIAL1_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
+    SERIAL1_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,57,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
+    SERIAL2_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
+    SERIAL2_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,57,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
+    SERIAL3_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
+    SERIAL3_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,38,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
+    SERIAL4_PROTOCOL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(1,"MAVlink1");put(2,"MAVlink2");}},false,"",""),
+    SERIAL4_BAUD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,38,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"1200");put(2,"2400");put(4,"4800");put(9,"9600");put(19,"19200");put(38,"38400");put(57,"57600");put(111,"111100");put(115,"115200");put(256,"256000");put(460,"460800");put(500,"500000");put(921,"921600");put(1500,"1500000");}},false,"",""),
     AUTOTUNE_LEVEL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,6,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Autotune level"),
     TELEM_DELAY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new Range(0,30),false,"","Telemetry startup delay"),
-    GCS_PID_MASK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new HashMap<Integer, String>(){{put(0,"Roll");put(1,"Pitch");put(2,"Yaw");put(3,"Steering");put(4,"Landing");}},false,"",""),
+    GCS_PID_MASK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new HashMap<Number, String>(){{put(0,"Roll");put(1,"Pitch");put(2,"Yaw");put(3,"Steering");put(4,"Landing");}},false,"",""),
     KFF_RDDRMIX(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0.5,0.01,MAV_PARAM_UNIT.UNKNOWN,new Range(0,1),false,"","Rudder Mix"),
     KFF_THR2PTCH(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,0.01,MAV_PARAM_UNIT.UNKNOWN,new Range(0,1),false,"","Throttle to Pitch Mix"),
     STAB_PITCH_DOWN(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,0.01,MAV_PARAM_UNIT.UNKNOWN,new Range(0,15),false,"","Low throttle pitch down trim"),
     GLIDE_SLOPE_MIN(MAV_PARAM_GROUP_PLANE.ARDUPLANE,15,1,MAV_PARAM_UNIT.METER,new Range(0,1000),false,"","Glide slope minimum"),
     GLIDE_SLOPE_THR(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.UNKNOWN,new Range(0,100),false,"","Glide slope threshold"),
-    STICK_MIXING(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disabled");put(1,"FBWMixing");put(2,"DirectMixing");}},false,"",""),
+    STICK_MIXING(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"FBWMixing");put(2,"DirectMixing");}},false,"",""),
     SKIP_GYRO_CAL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Unknown"),
-    AUTO_FBW_STEER(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disabled");put(42,"Enabled");}},false,"","Use FBWA steering in AUTO, 0:Disabled 42:Enabled"),
+    AUTO_FBW_STEER(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(42,"Enabled");}},false,"","Use FBWA steering in AUTO, 0:Disabled 42:Enabled"),
     TKOFF_THR_MINSPD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,0.1,MAV_PARAM_UNIT.METER_PER_SECOND,new Range(0,30),false,"","Takeoff throttle min speed"),
     TKOFF_THR_MINACC(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,0.1,MAV_PARAM_UNIT.METER_PER_SECOND_PER_SECOND,new Range(0,30),false,"","Takeoff throttle min acceleration"),
     TKOFF_THR_DELAY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,1,MAV_PARAM_UNIT.UNKNOWN,new Range(0,127),false,"","Takeoff throttle delay (MAV_PARAM_GROUP.ARDUPLANE,Increment 1 deciseconds)"),
@@ -53,25 +53,25 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     LAND_FLARE_ALT(MAV_PARAM_GROUP_PLANE.ARDUPLANE,3,0.1,MAV_PARAM_UNIT.DEGREE,false,"","Landing flare altitude"),
     LAND_FLARE_SEC(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,0.1,MAV_PARAM_UNIT.DEGREE,false,"","Landing flare time"),
     LAND_DISARMDELAY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,20,1,MAV_PARAM_UNIT.SECOND,new Range(0,127),false,"","Landing disarm delay"),
-    NAV_CONTROLLER(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Default");put(1,"L1Controller");}},false,"","Navigation controller selection"),
+    NAV_CONTROLLER(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Default");put(1,"L1Controller");}},false,"","Navigation controller selection"),
     ALT_MIX(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
-    ALT_CTRL_ALG(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new HashMap<Integer, String>(){{put(0,"Automatic");}},false,"","Altitude control algorithm"),
+    ALT_CTRL_ALG(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,new HashMap<Number, String>(){{put(0,"Automatic");}},false,"","Altitude control algorithm"),
     ALT_OFFSET(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(-32767,32767),false,"","Altitude offset"),
     WP_RADIUS(MAV_PARAM_GROUP_PLANE.ARDUPLANE,90,1,MAV_PARAM_UNIT.METER,new Range(1,32767),false,"","Waypoint Radius"),
     WP_MAX_RADIUS(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(0,32767),false,"","Waypoint Maximum Radius"),
     WP_LOITER_RAD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,60,1,MAV_PARAM_UNIT.UNKNOWN,new Range(-32767,32767),false,"","Waypoint Loiter Radius"),
-    FENCE_ACTION(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"None");put(1,"GuidedMode");put(2,"ReportOnly");put(3,"GuidedModeThrPass");put(4,"RTL_Mode");}},false,"","Action on geofence breach"),
+    FENCE_ACTION(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"None");put(1,"GuidedMode");put(2,"ReportOnly");put(3,"GuidedModeThrPass");put(4,"RTL_Mode");}},false,"","Action on geofence breach"),
     FENCE_TOTAL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Fence Total"),
     FENCE_CHANNEL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Fence Channel"),
     FENCE_MINALT(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(0,32767),false,"","Fence Minimum Altitude"),
     FENCE_MAXALT(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(0,32767),false,"","Fence Maximum Altitude"),
     FENCE_RETALT(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(0,32767),false,"","Fence Return Altitude"),
-    FENCE_AUTOENABLE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"NoAutoEnable");put(1,"AutoEnable");put(2,"AutoEnableDisableFloorOnly");put(3,"EnableWhenArmed");}},false,"","Fence automatic enable"),
-    FENCE_RET_RALLY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"FenceReturnPoint");put(1,"NearestRallyPoint");}},false,"","Fence Return to Rally"),
-    STALL_PREVENTION(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disabled");put(1,"Enabled");}},false,"","Enable stall prevention"),
+    FENCE_AUTOENABLE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"NoAutoEnable");put(1,"AutoEnable");put(2,"AutoEnableDisableFloorOnly");put(3,"EnableWhenArmed");}},false,"","Fence automatic enable"),
+    FENCE_RET_RALLY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"FenceReturnPoint");put(1,"NearestRallyPoint");}},false,"","Fence Return to Rally"),
+    STALL_PREVENTION(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"Enabled");}},false,"","Enable stall prevention"),
     ARSPD_FBW_MIN(MAV_PARAM_GROUP_PLANE.ARDUPLANE,9,1,MAV_PARAM_UNIT.METER_PER_SECOND,new Range(5,100),false,"","Minimum Airspeed"),
     ARSPD_FBW_MAX(MAV_PARAM_GROUP_PLANE.ARDUPLANE,22,1,MAV_PARAM_UNIT.METER_PER_SECOND,new Range(5,100),false,"","Maximum Airspeed"),
-    FBWB_ELEV_REV(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"Disabled");put(1,"Enabled");}},false,"","Fly By Wire elevator reverse"),
+    FBWB_ELEV_REV(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"Enabled");}},false,"","Fly By Wire elevator reverse"),
     FBWB_CLIMB_RATE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,2,0.1,MAV_PARAM_UNIT.METER_PER_SECOND,new Range(1,10),false,"","Fly By Wire B altitude change rate"),
     THR_MIN(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.PERCENT,new Range(-100,100),false,"","Minimum Throttle"),
     THR_MAX(MAV_PARAM_GROUP_PLANE.ARDUPLANE,75,1,MAV_PARAM_UNIT.PERCENT,new Range(0,100),false,"","Maximum Throttle"),
@@ -350,7 +350,7 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     BATT2_CAPACITY(MAV_PARAM_GROUP_PLANE.ARDUPLANE,3300,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     BRD_SERIAL_NUM(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     MIS_TOTAL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","The number of mission mission items that has been loaded by the ground station. Do not change this manually."),
-    MIS_RESTART(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Integer, String>(){{put(0,"ResumeMission");put(1,"RestartMission");}},false,"","Not Yet"),
+    MIS_RESTART(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"ResumeMission");put(1,"RestartMission");}},false,"","Not Yet"),
     RALLY_TOTAL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     RALLY_LIMIT_KM(MAV_PARAM_GROUP_PLANE.ARDUPLANE,5,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     RALLY_INCL_HOME(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
@@ -365,10 +365,10 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     private final boolean readOnly;
     private final String title;
     private final String description;
-    private final Map<Integer, String> options;
+    private final Map<Number, String> options;
     private final MAV_PARAM_GROUP_I group;
 
-    MAV_PARAM_PLANE(MAV_PARAM_GROUP_I group, Number defaultValue, int increment, MAV_PARAM_UNIT unit, Map<Integer, String> options, boolean readOnly, String title, String description) {
+    MAV_PARAM_PLANE(MAV_PARAM_GROUP_I group, Number defaultValue, int increment, MAV_PARAM_UNIT unit, Map<Number, String> options, boolean readOnly, String title, String description) {
         this.group = group;
         this.defaultValue = defaultValue;
         this.increment = increment;
@@ -448,7 +448,7 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     }
 
     @Override
-    public Map<Integer, String> getOptions() {
+    public Map<Number, String> getOptions() {
         return options;
     }
 
@@ -465,39 +465,5 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     @Override
     public String getDescription() {
         return description;
-    }
-
-    public static void main(String[] args) throws Exception {
-        FileWriter fileWriter = new FileWriter("test.csv");
-        CSVWriter csvWriter = new CSVWriter(fileWriter);
-        csvWriter.writeNext(new String[]{"Name","Possible Value","Increment","Unit","Range", "Read Only", "Title" ,"Description"});
-        for (MAV_PARAM_PLANE val : MAV_PARAM_PLANE.values()) {
-            List<String> line = new ArrayList();
-            line.add(val.name());
-            line.add(""+val.defaultValue);
-            line.add(val.increment + "");
-            line.add(val.unit + "");
-//            line.add(val) //range
-            if (val.range != null) {
-                line.add(val.range.getMin() + " " + val.range.getMax());
-            }
-            else if (val.options != null) {
-                String optionString = "";
-                for (Map.Entry<Integer, String> option : val.options.entrySet()) {
-                    optionString += option.getKey() + ":" + option.getValue() + " ";
-                }
-                line.add(optionString.trim());
-            }
-            else {
-                line.add("");
-            }
-            line.add(val.readOnly + "");
-            line.add(val.title);
-            line.add(val.description);
-            String[] res = line.toArray(new String[0]);
-            csvWriter.writeNext(res);
-        }
-        csvWriter.close();
-        return;
     }
 }

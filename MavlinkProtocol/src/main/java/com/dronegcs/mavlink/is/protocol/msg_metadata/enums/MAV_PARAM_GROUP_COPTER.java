@@ -4,6 +4,7 @@ public enum MAV_PARAM_GROUP_COPTER implements MAV_PARAM_GROUP_I {
 
     //Copter
     ARDUCOPTER("ArduCopter"),
+    POSCON("Position Control"),
     ADSB("ADSB"),
     AFS("AFS"),
     AHRS("AHRS"),

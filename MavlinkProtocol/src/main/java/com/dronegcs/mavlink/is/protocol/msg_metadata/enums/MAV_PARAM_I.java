@@ -18,7 +18,7 @@ public interface MAV_PARAM_I {
 
     Range getRange();
 
-    Map<Integer, String> getOptions();
+    Map<Number, String> getOptions();
 
     boolean isReadOnly();
 

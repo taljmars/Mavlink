@@ -48,7 +48,7 @@ public class GenerateParametersGithubDoc {
             }
             else if (val.getOptions() != null) {
                 String optionString = " ";
-                for (Map.Entry<Integer, String> option : val.getOptions().entrySet()) {
+                for (Map.Entry<Number, String> option : val.getOptions().entrySet()) {
                     optionString += option.getKey() + ":" + option.getValue() + "<br/>";
                 }
                 line.add(optionString + " ");

@@ -132,7 +132,7 @@ MNT_ANGMIN_TIL | -9000 | 1 | centidegree | -18000 - 17999 |  |  | Minimum physic
 MNT_CONTROL_X | 0 | 1 | unknown | |  |  | Coming soon
 MNT_CONTROL_Y | 0 | 1 | unknown | |  |  | Coming soon
 MNT_CONTROL_Z | 0 | 1 | unknown | |  |  | Coming soon
-MNT_JSTICK_SPD | 0 | 1 | unknown | 0 - 100 |  |  | 0 for position control, small for low speeds, 100 for max speed. A good general value is 10 which gives a movement speed of 3 degrees per second.
+MNT_JSTICK_SPD | 0 | 1 |  | 0 - 100 |  | mount joystick speed | 0 for position control, small for low speeds, 100 for max speed. A good general value is 10 which gives a movement speed of 3 degrees per second.
 MNT_MODE | 3 | 1 | unknown | |  |  | Coming soon
 MNT_NEUTRAL_X | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount roll angle when in neutral position
 MNT_NEUTRAL_Y | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount tilt/pitch angle when in neutral position
@@ -146,10 +146,10 @@ MNT_RETRACT_Z | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount yaw/pan angle whe
 MNT_STAB_PAN | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable pan/yaw stabilisation relative to Earth
 MNT_STAB_ROLL | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable roll stabilisation relative to Earth
 MNT_STAB_TILT | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable tilt/pitch stabilisation relative to Earth
-MOT_SPIN_ARMED | 90 | 1 | unknown | |  |  | Coming soon
-MOT_TCRV_ENABLE | 1 | 1 | unknown | |  |  | Coming soon
-MOT_TCRV_MAXPCT | 93 | 1 | unknown | |  |  | Coming soon
-MOT_TCRV_MIDPCT | 52 | 1 | unknown | |  |  | Coming soon
+MOT_SPIN_ARMED | 90 | 1 | list | 0:Do Not Spin<br/>130:Medium<br/>100:Slow<br/>70:VerySlow<br/>150:Fast<br/> |  | Motors always spin when armed | Controls whether motors always spin when armed (must be below THR_MIN)
+MOT_TCRV_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | Thrust Curve Enable | Controls whether a curve is used to linearize the thrust produced by the motors
+MOT_TCRV_MAXPCT | 93 | 1 | percent | 20 - 80 |  | Thrust Curve max thrust percentage | Set to the lowest pwm position that produces the maximum thrust of the motors. Most motors produce maximum thrust below the maximum pwm value that they accept
+MOT_TCRV_MIDPCT | 52 | 1 | percent | 20 - 80 |  | Thrust Curve mid-point percentage | Set the pwm position that produces half the maximum thrust of the motors
 OF_PIT_D | 0.12 | 1 | unknown | |  |  | Coming soon
 OF_PIT_I | 0.5 | 1 | unknown | |  |  | Coming soon
 OF_PIT_IMAX | 100 | 1 | unknown | |  |  | Coming soon
@@ -162,7 +162,7 @@ PHLD_BRAKE_ANGLE | 3000 | 1 | centidegree | 2000 - 4500 |  |  | PosHold flight m
 PHLD_BRAKE_RATE | 8 | 1 | deg/s | 4 - 12 |  | PosHold braking rate | PosHold flight mode's rotation rate during braking in deg/sec
 PILOT_ACCEL_Z | 250 | 1 | cm/s/s | 50 - 500 |  |  | The vertical acceleration used when pilot is controlling the altitude
 PILOT_VELZ_MAX | 250 | 1 | cm/s | 50 - 500 |  |  | The maximum vertical velocity the pilot may request in CENTIMETER/s
-POSCON_THR_HOVER | 724 | 1 | unknown | |  |  | Coming soon
+POSCON_THR_HOVER | 724 | 10 | percent | 0 - 1000 |  | Throttle Hover | The autopilot’s estimate of the throttle required to maintain a level hover. Calculated automatically from the pilot’s throttle input while in stabilize mode
 RATE_PIT_D | 0.0055 | 1 | unknown | |  |  | Coming soon
 RATE_PIT_I | 0.07999999 | 1 | unknown | |  |  | Coming soon
 RATE_PIT_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
@@ -181,58 +181,58 @@ RC1_DZ | 30 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bot
 RC1_MAX | 1976 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC1_MIN | 998 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC1_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.
-RC1_TRIM | 1483 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC1_TRIM | 1483 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC10_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC10_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC10_MAX | 1900 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC10_MIN | 1100 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC10_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.
-RC10_TRIM | 0 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
-RC11_DZ | 0 | 1 | PWM | 0 - 200 |  |  | dead zone around trim or bottom
+RC10_TRIM | 0 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC11_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC11_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC11_MAX | 1900 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC11_MIN | 1100 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC11_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.
-RC11_TRIM | 0 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC11_TRIM | 0 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC2_DZ | 30 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC2_MAX | 1983 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC2_MIN | 996 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC2_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.
-RC2_TRIM | 1492 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC2_TRIM | 1492 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC3_DZ | 30 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC3_MAX | 1982 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC3_MIN | 996 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC3_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.
-RC3_TRIM | 1000 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC3_TRIM | 1000 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC4_DZ | 40 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC4_MAX | 1981 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC4_MIN | 992 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC4_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (MAV_PARAM_GROUP.ARDUCOPTER,forward) operation. Set to -1 to reverse this channel.
-RC4_TRIM | 1486 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
-RC5_DZ | 0 | 1 | PWM | 0 - 200 |  |  | dead zone around trim or bottom
+RC4_TRIM | 1486 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC5_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC5_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC5_MAX | 1982 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC5_MIN | 992 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC5_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (MAV_PARAM_GROUP.ARDUCOPTER,forward) operation. Set to -1 to reverse this channel.
-RC5_TRIM | 993 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC5_TRIM | 993 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC6_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC6_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC6_MAX | 1985 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC6_MIN | 992 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC6_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (MAV_PARAM_GROUP.ARDUCOPTER,forward) operation. Set to -1 to reverse this channel.
-RC6_TRIM | 992 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC6_TRIM | 992 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC7_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC7_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC7_MAX | 1900 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC7_MIN | 1100 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC7_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (MAV_PARAM_GROUP.ARDUCOPTER,forward) operation. Set to -1 to reverse this channel.
-RC7_TRIM | 1498 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC7_TRIM | 1498 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC8_DZ | 0 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC8_FUNCTION | 0 | 1 | list | 0:Disabled<br/>1:RCPassThru<br/>2:Flap<br/>3:Flap_auto<br/>4:Aileron<br/>6:mount_pan<br/>7:mount_tilt<br/>8:mount_roll<br/>9:mount_open<br/>10:camera_trigger<br/>11:release<br/>12:mount2_pan<br/>13:mount2_tilt<br/>14:mount2_roll<br/>15:mount2_open<br/>16:DifferentialSpoiler1<br/>17:DifferentialSpoiler2<br/>18:AileronWithInput<br/>19:Elevator<br/>20:ElevatorWithInput<br/>21:Rudder<br/>24:Flaperon1<br/>25:Flaperon2<br/>26:GroundSteering<br/>27:Parachute<br/>28:EPM<br/>29:LandingGear<br/>30:EngineRunEnable<br/>31:HeliRSC<br/>32:HeliTailRSC<br/>33:Motor1<br/>34:Motor2<br/>35:Motor3<br/>36:Motor4<br/>37:Motor5<br/>38:Motor6<br/>39:Motor7<br/>40:Motor8<br/>51:RCIN1<br/>52:RCIN2<br/>53:RCIN3<br/>54:RCIN4<br/>55:RCIN5<br/>56:RCIN6<br/>57:RCIN7<br/>58:RCIN8<br/>59:RCIN9<br/>60:RCIN10<br/>61:RCIN11<br/>62:RCIN12<br/>63:RCIN13<br/>64:RCIN14<br/>65:RCIN15<br/>66:RCIN16<br/>67:Ignition<br/>68:Choke<br/>69:Starter<br/>70:Throttle<br/> |  |  | Setting this to Disabled(MAV_PARAM_GROUP.ARDUCOPTER,0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function
 RC8_MAX | 1900 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC8_MIN | 1100 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC8_REV | 1 | 1 | list | -1:Reversed<br/>1:Normal<br/> |  | RC reversed | Reverse servo operation. Set to 1 for normal (MAV_PARAM_GROUP.ARDUCOPTER,forward) operation. Set to -1 to reverse this channel.
-RC8_TRIM | 1498 | 1 | PWM | 800 - 2200 |  |  | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
+RC8_TRIM | 1498 | 1 | PWM | 800 - 2200 |  | RC trim PWM | RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RCMAP_PITCH | 2 | 1 |  | |  |  | Pitch channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Pitch is normally on channel 2, but you can move it to any channel with this parameter. Reboot is required for changes to take effect.
 RCMAP_ROLL | 1 | 1 |  | |  |  | Roll channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Roll is normally on channel 1, but you can move it to any channel with this parameter. Reboot is required for changes to take effect.
 RCMAP_THROTTLE | 3 | 1 |  | |  |  | Throttle channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Throttle is normally on channel 3, but you can move it to any channel with this parameter. Warning APM 2.X: Changing the throttle channel could produce unexpected fail-safe results if connection between receiver and on-board PPM Encoder is lost. Disabling on-board PPM Encoder is recommended. Reboot is required for changes to take effect.
@@ -250,8 +250,8 @@ RNGFND_SCALING | 3 | 0.001 | m/volt | |  | Rangefinder scaling | Scaling factor 
 RNGFND_SETTLE_MS | 0 | 1 | unknown | |  |  | Coming soon
 RNGFND_STOP_PIN | -1 | 1 | list | -1:NotUsed<br/>112:PX4 FMU Relay2<br/>113:PX4IO,Relay1<br/>50:Pixhawk AUXOUT1<br/>114:PX4IO Relay2<br/>51:Pixhawk AUXOUT2<br/>115:PX4IO ACC1<br/>52:Pixhawk AUXOUT3,53:Pixhawk,AUXOUT4,54:Pixhawk AUXOUT5<br/>116:PX4IO ACC2<br/>55:Pixhawk AUXOUT6<br/>111:PX4 FMU Relay1<br/> |  |  | Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.
 RNGFND_TYPE | 0 | 1 | list | 0:None<br/>1:Analog<br/>2:APM2-MaxbotixI2C<br/>3:APM2-PulsedLightI2C<br/>4:PX4-I2C<br/>5:PX4-PWM<br/>6:BBB-PRU<br/>7:LightWareI2C<br/>8:LightWareSerial<br/>9:Bebop<br/>10:MAVLink<br/>12:LeddarOne<br/> |  |  | What type of rangefinder device that is connected
-RSSI_PIN | -1 | 1 | unknown | |  |  | Coming soon
-RSSI_RANGE | 5 | 1 | unknown | |  |  | Coming soon
+RSSI_PIN | -1 | 1 | list | -1:Disabled<br/>0:APM2 A0<br/>1:APM2 A1<br/>2:APM2 A2<br/>103:Pixhawk SBUS<br/>13:APM2 A13<br/> |  | Receiver RSSI sensing pin | This selects an analog pin for the receiver RSSI voltage. It assumes the voltage is RSSI_RANGE for max rssi, 0V for minimum
+RSSI_RANGE | 5 | 1 | list | 5:5V<br/>3.3:3.3V<br/> |  | Receiver RSSI voltage range | Receiver RSSI voltage range
 RTL_ALT | 1500 | 1 | cm | 0 - 8000 |  |  | The minimum relative altitude the model will move to before Returning to Launch. Set to zero to return at current altitude.
 RTL_ALT_FINAL | 0 | 1 | cm | -1 - 1000 |  |  | This is the altitude the vehicle will move to as the final stage of Returning to Launch or after completing a mission. Set to zero to land.
 RTL_LOIT_TIME | 5000 | 1 | m/s | 0 - 60000 |  |  | Time (in milliseconds) to loiter above home before beginning final descent
@@ -292,11 +292,11 @@ THR_ACCEL_IMAX | 800 | 1 | unknown | |  |  | Coming soon
 THR_ACCEL_P | 0.5 | 1 | unknown | |  |  | Coming soon
 THR_ALT_P | 1 | 1 | unknown | |  |  | Coming soon
 THR_DZ | 100 | 1 | PWM | 0 - 300 |  |  | The deadzone above and below mid throttle. Used in AltHold, Loiter, PosHold flight modes
-THR_MAX | 1000 | 1 | unknown | |  |  | Coming soon
-THR_MID | 510 | 1 | unknown | |  |  | Coming soon
-THR_MIN | 130 | 1 | unknown | |  |  | Coming soon
-THR_RATE_P | 6 | 1 | unknown | |  |  | Coming soon
-TRIM_THROTTLE | 724 | 1 | unknown | |  |  | Coming soon
+THR_MAX | 1000 | 1 | percent | 800 - 1000 |  | Throttle Maximum | The maximum throttle that will be sent to the motors. This should normally be left as 1000. 
+THR_MID | 510 | 1 | percent | 300 - 700 |  | Throttle Mid Position | The throttle output (0 ~ 1000) when throttle stick is in mid position. Used to scale the manual throttle so that the mid throttle stick position is close to the throttle required to hover
+THR_MIN | 130 | 1 | percent | 0 - 300 |  | Throttle Minimum | The minimum throttle that will be sent to the motors to keep them spinning
+THR_RATE_P | 6 | 0.001 |  | 1 - 8 |  | Throttle rate controller P gain | Throttle rate controller P gain. Converts the difference between desired vertical speed and actual speed into a desired acceleration that is passed to the throttle acceleration controller
+TRIM_THROTTLE | 724 | 10 | percent | 0 - 1000 |  | Throttle Trim | The autopilot’s estimate of the throttle required to maintain a level hover. Calculated automatically from the pilot’s throttle input while in stabilize mode
 TUNE | 1 | 1 | list | 0:None<br/>1:Stab_Roll/Pitch_kP<br/>3:Stab_Yaw_kP<br/>4:Rate_Roll/Pitch_kP<br/>5:Rate_Roll/Pitch_kI<br/>6:Rate_Yaw_kP<br/>7:Throttle_Rate_kP<br/>10:WP_Speed<br/>12:Loiter_Pos_kP<br/>13:Heli_Ext_Gyro<br/>14:Altitude_Hold_kP<br/>17:OF_Loiter_kP<br/>18:OF_Loiter_kI<br/>19:OF_Loiter_kD<br/>21:Rate_Roll/Pitch_kD<br/>22:Velocity_XY_kP<br/>25:Acro_RollPitch_kP<br/>26:Rate_Yaw_kD<br/>28:Velocity_XY_kI<br/>34:Throttle_Accel_kP<br/>35:Throttle_Accel_kI<br/>36:Throttle_Accel_kD<br/>38:Declination<br/>39:Circle_Rate<br/>40:Acro_Yaw_kP<br/>41:RangeFinder_Gain<br/>42:Loiter_Speed<br/>46:Rate_Pitch_kP<br/>47:Rate_Pitch_kI<br/>48:Rate_Pitch_kD<br/>49:Rate_Roll_kP<br/>50:Rate_Roll_kI<br/>51:Rate_Roll_kD<br/>52:Rate_Pitch_FF<br/>53:Rate_Roll_FF<br/>54:Rate_Yaw_FF<br/> |  |  | Controls which parameters (MAV_PARAM_GROUP.ARDUCOPTER,normally PID gains) are being tuned with transmitter's channel 6 knob
 TUNE_HIGH | 32 | 1 | unknown | 0 - 32767 |  |  | The maximum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
 TUNE_LOW | 0 | 1 | unknown | 0 - 32767 |  |  | The minimum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
