@@ -4,6 +4,7 @@
 rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
 Unit: 
 Default Value: 1
+
 Min | Max
 --- | ---
 0 | 3
