@@ -101,9 +101,9 @@ INAV_TC_Z | 5 | 0.1 |  | 0 - 10 |  | Vertical Time Constant | Time constant for 
 INS_ACCOFFS_X | 0.02704384 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of X axis | This is setup using the acceleration calibration or level operations
 INS_ACCOFFS_Y | 0.07232188 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of Y axis | This is setup using the acceleration calibration or level operations
 INS_ACCOFFS_Z | -0.2916607 | 1 | m/s/s | -3.5 - 3.5 |  | Accelerometer offsets of Z axis | This is setup using the acceleration calibration or level operations
-INS_ACCSCAL_X | 0.9998162 | 1 | unknown | 0.8 - 1.2 |  | Accelerometer scaling of X axis | Calculated during acceleration calibration routine
-INS_ACCSCAL_Y | 0.9920868 | 1 | unknown | 0.8 - 1.2 |  | Accelerometer scaling of Y axis | Calculated during acceleration calibration routine
-INS_ACCSCAL_Z | 1.0001 | 1 | unknown | 0.8 - 1.2 |  | Accelerometer scaling of Z axis | Calculated during acceleration calibration routine
+INS_ACCSCAL_X | 0.9998162 | 1 |  | 0.8 - 1.2 |  | Accelerometer scaling of X axis | Calculated during acceleration calibration routine
+INS_ACCSCAL_Y | 0.9920868 | 1 |  | 0.8 - 1.2 |  | Accelerometer scaling of Y axis | Calculated during acceleration calibration routine
+INS_ACCSCAL_Z | 1.0001 | 1 |  | 0.8 - 1.2 |  | Accelerometer scaling of Z axis | Calculated during acceleration calibration routine
 INS_GYROFFS_X | -0.003293759 | 1 | rad/s | |  | Gyro sensor offsets of X axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Y | -0.07851811 | 1 | rad/s | |  | Gyro sensor offsets of Y axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Z | 0.02421099 | 1 | rad/s | |  | Gyro sensor offsets of Z axis | This is setup on each boot during gyro calibrations
@@ -129,11 +129,11 @@ MNT_ANGMAX_TIL | 0 | 1 | centidegree | -18000 - 17999 |  |  | Maximum physical t
 MNT_ANGMIN_PAN | -4500 | 1 | centidegree | -18000 - 17999 |  |  | Minimum physical pan (yaw) angular position of mount.
 MNT_ANGMIN_ROL | -4500 | 1 | centidegree | -18000 - 17999 |  |  | Minimum physical roll angular position of mount.
 MNT_ANGMIN_TIL | -9000 | 1 | centidegree | -18000 - 17999 |  |  | Minimum physical tilt (pitch) angular position of mount.
-MNT_CONTROL_X | 0 | 1 | unknown | |  |  | Coming soon
-MNT_CONTROL_Y | 0 | 1 | unknown | |  |  | Coming soon
-MNT_CONTROL_Z | 0 | 1 | unknown | |  |  | Coming soon
+MNT_CONTROL_X | 0 | 1 | centidegree | -18000 - 17999 |  | Mount roll angle | Mount roll angle when in MavLink or RC control operation mode
+MNT_CONTROL_Y | 0 | 1 | centidegree | -18000 - 17999 |  | Mount tilt/pitch | Mount tilt/pitch angle when in MavLink or RC control operation mode
+MNT_CONTROL_Z | 0 | 1 | centidegree | -18000 - 17999 |  | Mount pan/yaw angle | Mount pan/yaw angle when in MavLink or RC control operation mode
 MNT_JSTICK_SPD | 0 | 1 |  | 0 - 100 |  | mount joystick speed | 0 for position control, small for low speeds, 100 for max speed. A good general value is 10 which gives a movement speed of 3 degrees per second.
-MNT_MODE | 3 | 1 | unknown | |  |  | Coming soon
+MNT_MODE | 3 | 1 | list | 0:RETRACT<br/>1:MODE_NEUTRAL<br/>2:MAVLINK_TARGETING<br/>3:RC_TARGETING<br/>4:GPS_POINT<br/> |  | Mount Operation Mode | Camera or antenna mount operation mode, check MAV_MOUNT_MODE class
 MNT_NEUTRAL_X | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount roll angle when in neutral position
 MNT_NEUTRAL_Y | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount tilt/pitch angle when in neutral position
 MNT_NEUTRAL_Z | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount pan/yaw angle when in neutral position
@@ -150,33 +150,33 @@ MOT_SPIN_ARMED | 90 | 1 | list | 0:Do Not Spin<br/>130:Medium<br/>100:Slow<br/>7
 MOT_TCRV_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | Thrust Curve Enable | Controls whether a curve is used to linearize the thrust produced by the motors
 MOT_TCRV_MAXPCT | 93 | 1 | percent | 20 - 80 |  | Thrust Curve max thrust percentage | Set to the lowest pwm position that produces the maximum thrust of the motors. Most motors produce maximum thrust below the maximum pwm value that they accept
 MOT_TCRV_MIDPCT | 52 | 1 | percent | 20 - 80 |  | Thrust Curve mid-point percentage | Set the pwm position that produces half the maximum thrust of the motors
-OF_PIT_D | 0.12 | 1 | unknown | |  |  | Coming soon
-OF_PIT_I | 0.5 | 1 | unknown | |  |  | Coming soon
-OF_PIT_IMAX | 100 | 1 | unknown | |  |  | Coming soon
-OF_PIT_P | 2.5 | 1 | unknown | |  |  | Coming soon
-OF_RLL_D | 0.12 | 1 | unknown | |  |  | Coming soon
-OF_RLL_I | 0.5 | 1 | unknown | |  |  | Coming soon
-OF_RLL_IMAX | 100 | 1 | unknown | |  |  | Coming soon
-OF_RLL_P | 2.5 | 1 | unknown | |  |  | Coming soon
+OF_PIT_D | 0.12 | 1 |  | 0.1 - 0.14 |  | Optical Flow based loiter controller pitch axis D gain | Compensates for short-term change in speed in the pitch direction
+OF_PIT_I | 0.5 | 0.001 |  | 0.25 - 0.75 |  | Optical Flow based loiter controller pitch axis I gain | Corrects long-term position error by more persistently pitching left or right
+OF_PIT_IMAX | 100 | 1 | centidegree | 0 - 4500 |  | Optical Flow based loiter controller pitch axis I gain maximum | Constrains the maximum pitch angle that the I term will generate
+OF_PIT_P | 2.5 | 1 |  | 2 - 3 |  | Optical Flow based loiter controller pitch axis P gain | Converts the position error from the target point to a pitch angle
+OF_RLL_D | 0.12 | 1 |  | 0.1 - 0.14 |  | Optical Flow based loiter controller roll axis D gain | Compensates for short-term change in speed in the roll direction
+OF_RLL_I | 0.5 | 0.001 |  | 0.25 - 0.75 |  | Optical Flow based loiter controller roll axis I gain | Corrects long-term position error by more persistently rolling left or right
+OF_RLL_IMAX | 100 | 1 | centidegree | 0 - 4500 |  | Optical Flow based loiter controller roll axis I gain maximum | Constrains the maximum roll angle that the I term will generate
+OF_RLL_P | 2.5 | 0.001 |  | 2 - 3 |  | Optical Flow based loiter controller roll axis P gain | Converts the position error from the target point to a roll angle
 PHLD_BRAKE_ANGLE | 3000 | 1 | centidegree | 2000 - 4500 |  |  | PosHold flight mode's max lean angle during braking in centi-degrees
 PHLD_BRAKE_RATE | 8 | 1 | deg/s | 4 - 12 |  | PosHold braking rate | PosHold flight mode's rotation rate during braking in deg/sec
 PILOT_ACCEL_Z | 250 | 1 | cm/s/s | 50 - 500 |  |  | The vertical acceleration used when pilot is controlling the altitude
 PILOT_VELZ_MAX | 250 | 1 | cm/s | 50 - 500 |  |  | The maximum vertical velocity the pilot may request in CENTIMETER/s
 POSCON_THR_HOVER | 724 | 10 | percent | 0 - 1000 |  | Throttle Hover | The autopilot’s estimate of the throttle required to maintain a level hover. Calculated automatically from the pilot’s throttle input while in stabilize mode
-RATE_PIT_D | 0.0055 | 1 | unknown | |  |  | Coming soon
-RATE_PIT_I | 0.07999999 | 1 | unknown | |  |  | Coming soon
-RATE_PIT_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
-RATE_PIT_P | 0.07999999 | 1 | unknown | |  |  | Coming soon
-RATE_RLL_D | 0.003 | 1 | unknown | |  |  | Coming soon
-RATE_RLL_I | 0.08499999 | 1 | unknown | |  |  | Coming soon
-RATE_RLL_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
-RATE_RLL_P | 0.08499999 | 1 | unknown | |  |  | Coming soon
-RATE_YAW_D | 0.003 | 1 | unknown | |  |  | Coming soon
-RATE_YAW_I | 0.02 | 1 | unknown | |  |  | Coming soon
-RATE_YAW_IMAX | 1000 | 1 | unknown | |  |  | Coming soon
-RATE_YAW_P | 0.17 | 1 | unknown | |  |  | Coming soon
+RATE_PIT_D | 0.0055 | 0.001 |  | 0.001 - 0.02 |  | Pitch axis rate controller D gain | Compensates for short-term change in desired pitch rate vs actual pitch rate
+RATE_PIT_I | 0.07999999 | 0.01 |  | 0.01 - 0.5 |  | Pitch axis rate controller I gain | Corrects long-term difference in desired pitch rate vs actual pitch rate
+RATE_PIT_IMAX | 1000 | 10 | percent | 0 - 4500 |  | Pitch axis rate controller I gain maximum | Constrains the maximum motor output that the I gain will output
+RATE_PIT_P | 0.07999999 | 0.005 |  | 0.08 - 0.3 |  | Pitch axis rate controller P gain | Converts the difference between desired pitch rate and actual pitch rate into a motor speed output
+RATE_RLL_D | 0.003 | 0.001 |  | 0.001 - 0.02 |  | Roll axis rate controller D gain | Compensates for short-term change in desired roll rate vs actual roll rate
+RATE_RLL_I | 0.08499999 | 0.01 |  | 0.01 - 0.5 |  | Roll axis rate controller I gain | Corrects long-term difference in desired roll rate vs actual roll rate
+RATE_RLL_IMAX | 1000 | 10 | percent | 0 - 4500 |  | Roll axis rate controller I gain maximum | Constrains the maximum motor output that the I gain will output
+RATE_RLL_P | 0.08499999 | 0.005 |  | 0.08 - 0.3 |  | Roll axis rate controller P gain | Converts the difference between desired roll rate and actual roll rate into a motor speed output
+RATE_YAW_D | 0.003 | 0.001 |  | 0 - 0.02 |  | Yaw axis rate controller D gain | Compensates for short-term change in desired yaw rate vs actual yaw rate
+RATE_YAW_I | 0.02 | 0.01 |  | 0.01 - 0.05 |  | Yaw axis rate controller I gain | Corrects long-term difference in desired yaw rate vs actual yaw rate
+RATE_YAW_IMAX | 1000 | 10 | percent | 0 - 4500 |  | Yaw axis rate controller I gain maximum | Constrains the maximum motor output that the I gain will output
+RATE_YAW_P | 0.17 | 0.005 |  | 0.15 - 0.5 |  | Yaw axis rate controller P gain | Converts the difference between desired yaw rate and actual yaw rate into a motor speed output
 RC_FEEL_RP | 100 | 1 | list | 0:Standard<br/>50:Medium<br/>100:VeryCrisp<br/>1000:VerySoft<br/>25:Soft<br/>75:Crisp<br/> |  |  | RC feel for roll/pitch which controls vehicle response to user input with 0 being extremely soft and 100 being crisp
-RC_SPEED | 490 | 1 | Hz | 50 - 490 |  |  | This is the speed in Hertz that your ESCs will receive updates
+RC_SPEED | 490 | 1 | Hz | 50 - 490 |  | ESC Update Speed | This is the speed in Hertz that your ESCs will receive updates
 RC1_DZ | 30 | 1 | PWM | 0 - 200 |  | RC dead-zone | dead zone around trim or bottom
 RC1_MAX | 1976 | 1 | PWM | 800 - 2200 |  | RC max PWM | RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
 RC1_MIN | 998 | 1 | PWM | 800 - 2200 |  | RC min PWM | RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.
@@ -247,7 +247,7 @@ RNGFND_OFFSET | 0 | 1 | volt | |  |  | Offset in volts for zero distance for ana
 RNGFND_PIN | -1 | 1 | list | -1:NotUsed<br/>0:APM2-A0<br/>64:APM1-airspeed port<br/>1:APM2-A1<br/>2:APM2-A2<br/>3:APM2-A3<br/>4:APM2-A4<br/>5:APM2-A5<br/>6:APM2-A6<br/>7:APM2-A7<br/>8:APM2-A8<br/>9:APM2-A9<br/>11:PX4-airspeed port<br/>15:Pixhawk-airspeed port<br/> |  |  | Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.
 RNGFND_RMETRIC | 1 | 1 | list | 0:No<br/>1:Yes<br/> |  |  | This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.
 RNGFND_SCALING | 3 | 0.001 | m/volt | |  | Rangefinder scaling | Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.
-RNGFND_SETTLE_MS | 0 | 1 | unknown | |  |  | Coming soon
+RNGFND_SETTLE_MS | 0 | 1 | millisecond | |  | Rangefinder reading delay | The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.
 RNGFND_STOP_PIN | -1 | 1 | list | -1:NotUsed<br/>111:PX4 FMU Relay1<br/>112:PX4 FMU Relay2<br/>113:PX4IO,Relay1<br/>50:Pixhawk AUXOUT1<br/>114:PX4IO Relay2<br/>51:Pixhawk AUXOUT2<br/>115:PX4IO ACC1<br/>52:Pixhawk AUXOUT3<br/>116:PX4IO ACC2<br/>53:Pixhawk AUXOUT4<br/>54:Pixhawk AUXOUT5<br/>55:Pixhawk AUXOUT6<br/> |  |  | Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.
 RNGFND_TYPE | 0 | 1 | list | 0:None<br/>1:Analog<br/>2:APM2-MaxbotixI2C<br/>3:APM2-PulsedLightI2C<br/>4:PX4-I2C<br/>5:PX4-PWM<br/>6:BBB-PRU<br/>7:LightWareI2C<br/>8:LightWareSerial<br/>9:Bebop<br/>10:MAVLink<br/>12:LeddarOne<br/> |  |  | What type of rangefinder device that is connected
 RSSI_PIN | -1 | 1 | list | -1:Disabled<br/>0:APM2 A0<br/>1:APM2 A1<br/>2:APM2 A2<br/>103:Pixhawk SBUS<br/>13:APM2 A13<br/> |  | Receiver RSSI sensing pin | This selects an analog pin for the receiver RSSI voltage. It assumes the voltage is RSSI_RANGE for max rssi, 0V for minimum
@@ -292,14 +292,14 @@ THR_ACCEL_IMAX | 800 | 10 | percent | 0 - 1000 |  | Throttle acceleration contro
 THR_ACCEL_P | 0.5 | 0.001 |  | 0.5 - 1.5 |  | Throttle acceleration controller P gain | Throttle acceleration controller P gain. Converts the difference between desired vertical acceleration and actual acceleration into a motor output
 THR_ALT_P | 1 | 0.001 |  | 1 - 3 |  | Altitude controller P gain | Altitude controller P gain. Converts the difference between the desired altitude and actual altitude into a climb or descent rate which is passed to the throttle rate controller
 THR_DZ | 100 | 1 | PWM | 0 - 300 |  |  | The deadzone above and below mid throttle. Used in AltHold, Loiter, PosHold flight modes
-THR_MAX | 1000 | 1 | percent | 800 - 1000 |  | Throttle Maximum | The maximum throttle that will be sent to the motors. This should normally be left as 1000. 
-THR_MID | 510 | 1 | percent | 300 - 700 |  | Throttle Mid Position | The throttle output (0 ~ 1000) when throttle stick is in mid position. Used to scale the manual throttle so that the mid throttle stick position is close to the throttle required to hover
-THR_MIN | 130 | 1 | percent | 0 - 300 |  | Throttle Minimum | The minimum throttle that will be sent to the motors to keep them spinning
+THR_MAX | 1000 | 10 | percent | 800 - 1000 |  | Throttle Maximum | The maximum throttle that will be sent to the motors. This should normally be left as 1000. 
+THR_MID | 510 | 10 | percent | 300 - 700 |  | Throttle Mid Position | The throttle output (0 ~ 1000) when throttle stick is in mid position. Used to scale the manual throttle so that the mid throttle stick position is close to the throttle required to hover
+THR_MIN | 130 | 10 | percent | 0 - 300 |  | Throttle Minimum | The minimum throttle that will be sent to the motors to keep them spinning
 THR_RATE_P | 6 | 0.001 |  | 1 - 8 |  | Throttle rate controller P gain | Throttle rate controller P gain. Converts the difference between desired vertical speed and actual speed into a desired acceleration that is passed to the throttle acceleration controller
 TRIM_THROTTLE | 724 | 10 | percent | 0 - 1000 |  | Throttle Trim | The autopilot’s estimate of the throttle required to maintain a level hover. Calculated automatically from the pilot’s throttle input while in stabilize mode
 TUNE | 1 | 1 | list | 0:None<br/>1:Stab_Roll/Pitch_kP<br/>3:Stab_Yaw_kP<br/>4:Rate_Roll/Pitch_kP<br/>5:Rate_Roll/Pitch_kI<br/>6:Rate_Yaw_kP<br/>7:Throttle_Rate_kP<br/>10:WP_Speed<br/>12:Loiter_Pos_kP<br/>13:Heli_Ext_Gyro<br/>14:Altitude_Hold_kP<br/>17:OF_Loiter_kP<br/>18:OF_Loiter_kI<br/>19:OF_Loiter_kD<br/>21:Rate_Roll/Pitch_kD<br/>22:Velocity_XY_kP<br/>25:Acro_RollPitch_kP<br/>26:Rate_Yaw_kD<br/>28:Velocity_XY_kI<br/>34:Throttle_Accel_kP<br/>35:Throttle_Accel_kI<br/>36:Throttle_Accel_kD<br/>38:Declination<br/>39:Circle_Rate<br/>40:Acro_Yaw_kP<br/>41:RangeFinder_Gain<br/>42:Loiter_Speed<br/>46:Rate_Pitch_kP<br/>47:Rate_Pitch_kI<br/>48:Rate_Pitch_kD<br/>49:Rate_Roll_kP<br/>50:Rate_Roll_kI<br/>51:Rate_Roll_kD<br/>52:Rate_Pitch_FF<br/>53:Rate_Roll_FF<br/>54:Rate_Yaw_FF<br/> |  |  | Controls which parameters (MAV_PARAM_GROUP.ARDUCOPTER,normally PID gains) are being tuned with transmitter's channel 6 knob
-TUNE_HIGH | 32 | 1 | unknown | 0 - 32767 |  |  | The maximum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
-TUNE_LOW | 0 | 1 | unknown | 0 - 32767 |  |  | The minimum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
+TUNE_HIGH | 32 | 1 |  | 0 - 32767 |  | Tuning maximum | The maximum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
+TUNE_LOW | 0 | 1 |  | 0 - 32767 |  | Tuning minimum | The minimum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob
 WP_YAW_BEHAVIOR | 2 | 1 | list | 0:NeverChangeYaw<br/>1:FaceNextWaypoint<br/>2:FaceNextWaypointExceptRTL<br/>3:FaceAlongGPScourse<br/> |  |  | Determines how the autopilot controls the yaw during missions and RTL
 WPNAV_ACCEL | 100 | 1 | cm/s/s | 50 - 500 |  |  | Defines the horizontal acceleration in CENTIMETER/s/s used during missions
 WPNAV_ACCEL_Z | 100 | 1 | cm/s/s | 50 - 500 |  |  | Defines the vertical acceleration in CENTIMETER/s/s used during missions

@@ -21,6 +21,7 @@ public enum MAV_PARAM_UNIT {
     CENTIDEGREE("centidegree"),
 
     // Time,
+    MILLISECOND("millisecond"),
     SECOND("second"),
     DECISECOND("decisecond"),
 
