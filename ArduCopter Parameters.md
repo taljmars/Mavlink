@@ -4,7 +4,7 @@ Name | Possible Value | Increment | Unit | Range | Read Only | Title | Descripti
 --- | --- | --- | --- | --- | ---| --- | ---
 ACRO_BAL_PITCH | 1 | 0.1 |  | 0 - 3 |  | Acro Balance Pitch | rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
 ACRO_BAL_ROLL | 1 | 0.1 |  | 0 - 3 |  | Acro Balance Roll | rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
-ACRO_EXPO | 0.3 | 0.1 | list | 0:Disabled<br/>0.3:Medium<br/>0.5:Very High<br/>0.1:Very Low<br/>0.2:Low<br/>0.4:High<br/> |  | Acro Expo | Acro roll/pitch Expo to allow faster rotation when stick at edges
+ACRO_EXPO | 0.3 | 0.1 |  | 0:Disabled<br/>0.3:Medium<br/>0.5:Very High<br/>0.1:Very Low<br/>0.2:Low<br/>0.4:High<br/> |  | Acro Expo | Acro roll/pitch Expo to allow faster rotation when stick at edges
 ACRO_RP_P | 4.5 | 1 |  | |  |  | Converts pilot roll and pitch into a desired rate of rotation in ACRO and SPORT mode. Higher values mean faster rate of rotation.
 ACRO_TRAINER | 2 | 1 | list | 0:Disabled<br/>1:Leveling<br/>2:LevelingAndLimited<br/> |  | Acro Trainer | 
 ACRO_YAW_P | 4.5 | 1 |  | |  |  | Converts pilot yaw input into a desired rate of rotation in ACRO, Stabilize and SPORT modes. Higher values mean faster rate of rotation.
@@ -21,11 +21,11 @@ AHRS_WIND_MAX | 0 | 1 | m/s | 0 - 127 |  | Maximum wind | This sets the maximum 
 AHRS_YAW_P | 0.1 | 1 |  | 0.1 - 0.4 |  |  | This controls the weight the compass or GPS has on the heading. A higher value means the heading will track the yaw source (MAV_PARAM_GROUP.ARDUCOPTER,GPS or compass) more rapidly.
 ANGLE_MAX | 4500 | 1 | centidegree | 1000 - 8000 |  | Angle Max | Maximum lean angle in all flight modes
 ARMING_CHECK | 94 | 1 | list | 0:Disabled<br/>-17:SkipINS<br/>-33:SkipParams/Rangefinder<br/>-65:SkipRC<br/>1:Enabled<br/>-3:SkipBaro<br/>-5:SkipCompass<br/>-9:SkipGPS<br/>127:SkipVoltage<br/> |  |  | Allows enabling or disabling of pre-arming checks of receiver, accelerometer, barometer, compass and GPS
-ATC_ACCEL_RP_MAX | 0 | 1000 | list | 0:Disabled<br/>18000:Slow<br/>36000:Medium<br/>54000:Fast<br/>9000:VerySlow<br/> |  | Acceleration Max for Roll/Pitch | Maximum acceleration in roll/pitch axis
-ATC_ACCEL_Y_MAX | 0 | 1000 | list | 0:Disabled<br/>18000:Slow<br/>36000:Medium<br/>54000:Fast<br/>9000:VerySlow<br/> |  | Acceleration Max for Yaw | Maximum acceleration in yaw axis
+ATC_ACCEL_RP_MAX | 0 | 1000 | centidegrees/s/s | 0:Disabled<br/>18000:Slow<br/>36000:Medium<br/>54000:Fast<br/>9000:VerySlow<br/> |  | Acceleration Max for Roll/Pitch | Maximum acceleration in roll/pitch axis
+ATC_ACCEL_Y_MAX | 0 | 1000 | centidegrees/s/s | 0:Disabled<br/>18000:Slow<br/>36000:Medium<br/>54000:Fast<br/>9000:VerySlow<br/> |  | Acceleration Max for Yaw | Maximum acceleration in yaw axis
 ATC_RATE_FF_ENAB | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | Controls whether body-frame rate feedforward is enabled or disabled
-ATC_RATE_RP_MAX | 18000 | 1 | list | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Pitch/Roll | Maximum angular velocity in pitch/roll axis
-ATC_RATE_Y_MAX | 9000 | 1 | list | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Yaw | Maximum angular velocity in yaw axis
+ATC_RATE_RP_MAX | 18000 | 1 | deg/s | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Pitch/Roll | Maximum angular velocity in pitch/roll axis
+ATC_RATE_Y_MAX | 9000 | 1 | deg/s | 0:Disabled<br/>720:Medium<br/>360:Slow<br/>1080:Fast<br/> |  | Angular Velocity Max for Yaw | Maximum angular velocity in yaw axis
 ATC_SLEW_YAW | 1000 | 1 | centidegrees/s | 500 - 18000 |  | Yaw target slew rate | Maximum rate the yaw target can be updated in Loiter, RTL, Auto flight modes
 BAROGLTCH_ACCEL | 1500 | 100 | cm/s/s | 100 - 2000 |  | Baro glitch protection’s max vehicle acceleration assumption | Baro glitch protection’s max vehicle acceleration assumption
 BAROGLTCH_DIST | 500 | 100 | cm | 100 - 2000 |  | Baro glitch protection distance within which alt update is immediately accepted | Baro glitch protection distance within which alt update is immediately accepted
@@ -107,7 +107,7 @@ INS_ACCSCAL_Z | 1.0001 | 1 |  | 0.8 - 1.2 |  | Accelerometer scaling of Z axis |
 INS_GYROFFS_X | -0.003293759 | 1 | rad/s | |  | Gyro sensor offsets of X axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Y | -0.07851811 | 1 | rad/s | |  | Gyro sensor offsets of Y axis | This is setup on each boot during gyro calibrations
 INS_GYROFFS_Z | 0.02421099 | 1 | rad/s | |  | Gyro sensor offsets of Z axis | This is setup on each boot during gyro calibrations
-INS_MPU6K_FILTER | 0 | 1 | list | 0:Default<br/>98:98Hz<br/>20:20Hz<br/>5:5Hz<br/>10:10Hz<br/>42:42Hz<br/> |  | MPU6000 filter frequency | Filter frequency to ask the MPU6000 to apply to samples. This can be set to a lower value to try to cope with very high vibration levels in aircraft. The default value on ArduPlane, APMrover2 and ArduCopter is 20Hz. This option takes effect on the next reboot or gyro initialisation
+INS_MPU6K_FILTER | 0 | 1 | Hz | 0:Default<br/>98:98Hz<br/>20:20Hz<br/>5:5Hz<br/>10:10Hz<br/>42:42Hz<br/> |  | MPU6000 filter frequency | Filter frequency to ask the MPU6000 to apply to samples. This can be set to a lower value to try to cope with very high vibration levels in aircraft. The default value on ArduPlane, APMrover2 and ArduCopter is 20Hz. This option takes effect on the next reboot or gyro initialisation
 INS_PRODUCT_ID | 0 | 1 | list | 0:Unknown<br/>256:unused<br/>1:unused<br/>257:Linux<br/>2:unused<br/>3:SITL<br/>4:PX4v1<br/>5:PX4v2<br/>88:unused<br/> |  |  | Which type of IMU is installed (read-only).
 LAND_REPOSITION | 1 | 1 | list | 0:NoRepositioning<br/>1:Repositioning<br/> |  |  | Enables user input during LAND mode, the landing phase of RTL, and auto mode landings.
 LAND_SPEED | 50 | 1 | cm/s | 30 - 200 |  |  | The descent speed for the final stage of landing in CENTIMETER/s
@@ -146,7 +146,7 @@ MNT_RETRACT_Z | 0 | 1 | degree | -180.0 - 179.99 |  |  | Mount yaw/pan angle whe
 MNT_STAB_PAN | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable pan/yaw stabilisation relative to Earth
 MNT_STAB_ROLL | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable roll stabilisation relative to Earth
 MNT_STAB_TILT | 0 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  |  | enable tilt/pitch stabilisation relative to Earth
-MOT_SPIN_ARMED | 90 | 1 | list | 0:Do Not Spin<br/>130:Medium<br/>100:Slow<br/>70:VerySlow<br/>150:Fast<br/> |  | Motors always spin when armed | Controls whether motors always spin when armed (must be below THR_MIN)
+MOT_SPIN_ARMED | 90 | 1 |  | 0:Do Not Spin<br/>130:Medium<br/>100:Slow<br/>70:VerySlow<br/>150:Fast<br/> |  | Motors always spin when armed | Controls whether motors always spin when armed (must be below THR_MIN)
 MOT_TCRV_ENABLE | 1 | 1 | list | 0:Disabled<br/>1:Enabled<br/> |  | Thrust Curve Enable | Controls whether a curve is used to linearize the thrust produced by the motors
 MOT_TCRV_MAXPCT | 93 | 1 | percent | 20 - 80 |  | Thrust Curve max thrust percentage | Set to the lowest pwm position that produces the maximum thrust of the motors. Most motors produce maximum thrust below the maximum pwm value that they accept
 MOT_TCRV_MIDPCT | 52 | 1 | percent | 20 - 80 |  | Thrust Curve mid-point percentage | Set the pwm position that produces half the maximum thrust of the motors
@@ -251,7 +251,7 @@ RNGFND_SETTLE_MS | 0 | 1 | millisecond | |  | Rangefinder reading delay | The ti
 RNGFND_STOP_PIN | -1 | 1 | list | -1:NotUsed<br/>111:PX4 FMU Relay1<br/>112:PX4 FMU Relay2<br/>113:PX4IO,Relay1<br/>50:Pixhawk AUXOUT1<br/>114:PX4IO Relay2<br/>51:Pixhawk AUXOUT2<br/>115:PX4IO ACC1<br/>52:Pixhawk AUXOUT3<br/>116:PX4IO ACC2<br/>53:Pixhawk AUXOUT4<br/>54:Pixhawk AUXOUT5<br/>55:Pixhawk AUXOUT6<br/> |  |  | Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.
 RNGFND_TYPE | 0 | 1 | list | 0:None<br/>1:Analog<br/>2:APM2-MaxbotixI2C<br/>3:APM2-PulsedLightI2C<br/>4:PX4-I2C<br/>5:PX4-PWM<br/>6:BBB-PRU<br/>7:LightWareI2C<br/>8:LightWareSerial<br/>9:Bebop<br/>10:MAVLink<br/>12:LeddarOne<br/> |  |  | What type of rangefinder device that is connected
 RSSI_PIN | -1 | 1 | list | -1:Disabled<br/>0:APM2 A0<br/>1:APM2 A1<br/>2:APM2 A2<br/>103:Pixhawk SBUS<br/>13:APM2 A13<br/> |  | Receiver RSSI sensing pin | This selects an analog pin for the receiver RSSI voltage. It assumes the voltage is RSSI_RANGE for max rssi, 0V for minimum
-RSSI_RANGE | 5 | 1 | list | 5:5V<br/>3.3:3.3V<br/> |  | Receiver RSSI voltage range | Receiver RSSI voltage range
+RSSI_RANGE | 5 | 1 | volt | 5:5V<br/>3.3:3.3V<br/> |  | Receiver RSSI voltage range | Receiver RSSI voltage range
 RTL_ALT | 1500 | 1 | cm | 0 - 8000 |  |  | The minimum relative altitude the model will move to before Returning to Launch. Set to zero to return at current altitude.
 RTL_ALT_FINAL | 0 | 1 | cm | -1 - 1000 |  |  | This is the altitude the vehicle will move to as the final stage of Returning to Launch or after completing a mission. Set to zero to land.
 RTL_LOIT_TIME | 5000 | 1 | m/s | 0 - 60000 |  |  | Time (in milliseconds) to loiter above home before beginning final descent

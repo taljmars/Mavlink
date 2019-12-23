@@ -24,11 +24,11 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Class to manage the communication of parameters to the MAV.
- * 
+ *
  * Should be initialized with a MAVLink Object, so the manager can send messages
  * via the MAV link. The function processMessage must be called with every new
  * MAV Message.
- * 
+ *
  */
 @Component
 public class Parameters extends DroneVariable implements OnDroneListener {
@@ -50,11 +50,11 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
-	
+
 	public Runnable watchdogCallback = () -> onParameterStreamStopped();
 
 	public final ArrayList<Parameter> parameterList = new ArrayList<Parameter>();
-	
+
 	static int called;
 	public void init() {
 		if (called++ > 1)
@@ -65,31 +65,31 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	public void refreshParameters() {
 		parameters.clear();
-        parameterList.clear();
+		parameterList.clear();
 
 		if (parameterListeners == null) {
 			LOGGER.error("Error: There are not listeners signed");
 			return;
 		}
-		
+
 		for (DroneInterfaces.OnParameterManagerListener parameterListener : parameterListeners)
 			parameterListener.onBeginReceivingParameters();
-		
+
 		MavLinkParameters.requestParametersList(drone);
 		resetWatchdog();
 	}
 
-    public List<Parameter> getParametersList(){
-        return parameterList;
-    }
-    
-    public int getLoadedDownloadedParameters() {
-    	return parameters.size();
-    }
+	public List<Parameter> getParametersList(){
+		return parameterList;
+	}
+
+	public int getLoadedDownloadedParameters() {
+		return parameters.size();
+	}
 
 	/**
 	 * Try to process a Mavlink message if it is a parameter related message
-	 * 
+	 *
 	 * @param msg
 	 *            Mavlink message to process
 	 * @return Returns true if the message has been processed
@@ -107,12 +107,13 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		for (Map.Entry<String, MAV_PARAM_I> val : drone.getVehicleProfile().getParametersMetadataMap().entrySet()) {
 			parameters.add(new Parameter(
 					val.getKey(),
-                    val.getValue().getGroup().getName(),
+					val.getValue().getGroup().getName(),
 					val.getValue().getDefaultValue(),
 					val.getValue().getDefaultValue(),
 					val.getValue().getUnit().toString(),
 					-1,
 					val.getValue().isReadOnly(),
+					val.getValue().getOptions(),
 					val.getValue().getTitle(),
 					val.getValue().getDescription()
 			));
@@ -126,31 +127,44 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		MAV_PARAM_I parameterDetail = drone.getVehicleProfile().getParametersMetadataMap().get(m_value.getParam_Id());
 		Parameter param = null;
 		if (parameterDetail != null) {
-			param = new Parameter(
-					m_value.getParam_Id(),
-                    parameterDetail.getGroup().getName(),
-					m_value.param_value,
-					parameterDetail.getDefaultValue(),
-					parameterDetail.getUnit().toString(),
-					m_value.param_type,
-					parameterDetail.isReadOnly(),
-					parameterDetail.getRange(),
-					parameterDetail.getTitle(),
-					parameterDetail.getDescription());
+			if (parameterDetail.getOptions() != null)
+				param = new Parameter(
+						m_value.getParam_Id(),
+						parameterDetail.getGroup().getName(),
+						m_value.param_value,
+						parameterDetail.getDefaultValue(),
+						parameterDetail.getUnit().toString(),
+						m_value.param_type,
+						parameterDetail.isReadOnly(),
+						parameterDetail.getOptions(),
+						parameterDetail.getTitle(),
+						parameterDetail.getDescription());
+			else
+				param = new Parameter(
+						m_value.getParam_Id(),
+						parameterDetail.getGroup().getName(),
+						m_value.param_value,
+						parameterDetail.getDefaultValue(),
+						parameterDetail.getUnit().toString(),
+						m_value.param_type,
+						parameterDetail.isReadOnly(),
+						parameterDetail.getRange(),
+						parameterDetail.getTitle(),
+						parameterDetail.getDescription());
 			LOGGER.debug("Received parameter update {}", param);
 		}
 		else {
 			param = new Parameter(
 					m_value.getParam_Id(),
-                    "unknown",
-                    m_value.param_value,
+					"unknown",
+					m_value.param_value,
 					0,
 					"unknown",
 					m_value.param_type,
 					false,
 					"unknown",
 					"unknown"
-					);
+			);
 			LOGGER.debug("Received un-known parameter update {}", param);
 		}
 
@@ -173,7 +187,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		if (parameterListeners != null)
 			for (DroneInterfaces.OnParameterManagerListener parameterListener : parameterListeners)
 				parameterListener.onParameterReceived(param, m_value.param_index, m_value.param_count);
-		
+
 		// Are all parameters here? Notify the listener with the parameters
 		if (parameters.size() >= m_value.param_count) {
 			LOGGER.debug("All parameters arrived, notify listeners");
@@ -237,27 +251,27 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	private void killWatchdog() {
 		handler.removeCallbacks(watchdogCallback);
-	}	
-	
+	}
+
 	@Override
 	public void onDroneEvent(DroneEventsType event, Drone drone) {
 		switch (event) {
-		case HEARTBEAT_FIRST:
-			if (!drone.getState().isFlying()) {
-				LOGGER.debug("First HB Packet");
-				//refreshParameters();
-			}
-			break;
-		case DISCONNECTED:
-		case HEARTBEAT_TIMEOUT:
-			killWatchdog();
-			break;
-		default:
-			break;
+			case HEARTBEAT_FIRST:
+				if (!drone.getState().isFlying()) {
+					LOGGER.debug("First HB Packet");
+					//refreshParameters();
+				}
+				break;
+			case DISCONNECTED:
+			case HEARTBEAT_TIMEOUT:
+				killWatchdog();
+				break;
+			default:
+				break;
 
 		}
 	}
-	
+
 	public int getExpectedParameterAmount() {
 		return expectedParams;
 	}

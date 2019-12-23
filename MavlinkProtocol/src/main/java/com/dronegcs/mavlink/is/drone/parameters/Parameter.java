@@ -16,7 +16,7 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 	private static final long serialVersionUID = -4968235225796045915L;
 
 	private final String name;
-	private final Map<Integer, String> options;
+	private final Map<Number, String> options;
 	private final String title;
 	private final String group;
 	private Number value;
@@ -46,7 +46,7 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		this.group = group;
 	}
 
-	public Parameter(String name, String group, Number value, Number defaultValue, String unit, int type, boolean readOnly, Map<Integer,String> options, String title, String description) {
+	public Parameter(String name, String group, Number value, Number defaultValue, String unit, int type, boolean readOnly, Map<Number,String> options, String title, String description) {
 		this.name = name;
 		this.value = value;
 		this.defaultValue = defaultValue;
@@ -132,7 +132,7 @@ public class Parameter implements Comparable<Parameter>, Serializable {
 		return readOnly;
 	}
 
-	public Map<Integer, String> getOptions() {
+	public Map<Number, String> getOptions() {
 		return options;
 	}
 

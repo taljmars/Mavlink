@@ -340,7 +340,7 @@ public enum MAV_PARAM_COPTER implements MAV_PARAM_I {
         this.group = group;
         this.defaultValue = defaultValue;
         this.increment = increment;
-        this.unit = MAV_PARAM_UNIT.FLAGS;
+        this.unit = unit;
         this.options = options;
         this.range = null;
         this.readOnly = readOnly;
