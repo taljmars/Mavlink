@@ -47,20 +47,26 @@ public class GenerateParametersGithubDoc {
             fileWriter.write("\n");
             fileWriter.write(val.getDescription());
             fileWriter.write("\n");
-            fileWriter.write("Unit: " + val.getUnit());
+            fileWriter.write("Unit: " + (val.getUnit() == null ? "scalar" : val.getUnit()));
             fileWriter.write("\n");
             fileWriter.write("Default Value: " + val.getDefaultValue());
             fileWriter.write("\n");
             if (val.getRange() != null) {
-                fileWriter.write(" Min | Max");
+                fileWriter.write("\n");
+                fileWriter.write("Min | Max");
+                fileWriter.write("\n");
+                fileWriter.write("--- | ---");
                 fileWriter.write("\n");
                 fileWriter.write(" " + val.getRange().getMin() + " | " + val.getRange().getMax());
             }
             else if (val.getOptions() != null) {
-                fileWriter.write(" Key | Value ");
+                fileWriter.write("\n");
+                fileWriter.write("Key | Value");
+                fileWriter.write("\n");
+                fileWriter.write("--- | ---");
                 fileWriter.write("\n");
                 for (Map.Entry<Number, String> option : val.getOptions().entrySet()) {
-                    fileWriter.write(" " + option.getKey() + " | " + option.getValue() + " ");
+                    fileWriter.write(option.getKey() + " | " + option.getValue());
                     fileWriter.write("\n");
                 }
             }
