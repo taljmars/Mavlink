@@ -4,21 +4,24 @@
 rate at which pitch angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
 Unit: 
 Default Value: 1
- Min | Max
- 0 | 3
+Min | Max
+--- | ---
+0 | 3
 
 ## ACRO_BAL_ROLL: Acro Balance Roll
 rate at which roll angle returns to level in acro mode. A higher value causes the vehicle to return to level faster.
 Unit: 
 Default Value: 1
- Min | Max
- 0 | 3
+Min | Max
+--- | ---
+0 | 3
 
 ## ACRO_EXPO: Acro Expo
 Acro roll/pitch Expo to allow faster rotation when stick at edges
 Unit: 
 Default Value: 0.3
  Key | Value 
+  --- | ---
  0 | Disabled 
  0.3 | Medium 
  0.5 | Very High 
