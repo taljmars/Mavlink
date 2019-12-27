@@ -22,7 +22,8 @@ public class MavLinkParameters {
 		msg.target_component = 1;
 		msg.setParam_Id(parameter.getName());
  		msg.param_type = (byte) parameter.getType();
-		msg.param_value = (float) parameter.getValue();
+//		msg.param_value = (float) parameter.getValue();
+		msg.param_value = parameter.getValue().floatValue();
 		drone.getMavClient().sendMavPacket(msg.pack());
 	}
 
