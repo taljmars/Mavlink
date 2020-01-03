@@ -23,6 +23,9 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
 import com.dronegcs.mavlink.is.protocol.msgparser.Parser;
 
+import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_1;
+import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_2;
+
 /**
  * Base for mavlink connection implementations.
  */
@@ -151,7 +154,7 @@ public abstract class MavLinkConnection {
 
 						tester++;
 						if (tester == 5) {
-							connectionStatistics.dump(System.out);
+//							connectionStatistics.dump(System.out);
 							tester = 0;
 						}
 					}
@@ -250,18 +253,22 @@ public abstract class MavLinkConnection {
 					if (mavLinkMessage == null) {
 						connectionStatistics.setTransmittedErrorPackets(connectionStatistics.getTransmittedErrorPackets() + 1);
 						LOGGER.error("Failed to unpack packet '{}'", packet);
+						System.out.println("Failed to unpack packet '" + packet + "'");
 						continue;
 					}
 
 					if (mavLinkMessage.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
-//						System.err.println("[SND] " + mavLinkMessage.toString());
+						System.out.println("[SND] " + mavLinkMessage.toString());
 						LOGGER.trace("[SND] {}", mavLinkMessage.toString());
 						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
 						logger.LogDesignedMessege(log_entry);
 					}
 					packet.seq = msgSeqNumber;
+					if (mavlinkVersion.equals(MavlinkVersions.MAVLINK2))
+						packet.version = MAVLINK_2;
 					byte[] buffer = packet.encodePacket();
-
+					if (packet.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT)
+						System.out.println(buffer);
 					try {
 						sendBuffer(buffer);
 
@@ -293,6 +300,7 @@ public abstract class MavLinkConnection {
 				LOGGER.error("Interrupted exception:", e);
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				LOGGER.error("exception:", e);
 				System.out.println("Sending thread unknown " + e.getMessage());
 				disconnect();
@@ -317,6 +325,7 @@ public abstract class MavLinkConnection {
 
 	protected Set<MirrorHandler> mirrorHandlers = new HashSet<>();
 	protected boolean mirrorMode = false;
+	private MavlinkVersions mavlinkVersion = MavlinkVersions.MAVLINK1;
 
 	/**
 	 * Establish a mavlink connection. If the connection is successful, it will
@@ -504,5 +513,21 @@ public abstract class MavLinkConnection {
 		msg.target_system = 1;
 		msg.time_usec = 0;//System.currentTimeMillis();
 		sendMavPacket(msg.pack());
+	}
+
+	public void setMavlinkVersion(MavlinkVersions version) {
+		this.mavlinkVersion = version;
+	}
+
+	public MavlinkVersions getMavlinkVersion() {
+		return this.mavlinkVersion;
+	}
+
+	public boolean isMavlink2() {
+		return this.mavlinkVersion == MavlinkVersions.MAVLINK2;
+	}
+
+	public boolean isMavlink1() {
+		return this.mavlinkVersion == MavlinkVersions.MAVLINK1;
 	}
 }
