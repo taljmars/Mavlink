@@ -1,4 +1,4 @@
-package com.dronegcs.mavlink.is.protocol.msg_metadata;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.crc;
 
 import java.nio.charset.StandardCharsets;
 

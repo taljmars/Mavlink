@@ -1,6 +1,9 @@
 package com.dronegcs.mavlink.is.protocol.msg_metadata;
 
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.crc.CRC_Metadata;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.crc.CRCx25_Mavlink1;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.crc.CRCx25_Mavlink2;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
@@ -149,7 +152,7 @@ public class MAVLinkPacket implements Serializable {
         crc2 = new CRCx25_Mavlink2();
         crc2.accumulate(buffer, 1, packetLengthWithoutCrc);
 
-        Integer expectedCrc = CRCx25_Mavlink1.MAVLINK_MESSAGE_CRCS.get(msgid);
+        Integer expectedCrc = CRC_Metadata.MAVLINK_MESSAGE_CRCS.get(msgid);
         if (expectedCrc == null || expectedCrc == 0)
             System.out.println("Illegal message ID " + msgid);
         else {
