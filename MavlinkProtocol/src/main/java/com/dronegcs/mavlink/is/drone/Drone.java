@@ -1,99 +1,99 @@
 package com.dronegcs.mavlink.is.drone;
 
+import com.dronegcs.mavlink.core.firmware.FirmwareType;
 import com.dronegcs.mavlink.is.connection.MavLinkConnection;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
+import com.dronegcs.mavlink.is.drone.profiles.Parameters;
+import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 import com.dronegcs.mavlink.is.drone.variables.*;
+import com.dronegcs.mavlink.is.gcs.follow.Follow;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
-import com.dronegcs.mavlink.core.firmware.FirmwareType;
-import com.dronegcs.mavlink.is.drone.profiles.Parameters;
-import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
-import com.dronegcs.mavlink.is.gcs.follow.Follow;
 
 public interface Drone {
 
-	public void addDroneListener(DroneInterfaces.OnDroneListener listener);
+	void addDroneListener(DroneInterfaces.OnDroneListener listener);
 
-	public void removeDroneListener(DroneInterfaces.OnDroneListener listener);
+	void removeDroneListener(DroneInterfaces.OnDroneListener listener);
 
-	public void notifyDroneEvent(DroneInterfaces.DroneEventsType event);
+	void notifyDroneEvent(DroneInterfaces.DroneEventsType event);
 
-	public GPS getGps();
+	GPS getGps();
 
-	public int getMavlinkVersion();
+//	int getMavlinkVersion();
 
-	public boolean isConnectionAlive();
+	boolean isConnectionAlive();
 
-	public void onHeartbeat(msg_heartbeat msg);
+	void onHeartbeat(msg_heartbeat msg);
 
-	public State getState();
+	State getState();
 
-	public Parameters getParameters();
+	Parameters getParameters();
 
-	public void setType(MAV_TYPE type);
+	void setType(MAV_TYPE type);
 
-	public Type getType();
+	Type getType();
 
-	public FirmwareType getFirmwareType();
+	FirmwareType getFirmwareType();
 
-	public void loadVehicleProfile();
+	void loadVehicleProfile();
 
-	public VehicleProfile getVehicleProfile();
+	VehicleProfile getVehicleProfile();
 
-	public MavLinkConnection getMavClient();
+	MavLinkConnection getMavClient();
 
-	public Preferences getPreferences();
+	Preferences getPreferences();
 
-	public WaypointManager getWaypointManager();
+	WaypointManager getWaypointManager();
 
-	public Speed getSpeed();
+	Speed getSpeed();
 
-	public Battery getBattery();
+	Battery getBattery();
 
-	public Radio getRadio();
+	Radio getRadio();
 
-	public Home getHome();
+	Home getHome();
 
-	public Altitude getAltitude();
+	Altitude getAltitude();
 
-	public Orientation getOrientation();
+	Orientation getOrientation();
 
-	public Navigation getNavigation();
+	Navigation getNavigation();
 
-	public DroneMission getDroneMission();
+	DroneMission getDroneMission();
 
-	public StreamRates getStreamRates();
+	StreamRates getStreamRates();
 
-	public MissionStats getMissionStats();
+	MissionStats getMissionStats();
 
-	public GuidedPoint getGuidedPoint();
+	GuidedPoint getGuidedPoint();
 
-	public Calibration getCalibrationSetup();
+	Calibration getCalibrationSetup();
 
-	public RC getRC();
+	RC getRC();
 	
-	public Magnetometer getMagnetometer();
+	Magnetometer getMagnetometer();
 
-	public void setAltitudeGroundAndAirSpeeds(double altitude, double groundSpeed, double airSpeed,
+	void setAltitudeGroundAndAirSpeeds(double altitude, double groundSpeed, double airSpeed,
 			double climb);
 
-	public void setDisttowpAndSpeedAltErrors(double disttowp, double alt_error, double aspd_error);
+	void setDisttowpAndSpeedAltErrors(double disttowp, double alt_error, double aspd_error);
 
-	public String getFirmwareVersion();
+	String getFirmwareVersion();
 
-	public void setFirmwareVersion(String message);
+	void setFirmwareVersion(String message);
 
-	public CameraFootprints getCameraFootprints();
+	CameraFootprints getCameraFootprints();
 
-	public Perimeter getPerimeter();
+	Perimeter getPerimeter();
 
-	public Messeges getMessegeQueue();
+	Messages getMessegeQueue();
 
-	public Beacon getBeacon();
+	Beacon getBeacon();
 
-	public GCS getGCS();
+	GCS getGCS();
 
-	public Follow getFollow();
+	Follow getFollow();
 	
 }

@@ -237,32 +237,36 @@ public class DroneInterfaces {
 		
 		BEACON_LOCK_FINISH, 
 		
-		GCS_LOCATION, 
+		GCS_LOCATION,
+
+		PROTOCOL_LEARNING,
+
+		PROTOCOL_IDENTIFIED,
 	}
 
 	public interface OnDroneListener {
-		public void onDroneEvent(DroneEventsType event, Drone drone);
+		void onDroneEvent(DroneEventsType event, Drone drone);
 	}
 
 	public interface OnParameterManagerListener {
-		public void onBeginReceivingParameters();
+		void onBeginReceivingParameters();
 
-		public void onParameterReceived(Parameter parameter, int index, int count);
+		void onParameterReceived(Parameter parameter, int index, int count);
 
-		public void onEndReceivingParameters(List<Parameter> parameter);
+		void onEndReceivingParameters(List<Parameter> parameter);
 	}
 
 	public interface OnWaypointManagerListener {
-		public void onBeginWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent);
+		void onBeginWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent);
 
-		public void onWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent, int index, int count);
+		void onWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent, int index, int count);
 
-		public void onEndWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent);
+		void onEndWaypointEvent(WaypointManager.WaypointEvent_Type wpEvent);
 	}
 
 	public interface OnTimeout {
 
-		public void notifyTimeOut(int timeOutCount);
+		void notifyTimeOut(int timeOutCount);
 
 	}
 
@@ -278,7 +282,8 @@ public class DroneInterfaces {
 
         void post(Runnable thread);
 
-		void postDelayed(Runnable thread, long timeout);
+
+		void postDelayed(Runnable thread, long delayInMilliseconds);
 
 	}
 

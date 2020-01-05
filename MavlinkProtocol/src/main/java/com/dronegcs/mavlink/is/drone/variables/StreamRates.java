@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Component
 public class StreamRates extends DroneVariable implements OnDroneListener
 {
-	@Autowired @NotNull(message = "Internal Error: Failed to get com.dronegcs.gcsis.logger")
+	@Autowired @NotNull(message = "Internal Error: Failed to get logger")
 	private Logger logger;
 
 	@Autowired
@@ -41,6 +41,10 @@ public class StreamRates extends DroneVariable implements OnDroneListener
 	public void onDroneEvent(DroneEventsType event, Drone drone) {
 		switch (event) {
 		case HEARTBEAT_FIRST:
+			logger.LogGeneralMessege("First HB Packet detected");
+			break;
+		case PROTOCOL_IDENTIFIED:
+			logger.LogGeneralMessege("Protocol Identified, Sending stream rates");
 		case HEARTBEAT_RESTORED:
 			setupStreamRatesFromPref();
 			break;
@@ -52,8 +56,7 @@ public class StreamRates extends DroneVariable implements OnDroneListener
 	public void setupStreamRatesFromPref() {
 		if (streamRatesWasSet)
 			return;
-		
-		logger.LogGeneralMessege("Setting up stream rates");
+
 		Rates rates = drone.getPreferences().getRates();
 
 		MavLinkStreamRates.setupStreamRates(drone.getMavClient(), rates.extendedStatus,

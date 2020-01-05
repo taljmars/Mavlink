@@ -55,6 +55,8 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	public final ArrayList<Parameter> parameterList = new ArrayList<Parameter>();
 
+	private boolean fetchOnConnect = false;
+
 	static int called;
 	public void init() {
 		if (called++ > 1)
@@ -266,6 +268,12 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 			case HEARTBEAT_TIMEOUT:
 				killWatchdog();
 				break;
+			case PROTOCOL_IDENTIFIED:
+				if (this.isFetchOnConnect()) {
+					LOGGER.debug("Fetching parameters automatically");
+					handler.postDelayed(() -> refreshParameters(), 2000);
+				}
+				break;
 			default:
 				break;
 
@@ -283,5 +291,13 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 	public int getPercentageComplete() {
 		return (int) (((double) (getLoadedDownloadedParameters()) / getExpectedParameterAmount()) * 100);
+	}
+
+	public void setAutoFetch(boolean shouldFetch) {
+		this.fetchOnConnect = shouldFetch;
+	}
+
+	public boolean isFetchOnConnect() {
+		return fetchOnConnect;
 	}
 }

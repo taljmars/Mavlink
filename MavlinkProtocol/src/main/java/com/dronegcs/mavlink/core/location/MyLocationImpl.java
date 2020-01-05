@@ -77,7 +77,7 @@ public class MyLocationImpl implements LocationFinder {
 		
 		scTimerTask = null;
 		
-		logger.LogDesignedMessege(getClass() + " Location updates canceled!");
+		logger.LogDesignedMessege("Location updates canceled!");
 	}
 	
 	static int called;

@@ -1,27 +1,25 @@
 package com.dronegcs.mavlink.core.gcs;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
-
+import com.dronegcs.mavlink.is.drone.Drone;
+import com.dronegcs.mavlink.is.drone.DroneInterfaces;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkHeartbeat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dronegcs.mavlink.is.drone.Drone;
-import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkHeartbeat;
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is used to send periodic heartbeat messages to the drone.
  */
 
 @Component
-public class GCSHeartbeat {
+public class GCSHeartbeat implements DroneInterfaces.OnDroneListener {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(GCSHeartbeat.class);
 
@@ -34,32 +32,24 @@ public class GCSHeartbeat {
 	/**
 	 * This is the heartbeat period in seconds.
 	 */
-	private int period;
+	private int period = 1;
 
 	/**
 	 * ScheduledExecutorService used to periodically schedule the heartbeat.
 	 */
-	private ScheduledExecutorService heartbeatExecutor;
+	private ScheduledExecutorService heartbeatExecutor = null;
 
 	/**
 	 * Runnable used to send the heartbeat.
 	 */
-	private final Runnable heartbeatRunnable = new Runnable() {
-		@Override
-		public void run() {
-			LOGGER.trace("Sending HB");
-			drone.getMavClient();
-			MavLinkHeartbeat.sendMavHeartbeat(drone);
-		}
-	};
+	private final Runnable heartbeatRunnable = () -> MavLinkHeartbeat.sendMavHeartbeat(drone);
 
 	static int called;
 	@PostConstruct
 	public void init() {
 		if (called++ > 1)
 			throw new RuntimeException("Not a Singleton");
-		setFrq(1);
-		setActive(true);
+		drone.addDroneListener(this);
 	}
 
 	/**
@@ -71,15 +61,36 @@ public class GCSHeartbeat {
 	public void setActive(boolean active) {
 		if (active) {
 			heartbeatExecutor = Executors.newSingleThreadScheduledExecutor();
-			heartbeatExecutor
-					.scheduleWithFixedDelay(heartbeatRunnable, 0, period, TimeUnit.SECONDS);
-		} else if (heartbeatExecutor != null) {
+			heartbeatExecutor.scheduleWithFixedDelay(heartbeatRunnable, 0, period, TimeUnit.SECONDS);
+		}
+		else if (heartbeatExecutor != null) {
 			heartbeatExecutor.shutdownNow();
 			heartbeatExecutor = null;
 		}
 	}
 
-	public void setFrq(int i) {
+	public void setFrequency(int i) {
 		period = i;
+		setActive(false);
+		setActive(true);
+	}
+
+	public int getFrequency() {
+		return period;
+	}
+
+	@Override
+	public void onDroneEvent(DroneInterfaces.DroneEventsType event, Drone drone) {
+		switch (event) {
+			case HEARTBEAT_FIRST:
+				LOGGER.debug("Activate GCS Heartbeat mechanism");
+				if (heartbeatExecutor == null)
+					setActive(true);
+				break;
+			case DISCONNECTED:
+				LOGGER.debug("De-Activate GCS Heartbeat mechanism");
+				setActive(false);
+				break;
+		}
 	}
 }

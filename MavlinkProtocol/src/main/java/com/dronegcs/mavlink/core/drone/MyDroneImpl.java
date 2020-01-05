@@ -23,7 +23,7 @@ import com.dronegcs.mavlink.is.drone.variables.GuidedPoint;
 import com.dronegcs.mavlink.is.drone.variables.HeartBeat;
 import com.dronegcs.mavlink.is.drone.variables.Home;
 import com.dronegcs.mavlink.is.drone.variables.Magnetometer;
-import com.dronegcs.mavlink.is.drone.variables.Messeges;
+import com.dronegcs.mavlink.is.drone.variables.Messages;
 import com.dronegcs.mavlink.is.drone.variables.MissionStats;
 import com.dronegcs.mavlink.is.drone.variables.Navigation;
 import com.dronegcs.mavlink.is.drone.variables.Orientation;
@@ -42,7 +42,6 @@ import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
 import com.generic_tools.validations.RuntimeValidator;
 import com.generic_tools.validations.ValidatorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -144,7 +143,7 @@ public class MyDroneImpl implements Drone {
 	
 	@NotNull(message="Missing Messege parameter")
 	@Autowired
-	private Messeges messeges;	
+	private Messages messeges;
 	
 	@NotNull(message="Missing Parameters parameter")
 	@Autowired
@@ -190,7 +189,7 @@ public class MyDroneImpl implements Drone {
 		streamRates.init();
 		Perimeter.init();
 		parameters.init();
-		messeges.init();
+//		messeges.init();
 
 		ValidatorResponse validatorResponse = runtimeValidator.validate(this);
 		if (validatorResponse.isFailed())
@@ -220,10 +219,12 @@ public class MyDroneImpl implements Drone {
 	@Override
 	public void addDroneListener(DroneInterfaces.OnDroneListener listener) {
 		events.addDroneListener(listener);
+		messeges.addMessageQueue(listener);
 	}
 
 	@Override
 	public void removeDroneListener(DroneInterfaces.OnDroneListener listener) {
+		messeges.removeMessageQueue(listener);
 		events.removeDroneListener(listener);
 	}
 
@@ -237,10 +238,10 @@ public class MyDroneImpl implements Drone {
 		return GPS;
 	}
 
-	@Override
-	public int getMavlinkVersion() {
-		return heartbeat.getMavlinkVersion();
-	}
+//	@Override
+//	public int getMavlinkVersion() {
+//		return heartbeat.getMavlinkVersion();
+//	}
 
 	@Override
 	public void onHeartbeat(msg_heartbeat msg) {
@@ -381,7 +382,7 @@ public class MyDroneImpl implements Drone {
 	}
 
 	@Override
-	public Messeges getMessegeQueue() {
+	public Messages getMessegeQueue() {
 		return messeges;
 	}
 

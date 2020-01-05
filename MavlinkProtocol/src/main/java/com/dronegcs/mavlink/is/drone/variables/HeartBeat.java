@@ -34,10 +34,10 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	@SuppressWarnings("unused")
 	private int droneID = 1;
 
-	/**
-	 * Stores the version of the com.dronegcs.mavlink.is.mavlink protocol.
-	 */
-	private byte mMavlinkVersion = INVALID_MAVLINK_VERSION;
+//	/**
+//	 * Stores the version of the com.dronegcs.mavlink.is.mavlink protocol.
+//	 */
+//	private byte mMavlinkVersion = INVALID_MAVLINK_VERSION;
 
 	private enum HeartbeatState {
 		FIRST_HEARTBEAT, LOST_HEARTBEAT, NORMAL_HEARTBEAT, IMU_CALIBRATION
@@ -46,12 +46,7 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	@Autowired @NotNull(message = "Internal Error: Failed to get handler")
 	private Handler handler;
 	
-	private final Runnable watchdogCallback = new Runnable() {
-		@Override
-		public void run() {
-			onHeartbeatTimeout();
-		}
-	};
+	private final Runnable watchdogCallback = () -> onHeartbeatTimeout();
 	
 	private static int called;
 	/**
@@ -63,17 +58,17 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 		drone.addDroneListener(this);
 	}
 
-	/**
-	 * @return the version of the com.dronegcs.mavlink.is.mavlink protocol.
-	 */
-	public byte getMavlinkVersion() {
-		return mMavlinkVersion;
-	}
+//	/**
+//	 * @return the version of the com.dronegcs.mavlink.is.mavlink protocol.
+//	 */
+//	public byte getMavlinkVersion() {
+//		return mMavlinkVersion;
+//	}
 
 	@SuppressWarnings("incomplete-switch")
 	public void onHeartbeat(msg_heartbeat msg) {
 		droneID = msg.sysid;			
-		mMavlinkVersion = msg.mavlink_version;
+//		mMavlinkVersion = msg.mavlink_version;
 
 		//System.err.println(getClass().getName() + " Currnet Status: " + heartbeatState);
 		LOGGER.trace("Current Status: " + heartbeatState);
@@ -128,7 +123,7 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	private void notifyDisconnected() {
 		handler.removeCallbacks(watchdogCallback);
 		heartbeatState = HeartbeatState.FIRST_HEARTBEAT;
-		mMavlinkVersion = INVALID_MAVLINK_VERSION;
+//		mMavlinkVersion = INVALID_MAVLINK_VERSION;
 	}
 
 	private void onHeartbeatTimeout() {

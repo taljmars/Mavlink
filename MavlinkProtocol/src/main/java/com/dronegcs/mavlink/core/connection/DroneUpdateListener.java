@@ -1,11 +1,14 @@
 package com.dronegcs.mavlink.core.connection;
 
 import com.dronegcs.mavlink.is.connection.MavLinkConnectionListener;
+import com.dronegcs.mavlink.is.connection.MavlinkVersions;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.*;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_MODE_FLAG;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PROTOCOL_CAPABILITY;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_STATE;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
 import com.generic_tools.logger.Logger;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
+
+import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_1;
+import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_2;
 
 @Component
 public class DroneUpdateListener implements MavLinkConnectionListener {
@@ -111,11 +117,13 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				drone.getGps().setPosition(c);
 				drone.getPerimeter().setPosition(c);
 				break;
+
 			case msg_sys_status.MAVLINK_MSG_ID_SYS_STATUS:
 				msg_sys_status m_sys = (msg_sys_status) msg;
 				drone.getBattery().setBatteryState(m_sys.voltage_battery / 1000.0,
 						m_sys.battery_remaining, m_sys.current_battery / 100.0);
 				break;
+
 			case msg_radio.MAVLINK_MSG_ID_RADIO:
 				msg_radio m_radio = (msg_radio) msg;
 				drone.getRadio().setRadioState(m_radio.rxerrors, m_radio.fixed, m_radio.rssi,
@@ -127,17 +135,21 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				drone.getRadio().setRadioState(m_radio_status.rxerrors, m_radio_status.fixed, m_radio_status.rssi,
 						m_radio_status.remrssi, m_radio_status.txbuf, m_radio_status.noise, m_radio_status.remnoise);
 				return;
+
 			case msg_gps_raw_int.MAVLINK_MSG_ID_GPS_RAW_INT:
 				drone.getGps().setGpsState(((msg_gps_raw_int) msg).fix_type,
 						((msg_gps_raw_int) msg).satellites_visible, ((msg_gps_raw_int) msg).eph);
 				break;
+
 			case msg_rc_channels_raw.MAVLINK_MSG_ID_RC_CHANNELS_RAW:
 				drone.getRC().setRcInputValues((msg_rc_channels_raw) msg);
 				return;
 				//break;
+
 			case msg_servo_output_raw.MAVLINK_MSG_ID_SERVO_OUTPUT_RAW:
 				drone.getRC().setRcOutputValues((msg_servo_output_raw) msg);
 				break;
+
 			case msg_statustext.MAVLINK_MSG_ID_STATUSTEXT:
 				// These are any warnings sent from APM:Copter with
 				// gcs_send_text_P()
@@ -148,7 +160,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				msg_statustext msg_statustext = (msg_statustext) msg;
 				String message = msg_statustext.getText();
 				
-//				System.err.println(message);
+//				System.err.println("Message status: " + message);
 	
 				if (msg_statustext.severity == SEVERITY_HIGH || msg_statustext.severity == SEVERITY_CRITICAL) {
 					drone.getState().setWarning(message);
@@ -167,9 +179,30 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 			case msg_camera_feedback.MAVLINK_MSG_ID_CAMERA_FEEDBACK:
 				drone.getCameraFootprints().newImageLocation((msg_camera_feedback) msg);
 				break;
+
 			case msg_ping.MAVLINK_MSG_ID_PING:
 				System.out.println("Got pinged back");
 				break;
+
+			case msg_autopilot_version.MAVLINK_MSG_ID_AUTOPILOT_VERSION:
+				msg_autopilot_version msg_autopilot = (msg_autopilot_version) msg;
+				boolean isMavlink2 = (msg_autopilot.capabilities & MAV_PROTOCOL_CAPABILITY.MAV_PROTOCOL_CAPABILITY_MAVLINK2) == MAV_PROTOCOL_CAPABILITY.MAV_PROTOCOL_CAPABILITY_MAVLINK2;
+				//if (isMavlink2)
+				//	System.out.println("Protocol Mavlink 2 (orig message of type " + msg_autopilot.version);
+				//else
+				//	System.out.println("Protocol Mavlink 1 (orig message of type " + msg_autopilot.version);
+				break;
+
+			case msg_protocol_version.MAVLINK_MSG_ID_PROTOCOL_VERSION:
+				msg_protocol_version msg_protocol = (msg_protocol_version) msg;
+				System.out.println("PROT " + msg_protocol);
+				break;
+
+			case msg_command_ack.MAVLINK_MSG_ID_COMMAND_ACK:
+				msg_command_ack msg_ack = (msg_command_ack) msg;
+				System.out.println("Command " + msg_ack.command + " end with " + msg_ack.result);
+				break;
+
 			default:
 				break;
 		}		
@@ -185,6 +218,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 	public void onComError(String errMsg) {
 		LOGGER.error("Communication Error: {}", errMsg);
 		logger.LogErrorMessege("Communication Error: " + errMsg);
+		drone.getMessegeQueue().push(errMsg);
 	}
 	
 	public void processState(msg_heartbeat msg_heart) {

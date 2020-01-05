@@ -1,27 +1,24 @@
 package com.dronegcs.mavlink.is.connection;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import javax.validation.constraints.NotNull;
-
 import com.dronegcs.mavlink.core.connection.USBConnection;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPayload;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_ping;
-import com.generic_tools.logger.Logger;
-import gnu.io.PortInUseException;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces.DroneEventsType;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_ping;
 import com.dronegcs.mavlink.is.protocol.msgparser.Parser;
+import com.generic_tools.logger.Logger;
+import gnu.io.PortInUseException;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_1;
 import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLINK_2;
@@ -96,10 +93,13 @@ public abstract class MavLinkConnection {
 			loadPreferences();
 
 			try {
+				mavlinkVersion = MavlinkVersions.DEFAULT_VERSION;
+
 				// Open the connection
 				if (!openConnection()) {
 					logger.LogErrorMessege("Failed to open connection");
 					LOGGER.error("Failed to open connection");
+					reportComError("Port is already assigned / doesn't connected");
 					drone.notifyDroneEvent(DroneEventsType.DISCONNECTED);
 					return;
 				}
@@ -107,6 +107,7 @@ public abstract class MavLinkConnection {
 				mConnectionStatus.set(MAVLINK_CONNECTED);
 				reportConnect();
 
+				System.out.println("Reset statistics");
 				connectionStatistics.reset();
 
 				logger.LogGeneralMessege("Mavlink connected");
@@ -179,15 +180,17 @@ public abstract class MavLinkConnection {
 				// Ignore errors while shutting down
 				System.out.println("Receive thread interrupted " + e.getMessage());
 				if (mConnectionStatus.get() != MAVLINK_DISCONNECTED) {
-					reportComError(e.getMessage());
+					reportComError("IO Error: " + e.getMessage());
 				}
 			}
 			catch (PortInUseException e) {
 				logger.LogErrorMessege("Port in use");
 				LOGGER.error("Port in use");
+				reportComError("Port in use, " + e.getMessage());
 				disconnect();
 			}
 			catch (Exception e) {
+				reportComError("Port exception, " + e.getClass().getSimpleName() + ", " + e.getMessage());
 				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
 				LOGGER.error("Mavlink disconnected unexpectedly", e);
 				System.out.println("Receive thread unknown " + e.getMessage());
@@ -210,9 +213,35 @@ public abstract class MavLinkConnection {
 //				System.err.println("Index is " + i);
 				MAVLinkPacket receivedPacket = parser.mavlink_parse_char(buffer[i] & 0x00ff);
 				if (receivedPacket != null) {
+
+
+					if (protocolState == ProtocolExamine.LEARNING && receivedPacket.msgid == msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
+						logger.LogGeneralMessege("Received HB packet during protocol learning");
+						LOGGER.debug("Received HB packet during protocol learning");
+						boolean timeout = ProtocolExamine.isLearningTimeoutExceeded();
+						if (timeout) {
+							LOGGER.debug("Protocol learning timed-out");
+							logger.LogGeneralMessege("Protocol learning timed-out");
+						}
+
+						if (timeout || receivedPacket.version == MAVLINK_2) {
+							if (receivedPacket.version == MAVLINK_2)
+								drone.getMavClient().setMavlinkVersion(MavlinkVersions.MAVLINK2);
+							else
+								drone.getMavClient().setMavlinkVersion(MavlinkVersions.MAVLINK1);
+
+							LOGGER.debug("Protocol Identified");
+							logger.LogGeneralMessege("Protocol Identified");
+							protocolState = ProtocolExamine.FIXED;
+							drone.notifyDroneEvent(DroneEventsType.PROTOCOL_IDENTIFIED);
+						}
+					}
+
+					String pVer = (receivedPacket.version == MAVLINK_2 ? "M2" : "M1");
 					MAVLinkMessage msg = receivedPacket.unpack();
-					LOGGER.trace("[RCV] {}", msg);
-//					System.err.println("[RCV] " + msg);
+
+					LOGGER.trace("[RCV] ({}) {}", pVer, msg);
+//					System.out.println("[RCV] (" + pVer + ") " + msg);
 
 					if (msg.msgid == msg_ping.MAVLINK_MSG_ID_PING) {
 						System.err.println("Received ping!");
@@ -246,8 +275,19 @@ public abstract class MavLinkConnection {
 				long packetsSinceLastWrite = 0;
 				long lastWriteTimestamp = System.currentTimeMillis();
 
+				protocolState = ProtocolExamine.UNKNOWN;
+
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					final MAVLinkPacket packet = mPacketsToSend.take();
+
+					if (protocolState.equals(ProtocolExamine.UNKNOWN)) {
+						LOGGER.debug("Connection Open, Learning protocol, Sending First GCS packet");
+						logger.LogGeneralMessege("Connection Open, Learning protocol, Sending First GCS packet");
+						System.out.println("Connection Open, Learning protocol, Sending First GCS packet");
+						protocolState = ProtocolExamine.LEARNING;
+						ProtocolExamine.resetLearning();
+						drone.notifyDroneEvent(DroneEventsType.PROTOCOL_LEARNING);
+					}
 
 					MAVLinkMessage mavLinkMessage = packet.unpack();
 					if (mavLinkMessage == null) {
@@ -257,18 +297,21 @@ public abstract class MavLinkConnection {
 						continue;
 					}
 
-					if (mavLinkMessage.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
-						System.out.println("[SND] " + mavLinkMessage.toString());
-						LOGGER.trace("[SND] {}", mavLinkMessage.toString());
-						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
-						logger.LogDesignedMessege(log_entry);
-					}
 					packet.seq = msgSeqNumber;
 					if (mavlinkVersion.equals(MavlinkVersions.MAVLINK2))
 						packet.version = MAVLINK_2;
+					else
+						packet.version = MAVLINK_1;
+
+					if (mavLinkMessage.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT) {
+						String pVer = (packet.version == MAVLINK_2 ? "M2" : "M1");
+//						System.out.println("[SND] (" + pVer + ") " + mavLinkMessage.toString());
+						LOGGER.trace("[SND] ({}) {}",pVer,  mavLinkMessage.toString());
+						String log_entry = Logger.generateDesignedMessege(packet.unpack().toString(), Logger.Type.OUTGOING, false);
+						logger.LogDesignedMessege(log_entry);
+					}
+
 					byte[] buffer = packet.encodePacket();
-					if (packet.msgid != msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT)
-						System.out.println(buffer);
 					try {
 						sendBuffer(buffer);
 
@@ -325,8 +368,8 @@ public abstract class MavLinkConnection {
 
 	protected Set<MirrorHandler> mirrorHandlers = new HashSet<>();
 	protected boolean mirrorMode = false;
-	private MavlinkVersions mavlinkVersion = MavlinkVersions.MAVLINK1;
 
+	private MavlinkVersions mavlinkVersion = MavlinkVersions.DEFAULT_VERSION;
 	/**
 	 * Establish a mavlink connection. If the connection is successful, it will
 	 * be reported through the MavLinkConnectionListener interface.
@@ -354,6 +397,8 @@ public abstract class MavLinkConnection {
 	 */
 	public void disconnect() {
 		this.disconnect(false);
+		protocolState = ProtocolExamine.UNKNOWN;
+		mavlinkVersion = MavlinkVersions.DEFAULT_VERSION;
 	}
 	public void disconnect(boolean force) {
 		if (mConnectionStatus.compareAndSet(MAVLINK_CONNECTED, MAVLINK_DISCONNECTED) || force) {
@@ -529,5 +574,29 @@ public abstract class MavLinkConnection {
 
 	public boolean isMavlink1() {
 		return this.mavlinkVersion == MavlinkVersions.MAVLINK1;
+	}
+
+	public enum ProtocolExamine {
+		UNKNOWN,
+		LEARNING,
+		FIXED;
+
+		private static int EXAMINE_DELAY = 3; // Sec
+		private static long timeLearningStart = 0;
+		public static void resetLearning() {
+			timeLearningStart = System.currentTimeMillis();
+		}
+		public static boolean isLearningTimeoutExceeded() {
+			return System.currentTimeMillis() - timeLearningStart > EXAMINE_DELAY *1000;
+		}
+	}
+	private ProtocolExamine protocolState = ProtocolExamine.UNKNOWN;
+
+	public void setProtocolState(ProtocolExamine stage) {
+		this.protocolState = stage;
+	}
+
+	public ProtocolExamine getProtocolState() {
+		return this.protocolState;
 	}
 }

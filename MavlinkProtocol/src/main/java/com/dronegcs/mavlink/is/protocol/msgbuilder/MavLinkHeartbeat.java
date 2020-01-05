@@ -18,8 +18,12 @@ public class MavLinkHeartbeat {
 	 */
 	private static final msg_heartbeat sMsg = new msg_heartbeat();
 	static {
+//		sMsg.type = (byte) MAV_TYPE.MAV_TYPE_GCS.getIndex();
+//		sMsg.autopilot = MAV_AUTOPILOT.MAV_AUTOPILOT_GENERIC;
+
 		sMsg.type = (byte) MAV_TYPE.MAV_TYPE_GCS.getIndex();
-		sMsg.autopilot = MAV_AUTOPILOT.MAV_AUTOPILOT_GENERIC;
+		sMsg.autopilot = MAV_AUTOPILOT.MAV_AUTOPILOT_INVALID;
+		sMsg.mavlink_version = 3;
 	}
 
 	/**

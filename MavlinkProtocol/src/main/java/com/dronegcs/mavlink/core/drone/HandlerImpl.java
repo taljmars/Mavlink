@@ -33,8 +33,8 @@ public class HandlerImpl implements Handler {
 	}
 
 	@Override
-	public void postDelayed(Runnable thread, long timeout) {
-		ScheduledFuture<?> future = scheduler.schedule(thread, timeout,
+	public void postDelayed(Runnable thread, long delayInMilliseconds) {
+		ScheduledFuture<?> future = scheduler.schedule(thread, delayInMilliseconds,
 				TimeUnit.MILLISECONDS);
 		futureThreads.put(thread, future);
 	}

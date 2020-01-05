@@ -1,15 +1,12 @@
 package com.dronegcs.tester;
 
 import com.dronegcs.mavlink.core.gcs.GCSHeartbeat;
+import com.dronegcs.mavlink.is.connection.MavlinkVersions;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
-import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
-import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkArm;
-import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkModes;
-import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkRC;
-import com.dronegcs.mavlink.is.protocol.msgbuilder.WaypointManager;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.*;
 import com.generic_tools.devices.SerialConnection;
 import com.generic_tools.environment.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,10 +57,12 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         rcfree("rcfree"),
         disconnect("disconnect"),
         sync("sync"),
-        getver("getver"),
+        ver("ver"),
+        setver("setver"),
         push("push"),
         fetch("fetch"),
         ping("ping"),
+        hb("hb"),
         exit("exit");
 
         final String stringVal;
@@ -76,6 +75,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Start Mavlink Drone Tester");
         System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
         byte[] buff = new byte[100];
+        connect("2");
         Scanner reader = new Scanner(System.in);
         while (reader.hasNextLine()) {
             try {
@@ -119,9 +119,6 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                     case sync:
                         sync();
                         break;
-                    case getver:
-                        checkVerson();
-                        break;
                     case push:
                         pushWaypoints();
                         break;
@@ -130,6 +127,15 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                         break;
                     case ping:
                         ping();
+                        break;
+                    case setver:
+                        setProtocol(params);
+                        break;
+                    case ver:
+                        getProtocol();
+                        break;
+                    case hb:
+                        sendHB();
                         break;
                     case exit:
                         System.exit(0);
@@ -143,6 +149,33 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                 System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
             }
         }
+    }
+
+    private void sendHB() {
+        MavLinkHeartbeat.sendMavHeartbeat(drone);
+    }
+
+    private void setProtocol(String param) {
+        if (param == null || param.isEmpty()) {
+            System.out.println("No version was supplied");
+            return;
+        }
+        int v = Integer.parseInt(param);
+        if (v == 1) {
+            drone.getMavClient().setMavlinkVersion(MavlinkVersions.MAVLINK1);
+            System.out.println("Mavlink version set to " + v);
+            return;
+        }
+
+        if (v == 2) {
+            drone.getMavClient().setMavlinkVersion(MavlinkVersions.MAVLINK2);
+            System.out.println("Mavlink version set to " + v);
+            return;
+        }
+    }
+
+    private void getProtocol() {
+        MavlinkProtocol.getSupportedProtocol(drone);
     }
 
     private void takeoff(String param) {
@@ -187,14 +220,6 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
             rcOutput[i++] = Integer.parseInt(rc);
 
         MavLinkRC.sendRcOverrideMsg(drone, rcOutput);
-    }
-
-    private void checkVerson() {
-        //MAV_CMD_REQUEST_PROTOCOL_VERSION
-
-        MAVLinkPacket mavLinkPacket = new MAVLinkPacket();
-        mavLinkPacket.msgid = 410;
-        drone.getMavClient().sendMavPacket(mavLinkPacket);
     }
 
     private void listports() {
@@ -318,7 +343,14 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     @Override
     public void onDroneEvent(DroneInterfaces.DroneEventsType event, Drone drone) {
-//        System.out.println(System.currentTimeMillis() + " " + event);
+        switch (event) {
+            case TEXT_MESSEGE:
+                System.out.println("Received Event " + drone.getMessegeQueue().pop(this));
+                break;
+            case PROTOCOL_IDENTIFIED:
+                System.out.println("Protocol Identified: " + drone.getMavClient().getMavlinkVersion());
+                break;
+        }
     }
 
     @Override
