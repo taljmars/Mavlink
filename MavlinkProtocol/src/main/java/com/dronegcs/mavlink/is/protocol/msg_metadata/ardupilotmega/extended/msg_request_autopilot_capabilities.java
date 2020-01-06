@@ -1,7 +1,8 @@
 
-package com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega;
+package com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.extended;
 
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_command_long;
 
 /**
 * The system time is the time of the master clock, typically the computer clock of the main onboard computer.

@@ -292,12 +292,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
 
     private void ping() {
         System.out.println("Ping Drone");
-        if (drone.isConnectionAlive()) {
-            drone.getMavClient().ping();
-        }
-        else {
-            System.out.println("Connections is not linked");
-        }
+        MavlinkPing.sendPing(drone);
     }
 
     private void sleep(int seconds) {
