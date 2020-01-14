@@ -20,6 +20,7 @@ public class ConnectionStatistics {
     /* Packets */
     private long receivedPackets = 0;
     private long receivedErrorPackets = 0;
+    private long receivedUncategorizedPackets = 0;
     private long lostPackets;
     private long transmittedPackets = 0;
     private long transmittedErrorPackets = 0;
@@ -127,6 +128,7 @@ public class ConnectionStatistics {
                 ", receivedPackets=" + receivedPackets +
                 ", receivedPacketsPerSecond=" + receivedPacketsPerSecond +
                 ", receivedErrorPackets=" + receivedErrorPackets +
+                ", receivedUncategorizedPackets=" + receivedUncategorizedPackets +
                 ", transmittedBytes=" + transmittedBytes +
                 ", transmittedBytesPerSecond=" + transmittedBytesPerSecond +
                 ", transmittedPackets=" + transmittedPackets +
@@ -152,6 +154,7 @@ public class ConnectionStatistics {
         setReceivedErrorPackets(0);
         setReceivedPackets(0);
         setReceivedPacketsPerSecond(0);
+        setReceivedUncategorizedPackets(0);
 
         setTransmittedBytes(0);
         setTransmittedBytesPerSecond(0);
@@ -163,5 +166,13 @@ public class ConnectionStatistics {
     public void dump(PrintStream out) {
         System.out.println("Dump stat");
         out.println(this.toString());
+    }
+
+    public void setReceivedUncategorizedPackets(long uncategorizedPackets) {
+        receivedUncategorizedPackets = uncategorizedPackets;
+    }
+
+    public long getReceivedUncategorizedPackets() {
+        return receivedUncategorizedPackets;
     }
 }

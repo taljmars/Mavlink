@@ -73,7 +73,8 @@ public class CRC_Metadata {
         MAVLINK_MESSAGE_CRCS.put(msg_set_position_target_local_ned.MAVLINK_MSG_ID_SET_POSITION_TARGET_LOCAL_NED, 29); //84
         MAVLINK_MESSAGE_CRCS.put(msg_position_target_local_ned.MAVLINK_MSG_ID_POSITION_TARGET_LOCAL_NED, 12); //85
         MAVLINK_MESSAGE_CRCS.put(msg_set_position_target_global_int.MAVLINK_MSG_ID_SET_POSITION_TARGET_GLOBAL_INT, 241); //86
-        MAVLINK_MESSAGE_CRCS.put(msg_position_target_global_int.MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT, 233); //87
+//        MAVLINK_MESSAGE_CRCS.put(msg_position_target_global_int.MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT, 233); //87
+        MAVLINK_MESSAGE_CRCS.put(msg_position_target_global_int.MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT, 150); //87
         MAVLINK_MESSAGE_CRCS.put(msg_local_position_ned_system_global_offset.MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, 231); //89
         MAVLINK_MESSAGE_CRCS.put(msg_hil_state.MAVLINK_MSG_ID_HIL_STATE, 183); //90
         MAVLINK_MESSAGE_CRCS.put(msg_hil_controls.MAVLINK_MSG_ID_HIL_CONTROLS, 63); //91
@@ -248,7 +249,7 @@ public class CRC_Metadata {
         MAVLINK_MESSAGE_CRCS.put(11003, 64);
         MAVLINK_MESSAGE_CRCS.put(11010, 46);
         MAVLINK_MESSAGE_CRCS.put(11011, 106);
-        MAVLINK_MESSAGE_CRCS.put(11020, 205);
+        MAVLINK_MESSAGE_CRCS.put(msg_aoa_ssa.MAVLINK_MSG_AOA_SSA, 205); //11020
         MAVLINK_MESSAGE_CRCS.put(11030, 144);
         MAVLINK_MESSAGE_CRCS.put(11031, 133);
         MAVLINK_MESSAGE_CRCS.put(11032, 85);

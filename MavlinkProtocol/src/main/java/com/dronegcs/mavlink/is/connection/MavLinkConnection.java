@@ -177,6 +177,7 @@ public abstract class MavLinkConnection {
 				LOGGER.debug("Mavlink disconnected");
 			}
 			catch (IOException e) {
+				e.printStackTrace();
 				// Ignore errors while shutting down
 				System.out.println("Receive thread interrupted " + e.getMessage());
 				if (mConnectionStatus.get() != MAVLINK_DISCONNECTED) {
@@ -184,12 +185,14 @@ public abstract class MavLinkConnection {
 				}
 			}
 			catch (PortInUseException e) {
+				e.printStackTrace();
 				logger.LogErrorMessege("Port in use");
 				LOGGER.error("Port in use");
 				reportComError("Port in use, " + e.getMessage());
 				disconnect();
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				reportComError("Port exception, " + e.getClass().getSimpleName() + ", " + e.getMessage());
 				logger.LogErrorMessege("Mavlink disconnected unexpectedly");
 				LOGGER.error("Mavlink disconnected unexpectedly", e);
@@ -239,22 +242,26 @@ public abstract class MavLinkConnection {
 
 					String pVer = (receivedPacket.version == MAVLINK_2 ? "M2" : "M1");
 					MAVLinkMessage msg = receivedPacket.unpack();
-
-					LOGGER.trace("[RCV] ({}) {}", pVer, msg);
-//					System.out.println("[RCV] (" + pVer + ") " + msg);
-
-					if (msg.msgid == msg_ping.MAVLINK_MSG_ID_PING) {
-						System.err.println("Received ping!");
-						msg_ping ping = (msg_ping) msg;
-						connectionStatistics.setLatency(ping.time_usec / 3);
+					if (msg == null) {
+						parser.getMavlinkStats().advancedReceivedUncategorizedPackets();
 					}
 					else {
-						reportReceivedMessage(msg);
+						LOGGER.trace("[RCV] ({}) {}", pVer, msg);
+//					System.out.println("[RCV] (" + pVer + ") " + msg);
+
+						if (msg.msgid == msg_ping.MAVLINK_MSG_ID_PING) {
+							System.err.println("Received ping!");
+							msg_ping ping = (msg_ping) msg;
+							connectionStatistics.setLatency(ping.time_usec / 3);
+						} else {
+							reportReceivedMessage(msg);
+						}
 					}
 					messages++;
 				}
 				connectionStatistics.setReceivedErrorPackets(parser.getMavlinkStats().getCrcErrorCount());
 				connectionStatistics.setLostPackets(parser.getMavlinkStats().getLostPacketCount());
+				connectionStatistics.setReceivedUncategorizedPackets(parser.getMavlinkStats().getReceivedUncategorizedPackets());
 			}
 
 			return messages;

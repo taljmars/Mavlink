@@ -512,9 +512,11 @@ public class MAVLinkPacket implements Serializable {
                     return new msg_ekf_status_report(this);
                 case msg_request_autopilot_version_request.MAVLINK_MSG_ID_AUTOPILOT_VERSION_REQUEST:
                     return new msg_request_autopilot_version_request(this);
+                case msg_aoa_ssa.MAVLINK_MSG_AOA_SSA:
+                    return new msg_aoa_ssa(this);
                 default:
-                    LOGGER.error("UNKNOWN MESSAGE - " + msgid);
-                    System.out.println("UNKNOWN MESSAGE - " + msgid);
+                    LOGGER.error("UNKNOWN MESSAGE - " + msgid + " ,please make sure you use the recent version of GCS");
+                    System.out.println("UNKNOWN MESSAGE - " + msgid + " ,please make sure you use the recent version of GCS");
                     return null;
             }
         }

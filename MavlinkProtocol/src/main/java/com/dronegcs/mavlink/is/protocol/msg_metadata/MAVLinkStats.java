@@ -14,6 +14,8 @@ public class MAVLinkStats /* implements Serializable */{
 
 	private int lastPacketSeq;
 
+	private int receivedUncategorizedPackets;
+
 	/**
 	 * Check the new received packet to see if has lost someone between this and
 	 * the last packet
@@ -97,6 +99,14 @@ public class MAVLinkStats /* implements Serializable */{
 		lostPacketCount = 0;
 		crcErrorCount = 0;
 		receivedPacketCount = 0;
+		receivedUncategorizedPackets = 0;
 	}
 
+	public void advancedReceivedUncategorizedPackets() {
+		receivedUncategorizedPackets++;
+	}
+
+	public long getReceivedUncategorizedPackets() {
+		return receivedUncategorizedPackets;
+	}
 }
