@@ -89,7 +89,7 @@ public class msg_distance_sensor extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_distance_sensor(){
+    public msg_distance_sensor(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_DISTANCE_SENSOR;
     }
 
@@ -99,9 +99,7 @@ public class msg_distance_sensor extends MAVLinkMessage{
      * 
      */
     public msg_distance_sensor(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_DISTANCE_SENSOR;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "DISTANCE_SENSOR");
         //Log.d("MAVLINK_MSG_ID_DISTANCE_SENSOR", toString());

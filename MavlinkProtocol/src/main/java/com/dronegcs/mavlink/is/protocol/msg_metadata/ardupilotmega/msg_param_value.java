@@ -75,8 +75,8 @@ public class msg_param_value extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_param_value(){
-    	msgid = MAVLINK_MSG_ID_PARAM_VALUE;
+    public msg_param_value(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_PARAM_VALUE;
     }
 
     /**
@@ -85,9 +85,7 @@ public class msg_param_value extends MAVLinkMessage{
      * 
      */
     public msg_param_value(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_PARAM_VALUE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "PARAM_VALUE");
         //Log.d("MAVLINK_MSG_ID_PARAM_VALUE", toString());

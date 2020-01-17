@@ -106,7 +106,7 @@ public class msg_command_long extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_command_long(){
+    public msg_command_long(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_COMMAND_LONG;
     }
 
@@ -116,9 +116,7 @@ public class msg_command_long extends MAVLinkMessage{
      * 
      */
     public msg_command_long(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_COMMAND_LONG;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "COMMAND_LONG");
         //Log.d("MAVLINK_MSG_ID_COMMAND_LONG", toString());

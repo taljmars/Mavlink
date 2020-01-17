@@ -2,6 +2,7 @@ package com.dronegcs.mavlink.is.drone.mission.waypoints;
 
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.mission.DroneMissionItem;
 import com.dronegcs.mavlink.is.drone.mission.waypoints.interfaces.MavlinkAltitudable;
@@ -35,8 +36,8 @@ public abstract class SpatialCoordItemDrone extends DroneMissionItem implements 
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.x = (float) coordinate.getLat();
 		mavMsg.y = (float) coordinate.getLon();

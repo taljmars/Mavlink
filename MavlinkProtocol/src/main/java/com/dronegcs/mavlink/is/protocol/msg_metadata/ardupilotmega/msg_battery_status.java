@@ -106,7 +106,8 @@ public class msg_battery_status extends MAVLinkMessage{
 	/**
 	 * Constructor for a new message, just initializes the msgid
 	 */
-	public msg_battery_status(){
+	public msg_battery_status(int sysid){
+		super(sysid);
 		msgid = MAVLINK_MSG_ID_BATTERY_STATUS;
 	}
 
@@ -116,9 +117,7 @@ public class msg_battery_status extends MAVLinkMessage{
 	 *
 	 */
 	public msg_battery_status(MAVLinkPacket mavLinkPacket){
-		this.sysid = mavLinkPacket.sysid;
-		this.compid = mavLinkPacket.compid;
-		this.msgid = MAVLINK_MSG_ID_BATTERY_STATUS;
+		this(mavLinkPacket.sysid);
 		unpack(mavLinkPacket.payload);
 		//Log.d("MAVLink", "BATTERY_STATUS");
 		//Log.d("MAVLINK_MSG_ID_BATTERY_STATUS", toString());

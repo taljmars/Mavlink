@@ -59,8 +59,9 @@ public class msg_mission_set_current extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_set_current(){
-    	msgid = MAVLINK_MSG_ID_MISSION_SET_CURRENT;
+    public msg_mission_set_current(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_MISSION_SET_CURRENT;
     }
 
     /**
@@ -69,9 +70,7 @@ public class msg_mission_set_current extends MAVLinkMessage{
      * 
      */
     public msg_mission_set_current(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_SET_CURRENT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_SET_CURRENT");
         //Log.d("MAVLINK_MSG_ID_MISSION_SET_CURRENT", toString());

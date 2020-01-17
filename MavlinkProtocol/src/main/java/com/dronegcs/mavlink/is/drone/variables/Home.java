@@ -45,7 +45,7 @@ public class Home extends DroneVariable {
 	}
 
 	public msg_mission_item packMavlink() {
-		msg_mission_item mavMsg = new msg_mission_item();
+		msg_mission_item mavMsg = new msg_mission_item(drone.getGCS().getId());
 		mavMsg.autocontinue = 1;
 		mavMsg.command = MAV_CMD.MAV_CMD_NAV_WAYPOINT;
 		mavMsg.current = 0;

@@ -107,8 +107,9 @@ public class msg_rc_channels_scaled extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_rc_channels_scaled(){
-    	msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
+    public msg_rc_channels_scaled(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
     }
 
     /**
@@ -117,9 +118,7 @@ public class msg_rc_channels_scaled extends MAVLinkMessage{
      * 
      */
     public msg_rc_channels_scaled(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "RC_CHANNELS_SCALED");
         //Log.d("MAVLINK_MSG_ID_RC_CHANNELS_SCALED", toString());

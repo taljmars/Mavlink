@@ -9,14 +9,14 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD_ACK;
 public class MavLinkCalibration {
 
 	public static void sendAccelCalibrationAckMessage(int count, Drone drone) {
-		msg_command_ack msg = new msg_command_ack();
+		msg_command_ack msg = new msg_command_ack(drone.getGCS().getId());
 		msg.command = (short) count;
 		msg.result = MAV_CMD_ACK.MAV_CMD_ACK_OK;
 		drone.getMavClient().sendMavPacket(msg.pack());
 	}
 
 	public static void sendStartAccelCalibrationMessage(Drone drone) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 
@@ -33,7 +33,7 @@ public class MavLinkCalibration {
 	}
 
 	public static void sendStartLevelCalibrationMessage(Drone drone) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 

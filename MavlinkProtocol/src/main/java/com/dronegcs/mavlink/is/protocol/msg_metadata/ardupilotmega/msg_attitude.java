@@ -83,8 +83,9 @@ public class msg_attitude extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_attitude(){
-    	msgid = MAVLINK_MSG_ID_ATTITUDE;
+    public msg_attitude(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_ATTITUDE;
     }
 
     /**
@@ -94,9 +95,7 @@ public class msg_attitude extends MAVLinkMessage{
      * @param mavLinkPacket
      */
     public msg_attitude(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_ATTITUDE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "ATTITUDE");
         //Log.d("MAVLINK_MSG_ID_ATTITUDE", toString());

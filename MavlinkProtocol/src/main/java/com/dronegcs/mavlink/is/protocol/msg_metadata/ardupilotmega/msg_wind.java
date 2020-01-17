@@ -59,7 +59,7 @@ public class msg_wind extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_wind(){
+    public msg_wind(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_WIND;
     }
 
@@ -69,9 +69,7 @@ public class msg_wind extends MAVLinkMessage{
      * 
      */
     public msg_wind(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_WIND;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "WIND");
         //Log.d("MAVLINK_MSG_ID_WIND", toString());

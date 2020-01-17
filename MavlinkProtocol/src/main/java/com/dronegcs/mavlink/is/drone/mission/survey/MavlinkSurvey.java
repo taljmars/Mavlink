@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.is.drone.mission.survey;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.drone.mission.commands.MavlinkCameraTrigger;
 import com.dronegcs.mavlink.is.drone.mission.survey.grid.Grid;
@@ -50,14 +51,14 @@ public class MavlinkSurvey extends DroneMissionItem {
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
+	public List<msg_mission_item> packMissionItem(Drone drone) {
 		try {
 			List<msg_mission_item> list = new ArrayList<msg_mission_item>();
 			build();
 
-			list.addAll((new MavlinkCameraTrigger(droneMission, surveyData.getLongitudinalPictureDistance())).packMissionItem());
-			packGridPoints(list);
-			list.addAll((new MavlinkCameraTrigger(droneMission, 0).packMissionItem()));
+			list.addAll((new MavlinkCameraTrigger(droneMission, surveyData.getLongitudinalPictureDistance())).packMissionItem(drone));
+			packGridPoints(drone, list);
+			list.addAll((new MavlinkCameraTrigger(droneMission, 0).packMissionItem(drone)));
 			
 			return list;
 		} catch (Exception e) {
@@ -65,15 +66,15 @@ public class MavlinkSurvey extends DroneMissionItem {
 		}
 	}
 
-	private void packGridPoints(List<msg_mission_item> list) {
+	private void packGridPoints(Drone drone, List<msg_mission_item> list) {
 		for (Coordinate point : grid.gridPoints) {
-			msg_mission_item mavMsg = packSurveyPoint(point,surveyData.getAltitude());
+			msg_mission_item mavMsg = packSurveyPoint(drone ,point,surveyData.getAltitude());
 			list.add(mavMsg);
 		}
 	}
 
-	public static msg_mission_item packSurveyPoint(Coordinate point, double altitude) {
-		msg_mission_item mavMsg = new msg_mission_item();
+	public static msg_mission_item packSurveyPoint(Drone drone, Coordinate point, double altitude) {
+		msg_mission_item mavMsg = new msg_mission_item(drone.getGCS().getId());
 		mavMsg.autocontinue = 1;
 		mavMsg.target_component = 1;
 		mavMsg.target_system = 1;

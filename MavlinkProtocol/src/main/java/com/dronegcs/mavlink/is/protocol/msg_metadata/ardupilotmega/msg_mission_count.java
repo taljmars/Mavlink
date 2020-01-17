@@ -59,7 +59,7 @@ public class msg_mission_count extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_count(){
+    public msg_mission_count(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_MISSION_COUNT;
     }
 
@@ -69,9 +69,7 @@ public class msg_mission_count extends MAVLinkMessage{
      * 
      */
     public msg_mission_count(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_COUNT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_COUNT");
         //Log.d("MAVLINK_MSG_ID_MISSION_COUNT", toString());

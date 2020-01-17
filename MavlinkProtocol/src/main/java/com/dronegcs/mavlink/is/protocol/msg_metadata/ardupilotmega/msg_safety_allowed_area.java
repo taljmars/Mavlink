@@ -83,8 +83,8 @@ public class msg_safety_allowed_area extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_safety_allowed_area(){
-    	msgid = MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA;
+    public msg_safety_allowed_area(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA;
     }
 
     /**
@@ -93,9 +93,7 @@ public class msg_safety_allowed_area extends MAVLinkMessage{
      * 
      */
     public msg_safety_allowed_area(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SAFETY_ALLOWED_AREA");
         //Log.d("MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA", toString());

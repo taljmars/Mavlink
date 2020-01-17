@@ -1,5 +1,6 @@
 package com.dronegcs.mavlink.is.drone.mission.waypoints;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
@@ -28,8 +29,8 @@ public class MavlinkLoiterUnlimited extends SpatialCoordItemDrone {
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.command = MAV_CMD.MAV_CMD_NAV_LOITER_UNLIM;
 		return list;

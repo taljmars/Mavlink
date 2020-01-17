@@ -53,8 +53,8 @@ public class msg_log_erase extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_log_erase(){
-    	msgid = MAVLINK_MSG_ID_LOG_ERASE;
+    public msg_log_erase(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_LOG_ERASE;
     }
 
     /**
@@ -63,9 +63,7 @@ public class msg_log_erase extends MAVLinkMessage{
      * 
      */
     public msg_log_erase(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOG_ERASE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOG_ERASE");
         //Log.d("MAVLINK_MSG_ID_LOG_ERASE", toString());

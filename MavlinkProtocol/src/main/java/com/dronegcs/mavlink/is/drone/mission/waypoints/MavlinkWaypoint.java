@@ -2,6 +2,7 @@ package com.dronegcs.mavlink.is.drone.mission.waypoints;
 
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.drone.mission.waypoints.interfaces.MavlinkDelayable;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
@@ -30,8 +31,8 @@ public class MavlinkWaypoint extends SpatialCoordItemDrone implements MavlinkDel
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.command = MAV_CMD.MAV_CMD_NAV_WAYPOINT;
 		mavMsg.param1 = (float) getDelay();

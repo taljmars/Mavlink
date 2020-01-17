@@ -77,8 +77,8 @@ public class msg_mount_control extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mount_control(){
-    	msgid = MAVLINK_MSG_ID_MOUNT_CONTROL;
+    public msg_mount_control(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_MOUNT_CONTROL;
     }
 
     /**
@@ -87,9 +87,7 @@ public class msg_mount_control extends MAVLinkMessage{
      * 
      */
     public msg_mount_control(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MOUNT_CONTROL;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MOUNT_CONTROL");
         //Log.d("MAVLINK_MSG_ID_MOUNT_CONTROL", toString());

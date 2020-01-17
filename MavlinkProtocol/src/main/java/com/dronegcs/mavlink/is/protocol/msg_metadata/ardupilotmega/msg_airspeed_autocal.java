@@ -113,8 +113,9 @@ public class msg_airspeed_autocal extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_airspeed_autocal(){
-    	msgid = MAVLINK_MSG_ID_AIRSPEED_AUTOCAL;
+    public msg_airspeed_autocal(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_AIRSPEED_AUTOCAL;
     }
 
     /**
@@ -123,9 +124,7 @@ public class msg_airspeed_autocal extends MAVLinkMessage{
      * 
      */
     public msg_airspeed_autocal(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AIRSPEED_AUTOCAL;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AIRSPEED_AUTOCAL");
         //Log.d("MAVLINK_MSG_ID_AIRSPEED_AUTOCAL", toString());

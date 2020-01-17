@@ -57,8 +57,9 @@ public class msg_encapsulated_data extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_encapsulated_data(){
-    	msgid = MAVLINK_MSG_ID_ENCAPSULATED_DATA;
+    public msg_encapsulated_data(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_ENCAPSULATED_DATA;
     }
 
     /**
@@ -67,9 +68,7 @@ public class msg_encapsulated_data extends MAVLinkMessage{
      * 
      */
     public msg_encapsulated_data(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_ENCAPSULATED_DATA;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "ENCAPSULATED_DATA");
         //Log.d("MAVLINK_MSG_ID_ENCAPSULATED_DATA", toString());

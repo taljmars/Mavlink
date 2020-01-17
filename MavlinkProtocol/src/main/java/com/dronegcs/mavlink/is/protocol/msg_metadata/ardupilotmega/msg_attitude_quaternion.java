@@ -88,8 +88,9 @@ public class msg_attitude_quaternion extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_attitude_quaternion(){
-    	msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
+    public msg_attitude_quaternion(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
     }
 
     /**
@@ -99,9 +100,7 @@ public class msg_attitude_quaternion extends MAVLinkMessage{
      * @param mavLinkPacket
      */
     public msg_attitude_quaternion(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "ATTITUDE_QUATERNION");
         //Log.d("MAVLINK_MSG_ID_ATTITUDE_QUATERNION", toString());

@@ -83,7 +83,7 @@ public class msg_vicon_position_estimate extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_vicon_position_estimate(){
+    public msg_vicon_position_estimate(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE;
     }
 
@@ -93,9 +93,7 @@ public class msg_vicon_position_estimate extends MAVLinkMessage{
      * 
      */
     public msg_vicon_position_estimate(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "VICON_POSITION_ESTIMATE");
         //Log.d("MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE", toString());

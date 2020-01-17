@@ -126,8 +126,8 @@ public class msg_mission_item_int extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_item_int(){
-    	msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
+    public msg_mission_item_int(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
     }
 
     /**
@@ -136,9 +136,7 @@ public class msg_mission_item_int extends MAVLinkMessage{
      * 
      */
     public msg_mission_item_int(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_ITEM_INT");
         //Log.d("MAVLINK_MSG_ID_MISSION_ITEM_INT", toString());

@@ -8,7 +8,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_COMPONENT;
 public class MavLinkArm {
 
 	public static void sendArmMessage(Drone drone, boolean arm) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = (byte) MAV_COMPONENT.MAV_COMP_ID_SYSTEM_CONTROL;
 

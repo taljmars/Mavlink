@@ -62,8 +62,8 @@ public class msg_data32 extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_data32(){
-    	msgid = MAVLINK_MSG_ID_DATA32;
+    public msg_data32(int sysid){
+		super(sysid);msgid = MAVLINK_MSG_ID_DATA32;
     }
 
     /**
@@ -72,9 +72,7 @@ public class msg_data32 extends MAVLinkMessage{
      * 
      */
     public msg_data32(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_DATA32;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "DATA32");
         //Log.d("MAVLINK_MSG_ID_DATA32", toString());

@@ -96,7 +96,8 @@ public class msg_limits_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_limits_status(){
+    public msg_limits_status(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_LIMITS_STATUS;
     }
 
@@ -106,9 +107,7 @@ public class msg_limits_status extends MAVLinkMessage{
      * 
      */
     public msg_limits_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LIMITS_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LIMITS_STATUS");
         //Log.d("MAVLINK_MSG_ID_LIMITS_STATUS", toString());

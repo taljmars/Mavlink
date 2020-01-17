@@ -9,12 +9,18 @@ public abstract class MAVLinkMessage implements Serializable {
 	// this way is possible to pass a com.dronegcs.mavlink.is.mavlink message trought the Service-Acctivity interface
 	
 	/**
-	 *  Simply a common interface for all MAVLink Messages
+	 *  Simply a common interface for all MAVLink Messagess
 	 */
 	
-	public  int sysid;
+	public final int sysid;
 	public int compid;
 	public int msgid;
+
+	protected MAVLinkMessage(int sysid) {
+		this.sysid = sysid;
+		this.compid = 190;
+	}
+
 	public abstract MAVLinkPacket pack();
 	public abstract void unpack(MAVLinkPayload payload);
 }

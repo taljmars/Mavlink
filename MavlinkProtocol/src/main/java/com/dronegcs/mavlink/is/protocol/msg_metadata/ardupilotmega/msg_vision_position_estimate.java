@@ -83,8 +83,9 @@ public class msg_vision_position_estimate extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_vision_position_estimate(){
-    	msgid = MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE;
+    public msg_vision_position_estimate(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE;
     }
 
     /**
@@ -93,9 +94,7 @@ public class msg_vision_position_estimate extends MAVLinkMessage{
      * 
      */
     public msg_vision_position_estimate(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "VISION_POSITION_ESTIMATE");
         //Log.d("MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE", toString());

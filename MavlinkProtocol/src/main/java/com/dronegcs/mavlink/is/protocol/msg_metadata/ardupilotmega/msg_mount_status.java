@@ -71,8 +71,9 @@ public class msg_mount_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mount_status(){
-    	msgid = MAVLINK_MSG_ID_MOUNT_STATUS;
+    public msg_mount_status(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_MOUNT_STATUS;
     }
 
     /**
@@ -81,9 +82,7 @@ public class msg_mount_status extends MAVLinkMessage{
      * 
      */
     public msg_mount_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MOUNT_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MOUNT_STATUS");
         //Log.d("MAVLINK_MSG_ID_MOUNT_STATUS", toString());

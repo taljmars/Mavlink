@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.is.drone.mission.commands;
 import java.io.Serializable;
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.*;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_CMD;
@@ -35,8 +36,8 @@ public class MavlinkTakeoff extends DroneMissionCMD implements Serializable {
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.command = MAV_CMD.MAV_CMD_NAV_TAKEOFF;
 		mavMsg.frame = MAV_FRAME.MAV_FRAME_GLOBAL_RELATIVE_ALT;

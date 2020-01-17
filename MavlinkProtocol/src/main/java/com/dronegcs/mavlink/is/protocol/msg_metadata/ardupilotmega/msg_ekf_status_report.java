@@ -64,7 +64,8 @@ public class msg_ekf_status_report extends MAVLinkMessage {
     /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_ekf_status_report(){
+    public msg_ekf_status_report(int sysid){
+        super(sysid);
         msgid = MAVLINK_MSG_ID_EKF_STATUS_REPORT;
     }
 
@@ -75,9 +76,7 @@ public class msg_ekf_status_report extends MAVLinkMessage {
      * @param mavLinkPacket - com.dronegcs.mavlink.is.mavlink packet
      */
     public msg_ekf_status_report(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_EKF_STATUS_REPORT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "GPS_RTK");
         //Log.d("MAVLINK_MSG_ID_GPS_RTK", toString());

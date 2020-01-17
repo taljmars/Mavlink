@@ -59,8 +59,9 @@ public class msg_power_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_power_status(){
-    	msgid = MAVLINK_MSG_ID_POWER_STATUS;
+    public msg_power_status(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_POWER_STATUS;
     }
 
     /**
@@ -69,9 +70,7 @@ public class msg_power_status extends MAVLinkMessage{
      * 
      */
     public msg_power_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_POWER_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "POWER_STATUS");
         //Log.d("MAVLINK_MSG_ID_POWER_STATUS", toString());

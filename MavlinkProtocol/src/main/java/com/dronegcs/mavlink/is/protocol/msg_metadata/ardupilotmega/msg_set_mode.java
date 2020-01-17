@@ -59,8 +59,8 @@ public class msg_set_mode extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_set_mode(){
-    	msgid = MAVLINK_MSG_ID_SET_MODE;
+    public msg_set_mode(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_SET_MODE;
     }
 
     /**
@@ -69,9 +69,7 @@ public class msg_set_mode extends MAVLinkMessage{
      * 
      */
     public msg_set_mode(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SET_MODE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SET_MODE");
         //Log.d("MAVLINK_MSG_ID_SET_MODE", toString());

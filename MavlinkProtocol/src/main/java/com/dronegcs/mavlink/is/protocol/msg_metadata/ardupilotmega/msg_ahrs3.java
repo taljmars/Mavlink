@@ -90,8 +90,9 @@ public class msg_ahrs3 extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_ahrs3(){
-    	msgid = MAVLINK_MSG_ID_AHRS3;
+    public msg_ahrs3(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_AHRS3;
     }
 
     /**
@@ -100,9 +101,7 @@ public class msg_ahrs3 extends MAVLinkMessage{
      *
      */
     public msg_ahrs3(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AHRS3;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AHRS2");
         //Log.d("MAVLINK_MSG_ID_AHRS2", toString());

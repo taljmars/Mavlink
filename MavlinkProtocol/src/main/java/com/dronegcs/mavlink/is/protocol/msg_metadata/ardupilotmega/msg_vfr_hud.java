@@ -77,8 +77,9 @@ public class msg_vfr_hud extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_vfr_hud(){
-    	msgid = MAVLINK_MSG_ID_VFR_HUD;
+    public msg_vfr_hud(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_VFR_HUD;
     }
 
     /**
@@ -87,9 +88,7 @@ public class msg_vfr_hud extends MAVLinkMessage{
      * 
      */
     public msg_vfr_hud(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_VFR_HUD;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "VFR_HUD");
         //Log.d("MAVLINK_MSG_ID_VFR_HUD", toString());

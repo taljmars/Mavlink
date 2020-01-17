@@ -99,7 +99,7 @@ public class msg_set_attitude_target extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_set_attitude_target(){
+    public msg_set_attitude_target(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_SET_ATTITUDE_TARGET;
     }
 
@@ -109,9 +109,7 @@ public class msg_set_attitude_target extends MAVLinkMessage{
      * 
      */
     public msg_set_attitude_target(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SET_ATTITUDE_TARGET;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SET_ATTITUDE_TARGET");
         //Log.d("MAVLINK_MSG_ID_SET_ATTITUDE_TARGET", toString());

@@ -8,7 +8,7 @@ public class MavlinkPing {
     private static int pingSeq = 0;
 
     public static void sendPing(Drone drone) {
-        msg_ping msg = new msg_ping();
+        msg_ping msg = new msg_ping(drone.getGCS().getId());
         msg.time_usec = System.currentTimeMillis();
         msg.seq = pingSeq;
         msg.target_system = 0;

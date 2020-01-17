@@ -50,8 +50,9 @@ public class msg_auth_key extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_auth_key(){
-    	msgid = MAVLINK_MSG_ID_AUTH_KEY;
+    public msg_auth_key(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_AUTH_KEY;
     }
 
     /**
@@ -61,9 +62,7 @@ public class msg_auth_key extends MAVLinkMessage{
      * @param mavLinkPacket
      */
     public msg_auth_key(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AUTH_KEY;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AUTH_KEY");
         //Log.d("MAVLINK_MSG_ID_AUTH_KEY", toString());

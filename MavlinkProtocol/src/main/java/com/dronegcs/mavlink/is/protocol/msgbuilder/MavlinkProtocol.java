@@ -7,7 +7,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_request_a
 public class MavlinkProtocol {
 
     public static void getSupportedProtocol(Drone drone) {
-        msg_request_autopilot_version_request msg = new msg_request_autopilot_version_request();
+        msg_request_autopilot_version_request msg = new msg_request_autopilot_version_request(drone.getGCS().getId());
         MAVLinkPacket a = msg.pack();
         drone.getMavClient().sendMavPacket(a);
     }

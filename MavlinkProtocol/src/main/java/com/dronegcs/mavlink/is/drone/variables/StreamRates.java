@@ -59,7 +59,7 @@ public class StreamRates extends DroneVariable implements OnDroneListener
 
 		Rates rates = drone.getPreferences().getRates();
 
-		MavLinkStreamRates.setupStreamRates(drone.getMavClient(), rates.extendedStatus,
+		MavLinkStreamRates.setupStreamRates(drone, rates.extendedStatus,
 				rates.extra1, rates.extra2, rates.extra3, rates.position, rates.rcChannels,
 				rates.rawSensors, rates.rawController);
 		

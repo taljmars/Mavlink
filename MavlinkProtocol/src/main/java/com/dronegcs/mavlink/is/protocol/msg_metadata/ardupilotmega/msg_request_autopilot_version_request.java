@@ -26,9 +26,9 @@ public class msg_request_autopilot_version_request extends MAVLinkMessage {
     /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_request_autopilot_version_request(){
-    	super();
-    	msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION_REQUEST;
+    public msg_request_autopilot_version_request(int sysid){
+        super(sysid);
+        msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION_REQUEST;
     }
 
     /**
@@ -37,9 +37,7 @@ public class msg_request_autopilot_version_request extends MAVLinkMessage {
      *
      */
     public msg_request_autopilot_version_request(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION_REQUEST;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
     }
     

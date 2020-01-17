@@ -5,7 +5,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_rc_channe
 
 public class MavLinkRC {
 	public static void sendRcOverrideMsg(Drone drone, int[] rcOutputs) {
-		msg_rc_channels_override msg = new msg_rc_channels_override();
+		msg_rc_channels_override msg = new msg_rc_channels_override(drone.getGCS().getId());
 		msg.chan1_raw = (short) rcOutputs[0];
 		msg.chan2_raw = (short) rcOutputs[1];
 		msg.chan3_raw = (short) rcOutputs[2];

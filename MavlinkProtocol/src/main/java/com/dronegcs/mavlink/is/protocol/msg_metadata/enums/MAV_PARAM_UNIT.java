@@ -41,6 +41,7 @@ public enum MAV_PARAM_UNIT {
     CENTIDEGREE_PER_SECOND_PER_SECOND("centidegrees/s/s"),
     METER_PER_VOLT("m/volt"),
     PWM_PER_MICROSECOND("PWM/ms"),
+    PERCENT_PER_SECOND("percent/s"),
 
     // General
     PERCENT("percent"),

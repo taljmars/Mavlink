@@ -71,7 +71,7 @@ public class msg_file_transfer_protocol extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_file_transfer_protocol(){
+    public msg_file_transfer_protocol(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_FILE_TRANSFER_PROTOCOL;
     }
 
@@ -81,9 +81,7 @@ public class msg_file_transfer_protocol extends MAVLinkMessage{
      * 
      */
     public msg_file_transfer_protocol(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_FILE_TRANSFER_PROTOCOL;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "FILE_TRANSFER_PROTOCOL");
         //Log.d("MAVLINK_MSG_ID_FILE_TRANSFER_PROTOCOL", toString());

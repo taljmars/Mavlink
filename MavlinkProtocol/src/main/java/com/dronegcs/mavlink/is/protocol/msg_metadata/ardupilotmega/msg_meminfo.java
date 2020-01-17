@@ -53,8 +53,8 @@ public class msg_meminfo extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_meminfo(){
-    	msgid = MAVLINK_MSG_ID_MEMINFO;
+    public msg_meminfo(int sysid){
+		super(sysid);msgid = MAVLINK_MSG_ID_MEMINFO;
     }
 
     /**
@@ -63,9 +63,7 @@ public class msg_meminfo extends MAVLinkMessage{
      * 
      */
     public msg_meminfo(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MEMINFO;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MEMINFO");
         //Log.d("MAVLINK_MSG_ID_MEMINFO", toString());

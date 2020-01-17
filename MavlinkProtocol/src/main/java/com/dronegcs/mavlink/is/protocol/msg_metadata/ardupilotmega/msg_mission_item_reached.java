@@ -47,8 +47,9 @@ public class msg_mission_item_reached extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_item_reached(){
-    	msgid = MAVLINK_MSG_ID_MISSION_ITEM_REACHED;
+    public msg_mission_item_reached(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_MISSION_ITEM_REACHED;
     }
 
     /**
@@ -57,9 +58,7 @@ public class msg_mission_item_reached extends MAVLinkMessage{
      * 
      */
     public msg_mission_item_reached(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_ITEM_REACHED;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_ITEM_REACHED");
         //Log.d("MAVLINK_MSG_ID_MISSION_ITEM_REACHED", toString());

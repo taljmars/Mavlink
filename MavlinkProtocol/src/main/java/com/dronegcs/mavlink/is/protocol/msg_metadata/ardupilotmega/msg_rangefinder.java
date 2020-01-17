@@ -53,8 +53,9 @@ public class msg_rangefinder extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_rangefinder(){
-    	msgid = MAVLINK_MSG_ID_RANGEFINDER;
+    public msg_rangefinder(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_RANGEFINDER;
     }
 
     /**
@@ -63,9 +64,7 @@ public class msg_rangefinder extends MAVLinkMessage{
      * 
      */
     public msg_rangefinder(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_RANGEFINDER;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "RANGEFINDER");
         //Log.d("MAVLINK_MSG_ID_RANGEFINDER", toString());

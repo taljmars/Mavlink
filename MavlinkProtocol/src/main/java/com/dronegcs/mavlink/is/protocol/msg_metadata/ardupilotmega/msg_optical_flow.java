@@ -89,7 +89,7 @@ public class msg_optical_flow extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_optical_flow(){
+    public msg_optical_flow(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
     }
 
@@ -99,9 +99,7 @@ public class msg_optical_flow extends MAVLinkMessage{
      * 
      */
     public msg_optical_flow(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "OPTICAL_FLOW");
         //Log.d("MAVLINK_MSG_ID_OPTICAL_FLOW", toString());

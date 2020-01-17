@@ -52,8 +52,8 @@ public class msg_hwstatus extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_hwstatus(){
-    	msgid = MAVLINK_MSG_ID_HWSTATUS;
+    public msg_hwstatus(int sysid){
+		super(sysid);msgid = MAVLINK_MSG_ID_HWSTATUS;
     }
 
     /**
@@ -62,9 +62,7 @@ public class msg_hwstatus extends MAVLinkMessage{
      * 
      */
     public msg_hwstatus(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_HWSTATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "HWSTATUS");
         //Log.d("MAVLINK_MSG_ID_HWSTATUS", toString());

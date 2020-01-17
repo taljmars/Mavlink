@@ -107,8 +107,8 @@ public class msg_hil_controls extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_hil_controls(){
-    	msgid = MAVLINK_MSG_ID_HIL_CONTROLS;
+    public msg_hil_controls(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_HIL_CONTROLS;
     }
 
     /**
@@ -118,9 +118,7 @@ public class msg_hil_controls extends MAVLinkMessage{
      * @param mavLinkPacket - com.dronegcs.mavlink.is.mavlink packet
      */
     public msg_hil_controls(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_HIL_CONTROLS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "HIL_CONTROLS");
         //Log.d("MAVLINK_MSG_ID_HIL_CONTROLS", toString());

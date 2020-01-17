@@ -77,8 +77,9 @@ public class msg_v2_extension extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_v2_extension(){
-    	msgid = MAVLINK_MSG_ID_V2_EXTENSION;
+    public msg_v2_extension(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_V2_EXTENSION;
     }
 
     /**
@@ -87,9 +88,7 @@ public class msg_v2_extension extends MAVLinkMessage{
      * 
      */
     public msg_v2_extension(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_V2_EXTENSION;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "V2_EXTENSION");
         //Log.d("MAVLINK_MSG_ID_V2_EXTENSION", toString());

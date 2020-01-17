@@ -101,7 +101,8 @@ public class msg_scaled_imu extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_scaled_imu(){
+    public msg_scaled_imu(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_SCALED_IMU;
     }
 
@@ -111,9 +112,7 @@ public class msg_scaled_imu extends MAVLinkMessage{
      * 
      */
     public msg_scaled_imu(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SCALED_IMU;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SCALED_IMU");
         //Log.d("MAVLINK_MSG_ID_SCALED_IMU", toString());

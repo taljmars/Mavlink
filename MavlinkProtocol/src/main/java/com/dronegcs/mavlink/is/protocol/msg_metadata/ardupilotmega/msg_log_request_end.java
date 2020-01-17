@@ -53,7 +53,7 @@ public class msg_log_request_end extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_log_request_end(){
+    public msg_log_request_end(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_LOG_REQUEST_END;
     }
 
@@ -63,9 +63,7 @@ public class msg_log_request_end extends MAVLinkMessage{
      * 
      */
     public msg_log_request_end(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOG_REQUEST_END;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOG_REQUEST_END");
         //Log.d("MAVLINK_MSG_ID_LOG_REQUEST_END", toString());

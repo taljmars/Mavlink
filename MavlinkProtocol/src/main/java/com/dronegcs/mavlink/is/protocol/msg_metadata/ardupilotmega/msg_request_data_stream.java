@@ -71,8 +71,9 @@ public class msg_request_data_stream extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_request_data_stream(){
-    	msgid = MAVLINK_MSG_ID_REQUEST_DATA_STREAM;
+    public msg_request_data_stream(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_REQUEST_DATA_STREAM;
     }
 
     /**
@@ -81,9 +82,7 @@ public class msg_request_data_stream extends MAVLinkMessage{
      * 
      */
     public msg_request_data_stream(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_REQUEST_DATA_STREAM;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "REQUEST_DATA_STREAM");
         //Log.d("MAVLINK_MSG_ID_REQUEST_DATA_STREAM", toString());

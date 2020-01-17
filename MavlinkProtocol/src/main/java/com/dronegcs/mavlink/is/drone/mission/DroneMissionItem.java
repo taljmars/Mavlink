@@ -3,6 +3,7 @@ package com.dronegcs.mavlink.is.drone.mission;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_mission_item;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_FRAME;
 
@@ -24,9 +25,9 @@ public abstract class DroneMissionItem implements ConvertMavlinkVisited, Compara
 	 * 
 	 * @return
 	 */
-	public List<msg_mission_item> packMissionItem() {
+	public List<msg_mission_item> packMissionItem(Drone drone) {
 		List<msg_mission_item> list = new ArrayList<msg_mission_item>();
-		msg_mission_item mavMsg = new msg_mission_item();
+		msg_mission_item mavMsg = new msg_mission_item(drone.getGCS().getId());
 		list.add(mavMsg);
 		mavMsg.autocontinue = 1;
 		mavMsg.target_component = 1;

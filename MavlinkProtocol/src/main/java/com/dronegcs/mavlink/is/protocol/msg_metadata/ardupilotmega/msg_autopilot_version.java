@@ -62,7 +62,8 @@ public class msg_autopilot_version extends MAVLinkMessage{
 	/**
 	 * Constructor for a new message, just initializes the msgid
 	 */
-	public msg_autopilot_version(){
+	public msg_autopilot_version(int sysid){
+		super(sysid);
 		msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION;
 	}
 
@@ -72,9 +73,7 @@ public class msg_autopilot_version extends MAVLinkMessage{
 	 *
 	 */
 	public msg_autopilot_version(MAVLinkPacket mavLinkPacket){
-		this.sysid = mavLinkPacket.sysid;
-		this.compid = mavLinkPacket.compid;
-		this.msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION;
+		this(mavLinkPacket.sysid);
 		unpack(mavLinkPacket.payload);
 		//Log.d("MAVLink", "AUTOPILOT_VERSION");
 		//Log.d("MAVLINK_MSG_ID_AUTOPILOT_VERSION", toString());

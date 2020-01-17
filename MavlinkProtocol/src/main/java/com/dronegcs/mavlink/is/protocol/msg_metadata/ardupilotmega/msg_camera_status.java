@@ -95,7 +95,7 @@ public class msg_camera_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_camera_status(){
+    public msg_camera_status(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_CAMERA_STATUS;
     }
 
@@ -105,9 +105,7 @@ public class msg_camera_status extends MAVLinkMessage{
      * 
      */
     public msg_camera_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_CAMERA_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "CAMERA_STATUS");
         //Log.d("MAVLINK_MSG_ID_CAMERA_STATUS", toString());

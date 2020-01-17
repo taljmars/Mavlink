@@ -89,8 +89,8 @@ public class msg_nav_controller_output extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_nav_controller_output(){
-    	msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
+    public msg_nav_controller_output(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
     }
 
     /**
@@ -99,9 +99,7 @@ public class msg_nav_controller_output extends MAVLinkMessage{
      * 
      */
     public msg_nav_controller_output(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "NAV_CONTROLLER_OUTPUT");
         //Log.d("MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT", toString());

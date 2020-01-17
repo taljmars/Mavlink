@@ -69,7 +69,7 @@ public class msg_log_data extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_log_data(){
+    public msg_log_data(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_LOG_DATA;
     }
 
@@ -79,9 +79,7 @@ public class msg_log_data extends MAVLinkMessage{
      * 
      */
     public msg_log_data(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOG_DATA;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOG_DATA");
         //Log.d("MAVLINK_MSG_ID_LOG_DATA", toString());

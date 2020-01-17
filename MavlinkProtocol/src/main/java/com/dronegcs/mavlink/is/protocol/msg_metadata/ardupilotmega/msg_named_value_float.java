@@ -63,7 +63,8 @@ public class msg_named_value_float extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_named_value_float(){
+    public msg_named_value_float(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_NAMED_VALUE_FLOAT;
     }
 
@@ -73,9 +74,7 @@ public class msg_named_value_float extends MAVLinkMessage{
      * 
      */
     public msg_named_value_float(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_NAMED_VALUE_FLOAT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "NAMED_VALUE_FLOAT");
         //Log.d("MAVLINK_MSG_ID_NAMED_VALUE_FLOAT", toString());

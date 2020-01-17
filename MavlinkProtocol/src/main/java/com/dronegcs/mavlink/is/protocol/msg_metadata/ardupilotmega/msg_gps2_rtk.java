@@ -120,8 +120,9 @@ public class msg_gps2_rtk extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_gps2_rtk(){
-    	msgid = MAVLINK_MSG_ID_GPS2_RTK;
+    public msg_gps2_rtk(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_GPS2_RTK;
     }
 
     /**
@@ -131,9 +132,7 @@ public class msg_gps2_rtk extends MAVLinkMessage{
      * @param mavLinkPacket - com.dronegcs.mavlink.is.mavlink packet
      */
     public msg_gps2_rtk(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_GPS2_RTK;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "GPS2_RTK");
         //Log.d("MAVLINK_MSG_ID_GPS2_RTK", toString());

@@ -9,7 +9,7 @@ import com.geo_tools.Coordinate;
 
 public class MavLinkROI {
 	public static void setROI(Drone drone, Coordinate coord) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 		msg.command = MAV_CMD.MAV_CMD_DO_SET_ROI;
@@ -22,7 +22,7 @@ public class MavLinkROI {
 	}
 
 	public static void resetROI(Drone drone) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 		msg.command = MAV_CMD.MAV_CMD_DO_SET_ROI;
@@ -35,7 +35,7 @@ public class MavLinkROI {
 	}
 	
 	public static void triggerCamera(Drone drone){
-		msg_digicam_control msg = new msg_digicam_control();
+		msg_digicam_control msg = new msg_digicam_control(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 		msg.shot = 1;
@@ -43,7 +43,7 @@ public class MavLinkROI {
 	}
 	
 	public static void empCommand(Drone drone, boolean release) {
-		msg_command_long msg = new msg_command_long();
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 		msg.command = MavlinkEpmGripper.MAV_CMD_DO_GRIPPER;

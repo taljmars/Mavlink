@@ -77,8 +77,9 @@ public class msg_manual_control extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_manual_control(){
-    	msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
+    public msg_manual_control(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
     }
 
     /**
@@ -87,9 +88,7 @@ public class msg_manual_control extends MAVLinkMessage{
      * 
      */
     public msg_manual_control(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MANUAL_CONTROL");
         //Log.d("MAVLINK_MSG_ID_MANUAL_CONTROL", toString());

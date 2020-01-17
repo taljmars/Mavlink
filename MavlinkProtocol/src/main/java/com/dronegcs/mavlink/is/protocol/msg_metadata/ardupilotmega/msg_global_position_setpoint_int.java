@@ -70,7 +70,7 @@ public class msg_global_position_setpoint_int extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_global_position_setpoint_int(){
+    public msg_global_position_setpoint_int(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_SETPOINT_INT;
     }
 
@@ -81,9 +81,7 @@ public class msg_global_position_setpoint_int extends MAVLinkMessage{
      * @param mavLinkPacket
      */
     public msg_global_position_setpoint_int(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_SETPOINT_INT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "GLOBAL_POSITION_SETPOINT_INT");
         //Log.d("MAVLINK_MSG_ID_GLOBAL_POSITION_SETPOINT_INT", toString());

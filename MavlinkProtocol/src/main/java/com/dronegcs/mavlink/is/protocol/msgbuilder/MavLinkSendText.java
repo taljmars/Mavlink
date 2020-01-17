@@ -10,7 +10,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_SEVERITY;
 public class MavLinkSendText {
 
 	public static void sendArmMessage(Drone drone, MAV_SEVERITY severity, String message) {
-		msg_statustext msg = new msg_statustext();
+		msg_statustext msg = new msg_statustext(drone.getGCS().getId());
 		msg.severity = severity.value;
 		msg.setText(message);
 		drone.getMavClient().sendMavPacket(msg.pack());

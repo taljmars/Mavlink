@@ -2,6 +2,7 @@ package com.dronegcs.mavlink.is.drone.mission.commands;
 
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
@@ -33,8 +34,8 @@ public class MavlinkEpmGripper extends DroneMissionCMD {
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.command = MAV_CMD_DO_GRIPPER;
 		mavMsg.param2 = release ? GRIPPER_ACTION_RELEASE : GRIPPER_ACTION_GRAB;

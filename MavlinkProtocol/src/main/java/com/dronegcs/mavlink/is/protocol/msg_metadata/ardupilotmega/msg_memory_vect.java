@@ -69,7 +69,8 @@ public class msg_memory_vect extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_memory_vect(){
+    public msg_memory_vect(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_MEMORY_VECT;
     }
 
@@ -79,9 +80,7 @@ public class msg_memory_vect extends MAVLinkMessage{
      * 
      */
     public msg_memory_vect(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MEMORY_VECT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MEMORY_VECT");
         //Log.d("MAVLINK_MSG_ID_MEMORY_VECT", toString());

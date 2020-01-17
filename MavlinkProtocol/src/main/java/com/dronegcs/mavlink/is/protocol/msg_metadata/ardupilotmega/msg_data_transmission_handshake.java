@@ -83,8 +83,9 @@ public class msg_data_transmission_handshake extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_data_transmission_handshake(){
-    	msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
+    public msg_data_transmission_handshake(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
     }
 
     /**
@@ -93,9 +94,7 @@ public class msg_data_transmission_handshake extends MAVLinkMessage{
      * 
      */
     public msg_data_transmission_handshake(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "DATA_TRANSMISSION_HANDSHAKE");
         //Log.d("MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE", toString());

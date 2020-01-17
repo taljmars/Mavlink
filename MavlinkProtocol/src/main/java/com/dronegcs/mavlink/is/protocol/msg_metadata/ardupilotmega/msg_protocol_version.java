@@ -85,7 +85,8 @@ public class msg_protocol_version extends MAVLinkMessage{
 	/**
 	 * Constructor for a new message, just initializes the msgid
 	 */
-	public msg_protocol_version(){
+	public msg_protocol_version(int sysid){
+		super(sysid);
 		msgid = MAVLINK_MSG_ID_PROTOCOL_VERSION;
 	}
 
@@ -95,9 +96,7 @@ public class msg_protocol_version extends MAVLinkMessage{
 	 *
 	 */
 	public msg_protocol_version(MAVLinkPacket mavLinkPacket){
-		this.sysid = mavLinkPacket.sysid;
-		this.compid = mavLinkPacket.compid;
-		this.msgid = MAVLINK_MSG_ID_PROTOCOL_VERSION;
+		this(mavLinkPacket.sysid);
 		unpack(mavLinkPacket.payload);
 		//Log.d("MAVLink", "SYSTEM_TIME");
 		//Log.d("MAVLINK_MSG_ID_SYSTEM_TIME", toString());

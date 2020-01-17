@@ -71,7 +71,8 @@ public class msg_set_mag_offsets extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_set_mag_offsets(){
+    public msg_set_mag_offsets(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_SET_MAG_OFFSETS;
     }
 
@@ -81,9 +82,7 @@ public class msg_set_mag_offsets extends MAVLinkMessage{
      * 
      */
     public msg_set_mag_offsets(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SET_MAG_OFFSETS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SET_MAG_OFFSETS");
         //Log.d("MAVLINK_MSG_ID_SET_MAG_OFFSETS", toString());

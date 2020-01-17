@@ -2,6 +2,7 @@ package com.dronegcs.mavlink.is.drone.mission.waypoints;
 
 import java.util.List;
 
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.mission.ConvertMavlinkVisitor;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.mission.MavlinkConvertionException;
@@ -36,8 +37,8 @@ public class MavlinkSplineWaypoint extends SpatialCoordItemDrone {
 	}
 
 	@Override
-	public List<msg_mission_item> packMissionItem() {
-		List<msg_mission_item> list = super.packMissionItem();
+	public List<msg_mission_item> packMissionItem(Drone drone) {
+		List<msg_mission_item> list = super.packMissionItem(drone);
 		msg_mission_item mavMsg = list.get(0);
 		mavMsg.command = MAV_CMD.MAV_CMD_NAV_SPLINE_WAYPOINT;
 		mavMsg.param1 = (float) delay;

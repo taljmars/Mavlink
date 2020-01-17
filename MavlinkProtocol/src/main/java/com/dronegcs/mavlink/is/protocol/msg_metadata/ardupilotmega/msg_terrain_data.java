@@ -75,8 +75,8 @@ public class msg_terrain_data extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_terrain_data(){
-    	msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
+    public msg_terrain_data(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
     }
 
     /**
@@ -85,9 +85,7 @@ public class msg_terrain_data extends MAVLinkMessage{
      * 
      */
     public msg_terrain_data(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "TERRAIN_DATA");
         //Log.d("MAVLINK_MSG_ID_TERRAIN_DATA", toString());

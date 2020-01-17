@@ -96,8 +96,9 @@ public class msg_gps_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_gps_status(){
-    	msgid = MAVLINK_MSG_ID_GPS_STATUS;
+    public msg_gps_status(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_GPS_STATUS;
     }
 
     /**
@@ -107,9 +108,7 @@ public class msg_gps_status extends MAVLinkMessage{
      * @param mavLinkPacket - com.dronegcs.mavlink.is.mavlink packet
      */
     public msg_gps_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_GPS_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "GPS_STATUS");
         //Log.d("MAVLINK_MSG_ID_GPS_STATUS", toString());

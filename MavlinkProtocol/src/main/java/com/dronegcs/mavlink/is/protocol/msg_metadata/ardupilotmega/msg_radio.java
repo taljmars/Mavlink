@@ -83,8 +83,9 @@ public class msg_radio extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_radio(){
-    	msgid = MAVLINK_MSG_ID_RADIO;
+    public msg_radio(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_RADIO;
     }
 
     /**
@@ -93,9 +94,7 @@ public class msg_radio extends MAVLinkMessage{
      * 
      */
     public msg_radio(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_RADIO;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "RADIO");
         //Log.d("MAVLINK_MSG_ID_RADIO", toString());

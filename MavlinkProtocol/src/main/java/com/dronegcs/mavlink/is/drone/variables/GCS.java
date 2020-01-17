@@ -11,6 +11,8 @@ public class GCS extends DroneVariable {
 	
 	private Coordinate pLastPosition = null;
 
+	private int id = 255;
+
 	public Coordinate getPosition() {
 		return pLastPosition;
 	}
@@ -22,5 +24,12 @@ public class GCS extends DroneVariable {
 	public void UpdateAll() {
 		drone.notifyDroneEvent(DroneEventsType.GCS_LOCATION);
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

@@ -62,7 +62,8 @@ public class msg_vibration extends MAVLinkMessage{
 	/**
 	 * Constructor for a new message, just initializes the msgid
 	 */
-	public msg_vibration(){
+	public msg_vibration(int sysid){
+		super(sysid);
 		msgid = MAVLINK_MSG_ID_VIBRATION;
 	}
 
@@ -72,9 +73,7 @@ public class msg_vibration extends MAVLinkMessage{
 	 *
 	 */
 	public msg_vibration(MAVLinkPacket mavLinkPacket){
-		this.sysid = mavLinkPacket.sysid;
-		this.compid = mavLinkPacket.compid;
-		this.msgid = MAVLINK_MSG_ID_VIBRATION;
+		this(mavLinkPacket.sysid);
 		unpack(mavLinkPacket.payload);
 		//Log.d("MAVLink", "VICON_POSITION_ESTIMATE");
 		//Log.d("MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE", toString());

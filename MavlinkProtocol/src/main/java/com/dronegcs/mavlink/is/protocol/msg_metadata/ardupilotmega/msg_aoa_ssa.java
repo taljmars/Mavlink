@@ -25,8 +25,8 @@ public class msg_aoa_ssa  extends MAVLinkMessage {
     public MAVLinkPacket pack(){
         MAVLinkPacket packet = new MAVLinkPacket();
         packet.len = MAVLINK_MSG_LENGTH;
-        packet.sysid = 255;
-        packet.compid = 190;
+        packet.sysid = sysid;
+        packet.compid = compid;
         packet.msgid = MAVLINK_MSG_AOA_SSA;
         packet.payload.putLong(timeUsec);
         packet.payload.putFloat(aoa);
@@ -49,7 +49,8 @@ public class msg_aoa_ssa  extends MAVLinkMessage {
     /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_aoa_ssa(){
+    public msg_aoa_ssa(int sysid){
+        super(sysid);
         msgid = MAVLINK_MSG_AOA_SSA;
     }
 
@@ -59,9 +60,7 @@ public class msg_aoa_ssa  extends MAVLinkMessage {
      *
      */
     public msg_aoa_ssa(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_AOA_SSA;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AP_ADC");
         //Log.d("MAVLINK_MSG_ID_AP_ADC", toString());

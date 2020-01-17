@@ -77,8 +77,9 @@ public class msg_ap_adc extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_ap_adc(){
-    	msgid = MAVLINK_MSG_ID_AP_ADC;
+    public msg_ap_adc(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_AP_ADC;
     }
 
     /**
@@ -87,9 +88,7 @@ public class msg_ap_adc extends MAVLinkMessage{
      * 
      */
     public msg_ap_adc(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AP_ADC;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AP_ADC");
         //Log.d("MAVLINK_MSG_ID_AP_ADC", toString());

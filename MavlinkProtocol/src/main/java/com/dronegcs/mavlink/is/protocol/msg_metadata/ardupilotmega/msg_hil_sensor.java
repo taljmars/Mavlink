@@ -130,8 +130,8 @@ public class msg_hil_sensor extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_hil_sensor(){
-    	msgid = MAVLINK_MSG_ID_HIL_SENSOR;
+    public msg_hil_sensor(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_HIL_SENSOR;
     }
 
     /**
@@ -140,9 +140,7 @@ public class msg_hil_sensor extends MAVLinkMessage{
      * 
      */
     public msg_hil_sensor(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_HIL_SENSOR;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "HIL_SENSOR");
         //Log.d("MAVLINK_MSG_ID_HIL_SENSOR", toString());

@@ -83,7 +83,8 @@ public class msg_manual_setpoint extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_manual_setpoint(){
+    public msg_manual_setpoint(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_MANUAL_SETPOINT;
     }
 
@@ -93,9 +94,7 @@ public class msg_manual_setpoint extends MAVLinkMessage{
      * 
      */
     public msg_manual_setpoint(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MANUAL_SETPOINT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MANUAL_SETPOINT");
         //Log.d("MAVLINK_MSG_ID_MANUAL_SETPOINT", toString());

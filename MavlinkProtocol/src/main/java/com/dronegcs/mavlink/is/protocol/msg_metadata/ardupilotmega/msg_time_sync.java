@@ -53,8 +53,9 @@ public class msg_time_sync extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_time_sync(){
-    	msgid = MAVLINK_MSG_ID_TIME_SYNC;
+    public msg_time_sync(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_TIME_SYNC;
     }
 
     /**
@@ -63,9 +64,7 @@ public class msg_time_sync extends MAVLinkMessage{
      *
      */
     public msg_time_sync(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_TIME_SYNC;
+		this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SYSTEM_TIME");
         //Log.d("MAVLINK_MSG_ID_SYSTEM_TIME", toString());

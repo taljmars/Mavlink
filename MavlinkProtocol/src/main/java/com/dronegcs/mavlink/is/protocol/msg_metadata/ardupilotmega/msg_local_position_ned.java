@@ -83,8 +83,8 @@ public class msg_local_position_ned extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_local_position_ned(){
-    	msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED;
+    public msg_local_position_ned(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED;
     }
 
     /**
@@ -93,9 +93,7 @@ public class msg_local_position_ned extends MAVLinkMessage{
      * 
      */
     public msg_local_position_ned(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOCAL_POSITION_NED");
         //Log.d("MAVLINK_MSG_ID_LOCAL_POSITION_NED", toString());

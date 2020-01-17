@@ -63,7 +63,7 @@ public class msg_file_transfer_dir_list extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_file_transfer_dir_list(){
+    public msg_file_transfer_dir_list(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_FILE_TRANSFER_DIR_LIST;
     }
 
@@ -73,9 +73,7 @@ public class msg_file_transfer_dir_list extends MAVLinkMessage{
      * 
      */
     public msg_file_transfer_dir_list(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_FILE_TRANSFER_DIR_LIST;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "FILE_TRANSFER_DIR_LIST");
         //Log.d("MAVLINK_MSG_ID_FILE_TRANSFER_DIR_LIST", toString());

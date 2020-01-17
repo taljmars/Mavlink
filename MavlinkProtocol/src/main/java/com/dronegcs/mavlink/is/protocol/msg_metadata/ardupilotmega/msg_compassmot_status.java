@@ -77,7 +77,7 @@ public class msg_compassmot_status extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_compassmot_status(){
+    public msg_compassmot_status(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_COMPASSMOT_STATUS;
     }
 
@@ -87,9 +87,7 @@ public class msg_compassmot_status extends MAVLinkMessage{
      * 
      */
     public msg_compassmot_status(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_COMPASSMOT_STATUS;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "COMPASSMOT_STATUS");
         //Log.d("MAVLINK_MSG_ID_COMPASSMOT_STATUS", toString());

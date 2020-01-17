@@ -47,8 +47,8 @@ public class msg_ahrs2 extends MAVLinkMessage{
 	public MAVLinkPacket pack(){
 		MAVLinkPacket packet = new MAVLinkPacket();
 		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
+		packet.sysid = sysid;
+		packet.compid = compid;
 		packet.msgid = MAVLINK_MSG_ID_AHRS2;
 		packet.payload.putFloat(roll);
 		packet.payload.putFloat(pitch);
@@ -77,8 +77,9 @@ public class msg_ahrs2 extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_ahrs2(){
-    	msgid = MAVLINK_MSG_ID_AHRS2;
+    public msg_ahrs2(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_AHRS2;
     }
 
     /**
@@ -87,9 +88,7 @@ public class msg_ahrs2 extends MAVLinkMessage{
      * 
      */
     public msg_ahrs2(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_AHRS2;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "AHRS2");
         //Log.d("MAVLINK_MSG_ID_AHRS2", toString());

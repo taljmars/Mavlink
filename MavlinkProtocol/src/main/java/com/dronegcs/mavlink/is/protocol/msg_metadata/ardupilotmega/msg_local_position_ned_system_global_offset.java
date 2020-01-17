@@ -83,7 +83,8 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_local_position_ned_system_global_offset(){
+    public msg_local_position_ned_system_global_offset(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
     }
 
@@ -93,9 +94,7 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage{
      * 
      */
     public msg_local_position_ned_system_global_offset(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET");
         //Log.d("MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET", toString());

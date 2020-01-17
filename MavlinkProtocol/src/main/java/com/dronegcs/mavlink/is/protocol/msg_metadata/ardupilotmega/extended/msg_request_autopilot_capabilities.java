@@ -16,8 +16,8 @@ public class msg_request_autopilot_capabilities extends msg_command_long {
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_request_autopilot_capabilities(){
-    	super();
+    public msg_request_autopilot_capabilities(int sysid){
+        super(sysid);
     	command = MAVLINK_MSG_REQUEST_AUTOPILOT_CAPABILITIES;
     	param1 = 1;
     }
@@ -28,9 +28,7 @@ public class msg_request_autopilot_capabilities extends msg_command_long {
      *
      */
     public msg_request_autopilot_capabilities(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.command = MAVLINK_MSG_REQUEST_AUTOPILOT_CAPABILITIES;
+        this(mavLinkPacket.sysid);
         this.param1 = 1;
         //Log.d("MAVLink", "SYSTEM_TIME");
         //Log.d("MAVLINK_MSG_ID_SYSTEM_TIME", toString());

@@ -140,7 +140,8 @@ public class msg_hil_state_quaternion extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_hil_state_quaternion(){
+    public msg_hil_state_quaternion(int sysid){
+		super(sysid);
     	msgid = MAVLINK_MSG_ID_HIL_STATE_QUATERNION;
     }
 
@@ -150,9 +151,7 @@ public class msg_hil_state_quaternion extends MAVLinkMessage{
      * 
      */
     public msg_hil_state_quaternion(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_HIL_STATE_QUATERNION;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "HIL_STATE_QUATERNION");
         //Log.d("MAVLINK_MSG_ID_HIL_STATE_QUATERNION", toString());

@@ -59,7 +59,7 @@ public class msg_mission_ack extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_ack(){
+    public msg_mission_ack(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_MISSION_ACK;
     }
 
@@ -69,9 +69,7 @@ public class msg_mission_ack extends MAVLinkMessage{
      * 
      */
     public msg_mission_ack(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_ACK;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_ACK");
         //Log.d("MAVLINK_MSG_ID_MISSION_ACK", toString());

@@ -1,28 +1,29 @@
 package com.dronegcs.mavlink.is.protocol.msgbuilder;
 
 import com.dronegcs.mavlink.is.connection.MavLinkConnection;
+import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_request_data_stream;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_DATA_STREAM;
 
 public class MavLinkStreamRates {
 
 	//public static void setupStreamRates(MAVLinkOutputStream MAVClient, int extendedStatus,
-	public static void setupStreamRates(MavLinkConnection MAVClient, int extendedStatus,
-			int extra1, int extra2, int extra3, int position, int rcChannels, int rawSensors,
-			int rawControler) {
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTENDED_STATUS, extendedStatus);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA1, extra1);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA2, extra2);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA3, extra3);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_POSITION, position);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_RAW_SENSORS, rawSensors);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_RAW_CONTROLLER, rawControler);
-		requestMavlinkDataStream(MAVClient, MAV_DATA_STREAM.MAV_DATA_STREAM_RC_CHANNELS, rcChannels);
+	public static void setupStreamRates(Drone drone, int extendedStatus,
+										int extra1, int extra2, int extra3, int position, int rcChannels, int rawSensors,
+										int rawControler) {
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTENDED_STATUS, extendedStatus);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA1, extra1);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA2, extra2);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_EXTRA3, extra3);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_POSITION, position);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_RAW_SENSORS, rawSensors);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_RAW_CONTROLLER, rawControler);
+		requestMavlinkDataStream(drone, MAV_DATA_STREAM.MAV_DATA_STREAM_RC_CHANNELS, rcChannels);
 	}
 
 	//private static void requestMavlinkDataStream(MAVLinkOutputStream mAVClient, int stream_id,
-	private static void requestMavlinkDataStream(MavLinkConnection mAVClient, int stream_id, int rate) {
-		msg_request_data_stream msg = new msg_request_data_stream();
+	private static void requestMavlinkDataStream(Drone drone, int stream_id, int rate) {
+		msg_request_data_stream msg = new msg_request_data_stream(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.target_component = 1;
 
@@ -34,6 +35,6 @@ public class MavLinkStreamRates {
 		} else {
 			msg.start_stop = 0;
 		}
-		mAVClient.sendMavPacket(msg.pack());
+		drone.getMavClient().sendMavPacket(msg.pack());
 	}
 }

@@ -118,8 +118,9 @@ public class msg_camera_feedback extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_camera_feedback(){
-    	msgid = MAVLINK_MSG_ID_CAMERA_FEEDBACK;
+    public msg_camera_feedback(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_CAMERA_FEEDBACK;
     }
 
     /**
@@ -128,9 +129,7 @@ public class msg_camera_feedback extends MAVLinkMessage{
      * 
      */
     public msg_camera_feedback(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_CAMERA_FEEDBACK;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "CAMERA_FEEDBACK");
         //Log.d("MAVLINK_MSG_ID_CAMERA_FEEDBACK", toString());

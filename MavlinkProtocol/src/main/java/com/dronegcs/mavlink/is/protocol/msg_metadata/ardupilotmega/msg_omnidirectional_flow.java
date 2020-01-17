@@ -85,8 +85,9 @@ public class msg_omnidirectional_flow extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_omnidirectional_flow(){
-    	msgid = MAVLINK_MSG_ID_OMNIDIRECTIONAL_FLOW;
+    public msg_omnidirectional_flow(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_OMNIDIRECTIONAL_FLOW;
     }
 
     /**
@@ -95,9 +96,7 @@ public class msg_omnidirectional_flow extends MAVLinkMessage{
      * 
      */
     public msg_omnidirectional_flow(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_OMNIDIRECTIONAL_FLOW;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "OMNIDIRECTIONAL_FLOW");
         //Log.d("MAVLINK_MSG_ID_OMNIDIRECTIONAL_FLOW", toString());

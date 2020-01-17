@@ -9,7 +9,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_FRAME;
 
 public class MavLinkModes {
 	public static void setGuidedMode(Drone drone, double latitude, double longitude, double d) {
-		msg_mission_item msg = new msg_mission_item();
+		msg_mission_item msg = new msg_mission_item(drone.getGCS().getId());
 		msg.seq = 0;
 		msg.current = 2; // TODO use guided mode enum
 		msg.frame = MAV_FRAME.MAV_FRAME_GLOBAL;
@@ -28,7 +28,7 @@ public class MavLinkModes {
 	}
 
 	public static void sendGuidedVelocity(Drone drone, double xVel, double yVel, double zVel) {
-		msg_mission_item msg = new msg_mission_item();
+		msg_mission_item msg = new msg_mission_item(drone.getGCS().getId());
 		msg.seq = 0;
 		msg.current = 2; // TODO use guided mode enum
 		msg.frame = MAV_FRAME.MAV_FRAME_GLOBAL;
@@ -47,7 +47,7 @@ public class MavLinkModes {
 	}
 
 	public static void changeFlightMode(Drone drone, ApmModes mode) {
-		msg_set_mode msg = new msg_set_mode();
+		msg_set_mode msg = new msg_set_mode(drone.getGCS().getId());
 		msg.target_system = 1;
 		msg.base_mode = 1; // TODO use meaningful constant
 		msg.custom_mode = mode.getNumber();

@@ -53,8 +53,9 @@ public class msg_mission_clear_all extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_mission_clear_all(){
-    	msgid = MAVLINK_MSG_ID_MISSION_CLEAR_ALL;
+    public msg_mission_clear_all(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_MISSION_CLEAR_ALL;
     }
 
     /**
@@ -63,9 +64,7 @@ public class msg_mission_clear_all extends MAVLinkMessage{
      * 
      */
     public msg_mission_clear_all(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_MISSION_CLEAR_ALL;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "MISSION_CLEAR_ALL");
         //Log.d("MAVLINK_MSG_ID_MISSION_CLEAR_ALL", toString());

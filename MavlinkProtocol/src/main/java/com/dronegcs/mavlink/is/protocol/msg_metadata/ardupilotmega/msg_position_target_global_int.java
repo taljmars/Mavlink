@@ -113,8 +113,8 @@ public class msg_position_target_global_int extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_position_target_global_int(){
-    	msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
+    public msg_position_target_global_int(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
     }
 
     /**
@@ -123,9 +123,7 @@ public class msg_position_target_global_int extends MAVLinkMessage{
      * 
      */
     public msg_position_target_global_int(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "POSITION_TARGET_GLOBAL_INT");
         //Log.d("MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT", toString());

@@ -65,8 +65,8 @@ public class msg_set_gps_global_origin extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_set_gps_global_origin(){
-    	msgid = MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN;
+    public msg_set_gps_global_origin(int sysid){ 		super(sysid);
+msgid = MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN;
     }
 
     /**
@@ -75,9 +75,7 @@ public class msg_set_gps_global_origin extends MAVLinkMessage{
      * 
      */
     public msg_set_gps_global_origin(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "SET_GPS_GLOBAL_ORIGIN");
         //Log.d("MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN", toString());

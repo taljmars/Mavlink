@@ -73,8 +73,9 @@ public class msg_param_request_read extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_param_request_read(){
-    	msgid = MAVLINK_MSG_ID_PARAM_REQUEST_READ;
+    public msg_param_request_read(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_PARAM_REQUEST_READ;
     }
 
     /**
@@ -83,9 +84,7 @@ public class msg_param_request_read extends MAVLinkMessage{
      * 
      */
     public msg_param_request_read(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_PARAM_REQUEST_READ;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "PARAM_REQUEST_READ");
         //Log.d("MAVLINK_MSG_ID_PARAM_REQUEST_READ", toString());

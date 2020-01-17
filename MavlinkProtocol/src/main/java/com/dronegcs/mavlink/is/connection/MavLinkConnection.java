@@ -560,7 +560,7 @@ public abstract class MavLinkConnection {
 	}
 
 	public void ping() {
-		msg_ping msg = new msg_ping();
+		msg_ping msg = new msg_ping(drone.getGCS().getId());
 		msg.target_component = 1;
 		msg.target_system = 1;
 		msg.time_usec = 0;//System.currentTimeMillis();

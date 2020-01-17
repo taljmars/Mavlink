@@ -83,7 +83,7 @@ public class msg_terrain_report extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_terrain_report(){
+    public msg_terrain_report(int sysid){ 		super(sysid);
     	msgid = MAVLINK_MSG_ID_TERRAIN_REPORT;
     }
 
@@ -93,9 +93,7 @@ public class msg_terrain_report extends MAVLinkMessage{
      * 
      */
     public msg_terrain_report(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_TERRAIN_REPORT;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "TERRAIN_REPORT");
         //Log.d("MAVLINK_MSG_ID_TERRAIN_REPORT", toString());

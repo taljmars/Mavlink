@@ -65,8 +65,9 @@ public class msg_log_request_list extends MAVLinkMessage{
      /**
      * Constructor for a new message, just initializes the msgid
      */
-    public msg_log_request_list(){
-    	msgid = MAVLINK_MSG_ID_LOG_REQUEST_LIST;
+    public msg_log_request_list(int sysid){
+		super(sysid);
+		msgid = MAVLINK_MSG_ID_LOG_REQUEST_LIST;
     }
 
     /**
@@ -75,9 +76,7 @@ public class msg_log_request_list extends MAVLinkMessage{
      * 
      */
     public msg_log_request_list(MAVLinkPacket mavLinkPacket){
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.msgid = MAVLINK_MSG_ID_LOG_REQUEST_LIST;
+        this(mavLinkPacket.sysid);
         unpack(mavLinkPacket.payload);
         //Log.d("MAVLink", "LOG_REQUEST_LIST");
         //Log.d("MAVLINK_MSG_ID_LOG_REQUEST_LIST", toString());
