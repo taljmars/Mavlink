@@ -40,11 +40,7 @@ public class msg_global_position_setpoint_int extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_SETPOINT_INT;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putInt(latitude);
 		packet.payload.putInt(longitude);
 		packet.payload.putInt(altitude);

@@ -49,11 +49,7 @@ public class msg_data_transmission_handshake extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putInt(size);
 		packet.payload.putShort(width);
 		packet.payload.putShort(height);

@@ -28,11 +28,7 @@ public class msg_battery2 extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_BATTERY2;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putShort(voltage);
 		packet.payload.putShort(current_battery);
 		return packet;		

@@ -44,11 +44,7 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION_COV;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putInt(time_boot_ms);
 		 for (int i = 0; i < q.length; i++) {
                         packet.payload.putFloat(q[i]);

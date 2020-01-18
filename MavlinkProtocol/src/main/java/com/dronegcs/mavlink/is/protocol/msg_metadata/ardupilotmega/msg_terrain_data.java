@@ -41,11 +41,7 @@ public class msg_terrain_data extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putInt(lat);
 		packet.payload.putInt(lon);
 		packet.payload.putShort(grid_spacing);

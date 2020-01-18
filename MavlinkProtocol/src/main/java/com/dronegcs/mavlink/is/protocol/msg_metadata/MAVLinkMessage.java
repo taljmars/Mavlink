@@ -13,7 +13,7 @@ public abstract class MAVLinkMessage implements Serializable {
 	 */
 	
 	public final int sysid;
-	public int compid;
+	public final int compid;
 	public int msgid;
 
 	protected MAVLinkMessage(int sysid) {
@@ -21,7 +21,18 @@ public abstract class MAVLinkMessage implements Serializable {
 		this.compid = 190;
 	}
 
+	protected MAVLinkPacket build(int length) {
+		MAVLinkPacket packet = new MAVLinkPacket();
+		packet.len = length;
+		packet.sysid = sysid;
+		packet.compid = compid;
+		packet.msgid = msgid;
+		return packet;
+	}
+
 	public abstract MAVLinkPacket pack();
+
 	public abstract void unpack(MAVLinkPayload payload);
+
 }
 	

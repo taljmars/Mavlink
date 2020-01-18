@@ -48,6 +48,7 @@ public enum MAV_PARAM_UNIT {
     UNKNOWN("unknown"),
     NONE(""),
     FLAGS("list"),
+    BITMASK("bitmask"),
     ;
 
     private final String name;

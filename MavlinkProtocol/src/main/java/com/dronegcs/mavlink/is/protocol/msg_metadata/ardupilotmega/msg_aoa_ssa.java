@@ -23,11 +23,7 @@ public class msg_aoa_ssa  extends MAVLinkMessage {
      * @return
      */
     public MAVLinkPacket pack(){
-        MAVLinkPacket packet = new MAVLinkPacket();
-        packet.len = MAVLINK_MSG_LENGTH;
-        packet.sysid = sysid;
-        packet.compid = compid;
-        packet.msgid = MAVLINK_MSG_AOA_SSA;
+        MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
         packet.payload.putLong(timeUsec);
         packet.payload.putFloat(aoa);
         packet.payload.putFloat(ssa);

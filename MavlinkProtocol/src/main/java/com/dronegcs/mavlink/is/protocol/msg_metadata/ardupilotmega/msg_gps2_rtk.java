@@ -74,11 +74,7 @@ public class msg_gps2_rtk extends MAVLinkMessage{
 	 * @return com.dronegcs.mavlink.is.mavlink packet
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = 255;
-		packet.compid = 190;
-		packet.msgid = MAVLINK_MSG_ID_GPS2_RTK;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putInt(time_last_baseline_ms);
 		packet.payload.putInt(tow);
 		packet.payload.putInt(baseline_a_mm);

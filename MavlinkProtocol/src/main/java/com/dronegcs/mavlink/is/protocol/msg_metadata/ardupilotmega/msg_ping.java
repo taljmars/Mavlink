@@ -36,11 +36,7 @@ public class msg_ping extends MAVLinkMessage{
 	 * @return
 	 */
 	public MAVLinkPacket pack(){
-		MAVLinkPacket packet = new MAVLinkPacket();
-		packet.len = MAVLINK_MSG_LENGTH;
-		packet.sysid = sysid;
-		packet.compid = compid;
-		packet.msgid = MAVLINK_MSG_ID_PING;
+		MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
 		packet.payload.putLong(time_usec);
 		packet.payload.putInt(seq);
 		packet.payload.putByte(target_system);

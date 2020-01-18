@@ -30,11 +30,7 @@ public class msg_ekf_status_report extends MAVLinkMessage {
      * @return com.dronegcs.mavlink.is.mavlink packet
      */
     public MAVLinkPacket pack(){
-        MAVLinkPacket packet = new MAVLinkPacket();
-        packet.len = MAVLINK_MSG_LENGTH;
-        packet.sysid = 255;
-        packet.compid = 190;
-        packet.msgid = MAVLINK_MSG_ID_EKF_STATUS_REPORT;
+        MAVLinkPacket packet = build(MAVLINK_MSG_LENGTH);
         packet.payload.putInt(flags);
         packet.payload.putFloat(velocityVariance);
         packet.payload.putFloat(posHorizVariance);

@@ -8,10 +8,12 @@ import com.dronegcs.mavlink.is.drone.DroneInterfaces.DroneEventsType;
 
 @Component
 public class GCS extends DroneVariable {
+
+	private final int DEFAULT_GCS_ID = 255;
 	
 	private Coordinate pLastPosition = null;
 
-	private int id = 255;
+	private int id = DEFAULT_GCS_ID;
 
 	public Coordinate getPosition() {
 		return pLastPosition;
