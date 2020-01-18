@@ -35,8 +35,8 @@ public class Type extends DroneVariable implements DroneInterfaces.OnDroneListen
 	public void setDroneType(MAV_TYPE droneType) {
 		if (this.droneType != droneType) {
 			this.droneType = droneType;
-			drone.notifyDroneEvent(DroneEventsType.TYPE);
 			drone.loadVehicleProfile();
+			drone.notifyDroneEvent(DroneEventsType.TYPE);
 		}
 	}
 
