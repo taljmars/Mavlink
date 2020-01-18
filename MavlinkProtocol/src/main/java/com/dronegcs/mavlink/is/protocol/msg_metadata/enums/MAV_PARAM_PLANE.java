@@ -1,16 +1,12 @@
 package com.dronegcs.mavlink.is.protocol.msg_metadata.enums;
 
 import com.dronegcs.mavlink.is.units.Range;
-import com.opencsv.CSVWriter;
 
-import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
-    
+
     ACRO_LOCKING(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.FLAGS,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"Enabled");}},false,"ACRO mode attitude locking","Enable attitude locking when sticks are released"),
     ACRO_PITCH_RATE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,180,1,MAV_PARAM_UNIT.DEGREE_PER_SECOND,new Range(10,500),false,"ACRO mode pitch rate","The maximum pitch rate at full stick deflection in ACRO mode"),
     ACRO_ROLL_RATE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,180,1,MAV_PARAM_UNIT.DEGREE_PER_SECOND,new Range(10,500),false,"ACRO mode roll rate","The maximum roll rate at full stick deflection in ACRO mode"),
@@ -30,7 +26,7 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     ALT_HOLD_RTL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,10000,1,MAV_PARAM_UNIT.CENTIMETER,false,"RTL altitude","Target altitude above home for RTL mode. Maintains current altitude if set to -1. Rally point altitudes are used if plane does not return to home."),
     ALT_MIX(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     ALT_OFFSET(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.METER,new Range(-32767,32767),false,"Altitude offset","This is added to the target altitude in automatic flight. It can be used to add a global altitude offset to a mission"),
-    ARMING_CHECK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
+    ARMING_CHECK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.BITMASK,new HashMap<Number, String>(){{put(0,"All");put(1,"Barometer");put(2 ,"Compass");put(3 ,"GPS lock");put(4 ,"INS");put(5 ,"Parameters");put(6 ,"RC Channels");put(7 ,"Board voltage");put(8 ,"Battery Level");put(9 ,"Airspeed");put(10 ,"Logging Available");put(11 ,"Hardware safety switch");put(12 ,"GPS Configuration");put(13 ,"System");put(14 ,"Mission");put(15 ,"Rangefinder");}},false,"Arm Checks to Perform (bitmask)","Checks prior to arming motor. This is a bitmask of checks that will be performed before allowing arming. The default is no checks, allowing arming at any time. You can select whatever checks you prefer by adding together the values of each check type to set this parameter. For example, to only allow arming when you have GPS lock and no RC failsafe you would set ARMING_CHECK to 72. For most users it is recommended that you set this to 1 to enable all checks."),
     ARMING_REQUIRE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     ARMING_RUDDER(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
     ARSPD_AUTOCAL(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
@@ -185,7 +181,7 @@ public enum MAV_PARAM_PLANE implements MAV_PARAM_I {
     LIM_PITCH_MIN(MAV_PARAM_GROUP_PLANE.ARDUPLANE,-2500,1,MAV_PARAM_UNIT.CENTIDEGREE,new Range(-9000,0),false,"Minimum Pitch Angle","Maximum pitch down angle commanded in modes with stabilized limits"),
 
     LIM_ROLL_CD(MAV_PARAM_GROUP_PLANE.ARDUPLANE,4500,1,MAV_PARAM_UNIT.CENTIDEGREE,new Range(0,9000),false,"Maximum Bank Angle","Maximum bank angle commanded in modes with stabilized limits. Increase this value for sharper turns, but decrease to prevent accelerated stalls."),
-    LOG_BITMASK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,16254,1,MAV_PARAM_UNIT.BITMASK,new HashMap<Number, String>(){{put(0,"Disabled");put(1,"Attitude Fast");put(2,"Attitude Medium");put(4,"GPS");put(8,"Performance Monitoring");put(16,"Control Tuning");put(32,"Navigation Tuning");put(64,"Mode");put(128,"IMU");put(256,"Commands");put(512,"Battery");put(1024,"Compass");put(2048,"TECS");put(4096,"Camera");put(8192,"RCandServo");put(16384,"Sonar");put(32768,"Arming");put(65535,"Full Logs");}},false,"Log bitmask","Bitmap of what on-board log types to enable. This value is made up of the sum of each of the log types you want to be saved. It is usually best just to enable all log types by setting this to 65535. The individual bits are ATTITUDE_FAST=1, ATTITUDE_MEDIUM=2, GPS=4, PerformanceMonitoring=8, ControlTuning=16, NavigationTuning=32, Mode=64, IMU=128, Commands=256, Battery=512, Compass=1024, TECS=2048, Camera=4096, RCandServo=8192, Sonar=16384, Arming=32768, FullLogs=65535"),
+    LOG_BITMASK(MAV_PARAM_GROUP_PLANE.ARDUPLANE,16254,1,MAV_PARAM_UNIT.BITMASK,new HashMap<Number, String>(){{put(0,"Attitude Fast");put(1,"Attitude Medium");put(2,"GPS");put(3,"Performance Monitoring");put(4,"Control Tuning");put(5,"Navigation Tuning");put(6,"Mode");put(7,"IMU");put(8,"Commands");put(9,"Battery");put(10,"Compass");put(11,"TECS");put(12,"Camera");put(13,"RCandServo");put(14,"Sonar");put(15,"Arming");put(16,"Full Logs");}},false,"Log bitmask","Bitmap of what on-board log types to enable. This value is made up of the sum of each of the log types you want to be saved. It is usually best just to enable all log types by setting this to 65535. The individual bits are ATTITUDE_FAST=1, ATTITUDE_MEDIUM=2, GPS=4, PerformanceMonitoring=8, ControlTuning=16, NavigationTuning=32, Mode=64, IMU=128, Commands=256, Battery=512, Compass=1024, TECS=2048, Camera=4096, RCandServo=8192, Sonar=16384, Arming=32768, FullLogs=65535"),
     MAG_ENABLE(MAV_PARAM_GROUP_PLANE.ARDUPLANE,1,1,MAV_PARAM_UNIT.UNKNOWN,false,"","Not Yet"),
 
     MIN_GNDSPD_CM(MAV_PARAM_GROUP_PLANE.ARDUPLANE,0.1,1,MAV_PARAM_UNIT.CENTIMETER_PER_SECOND,false,"Minimum ground speed","Minimum ground speed in cm/s when under airspeed control"),
