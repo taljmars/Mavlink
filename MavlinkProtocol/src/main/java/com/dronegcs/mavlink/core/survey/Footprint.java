@@ -14,7 +14,7 @@ public class Footprint {
 	private Coordinate center;
 
 	public Footprint(CameraInfo camera, msg_camera_feedback msg) {
-		System.out.println(msg);
+		System.out.println("Footprint " + msg);
 		center = new Coordinate(msg.lat/1E7,msg.lng/1E7);
 		float yaw = msg.yaw;
 		vertex.add(GeoTools.newCoordFromBearingAndDistance(center, yaw-60, 30));

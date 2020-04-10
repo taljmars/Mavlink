@@ -165,7 +165,7 @@ public class ConnectionStatistics {
 
     public void dump(PrintStream out) {
         System.out.println("Dump stat");
-        out.println(this.toString());
+        out.println("Conn Stat " + this.toString());
     }
 
     public void setReceivedUncategorizedPackets(long uncategorizedPackets) {

@@ -122,8 +122,8 @@ public class State extends DroneVariable
 	public void setMode(ApmModes mode) {
 		if (this.mode != mode) {
 			this.mode = mode;
-			System.out.println(getClass().getName() + " New Mode!!");
-			System.out.println(getClass().getName() + " " + mode.getName());
+			System.out.println("State " + getClass().getName() + " New Mode!!");
+			System.out.println("State " + getClass().getName() + " " + mode.getName());
 			drone.notifyDroneEvent(DroneEventsType.MODE);
 		}
 	}
@@ -136,7 +136,7 @@ public class State extends DroneVariable
 		
 		if (ApmModes.isValid(mode)) {
 			logger.LogGeneralMessege("Start DroneMission - Change to " + mode.getName());
-			System.out.println(getClass().getName() + " " + mode.getName());
+			System.out.println("State " + getClass().getName() + " " + mode.getName());
 			MavLinkModes.changeFlightMode(drone, mode);
 			drone.getState().setMode(mode); //TODO: Add OK messege to quad copter, which notifies about change approval
 		}

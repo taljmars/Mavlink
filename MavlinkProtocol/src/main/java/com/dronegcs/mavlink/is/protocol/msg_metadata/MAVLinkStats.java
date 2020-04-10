@@ -37,7 +37,7 @@ public class MAVLinkStats /* implements Serializable */{
 		if (packet.seq - lastPacketSeq < 0) {
 			lostPackets = (packet.seq - lastPacketSeq) + 255;
 		} else {
-			System.out.println(packet.seq + " " + lastPacketSeq);
+//			System.out.println("Stat: " + packet.seq + " " + lastPacketSeq);
 			lostPackets = (packet.seq - lastPacketSeq);
 		}
 		lostPacketCount += lostPackets;
