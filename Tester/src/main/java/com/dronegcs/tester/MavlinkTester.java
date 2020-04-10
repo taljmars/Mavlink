@@ -75,7 +75,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Start Mavlink Drone Tester");
         System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
         byte[] buff = new byte[100];
-        connect("2");
+        connect("0");
         Scanner reader = new Scanner(System.in);
         while (reader.hasNextLine()) {
             try {
@@ -244,8 +244,8 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
             System.out.println("No ports found");
             return;
         }
-//        int baud = 56700;
-        int baud = 115200;
+        int baud = 56700;
+//        int baud = 115200;
         int portIndex = 2;
 
         if (param != null) {
@@ -259,9 +259,9 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
             }
         }
 
-        String portName = (String) ports[portIndex];
+        Object portName = ports[portIndex];
         System.out.println("Connecting to port: " + portName + ", with baudRate: " + baud);
-        serialConnection.setPortName(portName);
+        serialConnection.setPortName(portName.toString());
         serialConnection.setBaud(baud);
 
         drone.getMavClient().connect();
