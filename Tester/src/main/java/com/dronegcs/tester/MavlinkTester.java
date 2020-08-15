@@ -63,6 +63,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         fetch("fetch"),
         ping("ping"),
         hb("hb"),
+        calib("calib"),
         exit("exit");
 
         final String stringVal;
@@ -137,6 +138,9 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                     case hb:
                         sendHB();
                         break;
+                    case calib:
+                        calibMagnometer();
+                        break;
                     case exit:
                         System.exit(0);
                     default:
@@ -149,6 +153,10 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
                 System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
             }
         }
+    }
+
+    private void calibMagnometer() {
+        drone.getCalibrationSetup().startMagnometerCalibration();
     }
 
     private void sendHB() {

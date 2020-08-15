@@ -49,4 +49,21 @@ public class MavLinkCalibration {
 		drone.getMavClient().sendMavPacket(msg.pack());
 	}
 
+	public static void sendStartMagnometerCalibrationMessage(Drone drone) {
+		msg_command_long msg = new msg_command_long(drone.getGCS().getId());
+		msg.target_system = 1;
+		msg.target_component = 1;
+
+		msg.command = MAV_CMD.MAV_CMD_PREFLIGHT_CALIBRATION;
+		msg.param1 = 0;
+		msg.param2 = 1;
+		msg.param3 = 0;
+		msg.param4 = 0;
+		msg.param5 = 0;
+		msg.param6 = 0;
+		msg.param7 = 0;
+		msg.confirmation = 0;
+		drone.getMavClient().sendMavPacket(msg.pack());
+	}
+
 }

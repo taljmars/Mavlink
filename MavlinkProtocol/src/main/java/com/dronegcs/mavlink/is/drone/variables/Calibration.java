@@ -1,6 +1,8 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
 
+import com.dronegcs.mavlink.is.drone.Drone;
+import com.dronegcs.mavlink.is.drone.DroneInterfaces;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_command_long;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_statustex
 import com.dronegcs.mavlink.is.protocol.msgbuilder.MavLinkCalibration;
 
 @Component
-public class Calibration extends DroneVariable {
+public class Calibration extends DroneVariable implements DroneInterfaces.OnDroneListener {
 
 	private String mavMsg;
 	private boolean calibrating;
@@ -36,19 +38,33 @@ public class Calibration extends DroneVariable {
 		return true;
 	}
 
-	public void sendAck(int step) {
+	public boolean startMagnometerCalibration() {
+		if(drone.getState().isFlying()) {
+			calibrating = false;
+		}
+		else {
+			calibrating = true;
+		}
+
+		MavLinkCalibration.sendStartMagnometerCalibrationMessage(drone);
+		return calibrating;
+	}
+
+	public void sendAccelCalibrationAck(int step) {
 		MavLinkCalibration.sendAccelCalibrationAckMessage(step, drone);
 	}
 
-	public void processMessage(MAVLinkMessage msg) {
-		if (msg.msgid == msg_statustext.MAVLINK_MSG_ID_STATUSTEXT) {
-			msg_statustext statusMsg = (msg_statustext) msg;
-			mavMsg = statusMsg.getText();
+	@Override
+	public void onDroneEvent(DroneEventsType event, Drone drone) {
+		switch (event) {
+			case MAGNETOMETER:
+				break;
 
-			if (mavMsg.contains("Calibration"))
-				calibrating = false;
+			case CALIBRATION_IMU:
+				break;
 
-			drone.notifyDroneEvent(DroneEventsType.CALIBRATION_IMU);
+			default:
+				break;
 		}
 	}
 
@@ -58,6 +74,7 @@ public class Calibration extends DroneVariable {
 
 	public void setCalibrating(boolean flag) {
 		calibrating = flag;
+		drone.notifyDroneEvent(DroneEventsType.CALIBRATION_IMU);
 	}
 
 	public boolean isCalibrating() {

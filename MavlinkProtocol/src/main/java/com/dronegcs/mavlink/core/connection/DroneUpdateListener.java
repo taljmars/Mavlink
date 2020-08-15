@@ -71,7 +71,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 		logger.LogDesignedMessege(log_entry);
 
 		drone.getWaypointManager().processMessage(msg);
-		drone.getCalibrationSetup().processMessage(msg);
+//		drone.getCalibrationSetup().processMessage(msg);
 
 		switch (msg.msgid) {
 			case msg_attitude.MAVLINK_MSG_ID_ATTITUDE:
@@ -170,6 +170,9 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 					break;
 				} else if (message.contains("ArduCopter")) {
 					drone.setFirmwareVersion(message);
+					break;
+				} else if (message.contains("Calibration")) {
+					drone.getCalibrationSetup().setCalibrating(false);
 					break;
 				}
 				
