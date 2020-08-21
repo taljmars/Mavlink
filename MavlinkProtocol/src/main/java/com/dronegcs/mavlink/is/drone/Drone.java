@@ -2,6 +2,10 @@ package com.dronegcs.mavlink.is.drone;
 
 import com.dronegcs.mavlink.core.firmware.FirmwareType;
 import com.dronegcs.mavlink.is.connection.MavLinkConnection;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateCompass;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateRC;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroLevel;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroOrientation;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.profiles.Parameters;
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
@@ -69,7 +73,13 @@ public interface Drone {
 
 	GuidedPoint getGuidedPoint();
 
-	Calibration getCalibrationSetup();
+	CalibrateGyroLevel getCalibrateGyroLevel();
+
+	CalibrateGyroOrientation getCalibrateGyroOrientation();
+
+	CalibrateCompass getCalibrateCompass();
+
+	CalibrateRC getCalibrateRC();
 
 	RC getRC();
 	

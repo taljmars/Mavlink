@@ -1,5 +1,6 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
+import com.dronegcs.mavlink.is.drone.parameters.Parameter;
 import org.springframework.stereotype.Component;
 
 import com.dronegcs.mavlink.is.drone.DroneVariable;
@@ -12,6 +13,10 @@ public class RC extends DroneVariable {
 
 	public int in[] = new int[8];
 	public int out[] = new int[8];
+
+	private int inMin[] = new int[8];
+	private int inMax[] = new int[8];
+	private int inTrim[] = new int[8];
 
 	public void setRcInputValues(msg_rc_channels_raw msg) {
 		in[0] = msg.chan1_raw;
@@ -54,6 +59,30 @@ public class RC extends DroneVariable {
 	
 	public int getThrustIn() {
 		return in[2];
+	}
+
+	public int[] getInMin() {
+		for (int i = 0; i < inMin.length ; i++) {
+			Parameter param = drone.getParameters().getParameter("RC" + (i + 1) + "_MIN");
+			inMin[i] = param.getValue().intValue();
+		}
+		return inMin;
+	}
+
+	public int[] getInMax() {
+		for (int i = 0; i < inMax.length ; i++) {
+			Parameter param = drone.getParameters().getParameter("RC" + (i + 1) + "_MAX");
+			inMax[i] = param.getValue().intValue();
+		}
+		return inMax;
+	}
+
+	public int[] getInTrim() {
+		for (int i = 0; i < inTrim.length ; i++) {
+			Parameter param = drone.getParameters().getParameter("RC" + (i + 1) + "_TRIM");
+			inTrim[i] = param.getValue().intValue();
+		}
+		return inTrim;
 	}
 
 }

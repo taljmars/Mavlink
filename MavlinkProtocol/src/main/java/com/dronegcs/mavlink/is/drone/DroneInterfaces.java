@@ -224,9 +224,9 @@ public class DroneInterfaces {
 		 * the drone left the perimeter
 		 */
 		PERIMETER_RECEIVED,
-		
+
 		LEFT_PERIMETER,
-		
+
 		ENFORCING_PERIMETER,
 		
 		TEXT_MESSEGE, 
@@ -242,6 +242,17 @@ public class DroneInterfaces {
 		PROTOCOL_LEARNING,
 
 		PROTOCOL_IDENTIFIED,
+
+		/**
+		 * New magnetometer data has been received
+		 */
+		EXT_CALIB_MAGNETOMETER_START,
+		EXT_CALIB_MAGNETOMETER_PROGRESS,
+		EXT_CALIB_MAGNETOMETER_FINISH,
+
+		EXT_CALIB_RC_START,
+		EXT_CALIB_RC_PROGRESS,
+		EXT_CALIB_RC_FINISH,
 	}
 
 	public interface OnDroneListener {

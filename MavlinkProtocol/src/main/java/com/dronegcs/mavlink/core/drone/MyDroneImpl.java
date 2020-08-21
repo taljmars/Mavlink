@@ -9,13 +9,16 @@ import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneEvents;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
 import com.dronegcs.mavlink.is.drone.Preferences;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateCompass;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateRC;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroOrientation;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.profiles.Parameters;
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
 import com.dronegcs.mavlink.is.drone.variables.Altitude;
 import com.dronegcs.mavlink.is.drone.variables.Battery;
 import com.dronegcs.mavlink.is.drone.variables.Beacon;
-import com.dronegcs.mavlink.is.drone.variables.Calibration;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroLevel;
 import com.dronegcs.mavlink.is.drone.variables.CameraFootprints;
 import com.dronegcs.mavlink.is.drone.variables.GCS;
 import com.dronegcs.mavlink.is.drone.variables.GPS;
@@ -119,9 +122,20 @@ public class MyDroneImpl implements Drone {
 	
 	@NotNull(message="Missing Calibration parameter")
 	@Autowired
-	private Calibration calibrationSetup;
+	private CalibrateGyroLevel calibrateGyroLevel;
 
-	@NotNull(message="Missing WaypointManager parameter")
+	@NotNull(message="Missing Calibration parameter")
+	@Autowired
+	private CalibrateGyroOrientation calibrateGyroOrientation;
+
+	@NotNull(message="Missing CalibrateCompass parameter")
+	@Autowired
+	private CalibrateCompass calibrateCompass;
+
+	@NotNull(message="Missing CalibrateRC parameter")
+	@Autowired
+	private CalibrateRC calibrateRC;
+
 	@Autowired
 	private WaypointManager waypointManager;
 
@@ -189,6 +203,7 @@ public class MyDroneImpl implements Drone {
 		streamRates.init();
 		Perimeter.init();
 		parameters.init();
+		calibrateCompass.init();
 //		messeges.init();
 
 		ValidatorResponse validatorResponse = runtimeValidator.validate(this);
@@ -353,8 +368,23 @@ public class MyDroneImpl implements Drone {
 	}
 
 	@Override
-	public Calibration getCalibrationSetup() {
-		return calibrationSetup;
+	public CalibrateGyroLevel getCalibrateGyroLevel() {
+		return calibrateGyroLevel;
+	}
+
+	@Override
+	public CalibrateGyroOrientation getCalibrateGyroOrientation() {
+		return calibrateGyroOrientation;
+	}
+
+	@Override
+	public CalibrateCompass getCalibrateCompass() {
+		return calibrateCompass;
+	}
+
+	@Override
+	public CalibrateRC getCalibrateRC() {
+		return calibrateRC;
 	}
 
 	@Override

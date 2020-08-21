@@ -76,7 +76,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
         System.out.println("Start Mavlink Drone Tester");
         System.out.println("Options are: " + Arrays.asList(Options.values()).toString());
         byte[] buff = new byte[100];
-        connect("0");
+        connect("4 115200");
         Scanner reader = new Scanner(System.in);
         while (reader.hasNextLine()) {
             try {
@@ -156,7 +156,7 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
     }
 
     private void calibMagnometer() {
-        drone.getCalibrationSetup().startMagnometerCalibration();
+        drone.getCalibrateCompass().startCompassCalibration();
     }
 
     private void sendHB() {

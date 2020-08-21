@@ -1,6 +1,8 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
 
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_scaled_imu;
+import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_scaled_imu2;
 import org.springframework.stereotype.Component;
 
 import com.dronegcs.mavlink.is.drone.DroneVariable;
@@ -16,6 +18,20 @@ public class Magnetometer extends DroneVariable {
 	private int z;
 
 	public void newData(msg_raw_imu msg_imu) {
+		x = msg_imu.xmag;
+		y = msg_imu.ymag;
+		z = msg_imu.zmag;
+		drone.notifyDroneEvent(DroneEventsType.MAGNETOMETER);
+	}
+
+	public void newData(msg_scaled_imu msg_imu) {
+		x = msg_imu.xmag;
+		y = msg_imu.ymag;
+		z = msg_imu.zmag;
+		drone.notifyDroneEvent(DroneEventsType.MAGNETOMETER);
+	}
+
+	public void newData(msg_scaled_imu2 msg_imu) {
 		x = msg_imu.xmag;
 		y = msg_imu.ymag;
 		z = msg_imu.zmag;
@@ -45,7 +61,7 @@ public class Magnetometer extends DroneVariable {
 		if (paramX == null || paramY == null || paramZ == null) {
 			return null;
 		}
-		return new int[]{(int) paramX.getValue(),(int) paramY.getValue(),(int) paramZ.getValue()};
+		return new int[]{paramX.getValue().intValue(), paramY.getValue().intValue(), paramZ.getValue().intValue()};
 
 	}
 }

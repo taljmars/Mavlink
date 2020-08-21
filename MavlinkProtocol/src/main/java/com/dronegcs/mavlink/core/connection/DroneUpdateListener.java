@@ -98,6 +98,16 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				msg_raw_imu msg_imu = (msg_raw_imu) msg;
 				drone.getMagnetometer().newData(msg_imu);
 				break;
+
+			case msg_scaled_imu.MAVLINK_MSG_ID_SCALED_IMU:
+				msg_scaled_imu msg_scaled_imu = (msg_scaled_imu) msg;
+				drone.getMagnetometer().newData(msg_scaled_imu);
+				break;
+
+			case msg_scaled_imu2.MAVLINK_MSG_ID_SCALED_IMU2:
+				msg_scaled_imu2 msg_scaled_imu2 = (msg_scaled_imu2) msg;
+				drone.getMagnetometer().newData(msg_scaled_imu2);
+				break;
 	
 			case msg_heartbeat.MAVLINK_MSG_ID_HEARTBEAT:
 				msg_heartbeat msg_heart = (msg_heartbeat) msg;
@@ -172,7 +182,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 					drone.setFirmwareVersion(message);
 					break;
 				} else if (message.contains("Calibration")) {
-					drone.getCalibrationSetup().setCalibrating(false);
+					drone.getCalibrateGyroOrientation().setCalibrating(false);
 					break;
 				}
 				
