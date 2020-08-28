@@ -348,6 +348,7 @@ public abstract class MavLinkConnection {
 				logger.LogErrorMessege(e.getMessage());
 				System.out.println("Sending thread interrupter");
 				LOGGER.error("Interrupted exception:", e);
+				disconnect();
 			}
 			catch (Exception e) {
 				e.printStackTrace();

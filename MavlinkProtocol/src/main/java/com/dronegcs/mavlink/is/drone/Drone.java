@@ -105,5 +105,6 @@ public interface Drone {
 	GCS getGCS();
 
 	Follow getFollow();
-	
+
+	Capabilities getCapabilities();
 }

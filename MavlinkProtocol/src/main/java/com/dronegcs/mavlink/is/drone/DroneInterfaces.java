@@ -243,6 +243,8 @@ public class DroneInterfaces {
 
 		PROTOCOL_IDENTIFIED,
 
+		AUTOPILOT_VERSION,
+
 		/**
 		 * New magnetometer data has been received
 		 */

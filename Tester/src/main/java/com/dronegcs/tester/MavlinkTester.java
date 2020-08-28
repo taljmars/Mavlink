@@ -4,6 +4,7 @@ import com.dronegcs.mavlink.core.gcs.GCSHeartbeat;
 import com.dronegcs.mavlink.is.connection.MavlinkVersions;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces;
+import com.dronegcs.mavlink.is.drone.calibration.CalibrateCompass;
 import com.dronegcs.mavlink.is.drone.parameters.Parameter;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ApmModes;
 import com.dronegcs.mavlink.is.protocol.msgbuilder.*;
@@ -156,7 +157,8 @@ public class MavlinkTester implements DroneInterfaces.OnParameterManagerListener
     }
 
     private void calibMagnometer() {
-        drone.getCalibrateCompass().startCompassCalibration();
+        drone.getCalibrateCompass().setType(CalibrateCompass.CompassType.EXTERNAL);
+        drone.getCalibrateCompass().start();
     }
 
     private void sendHB() {

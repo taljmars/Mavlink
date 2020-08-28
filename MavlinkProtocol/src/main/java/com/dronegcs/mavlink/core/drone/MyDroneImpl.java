@@ -15,28 +15,8 @@ import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroOrientation;
 import com.dronegcs.mavlink.is.drone.mission.DroneMission;
 import com.dronegcs.mavlink.is.drone.profiles.Parameters;
 import com.dronegcs.mavlink.is.drone.profiles.VehicleProfile;
-import com.dronegcs.mavlink.is.drone.variables.Altitude;
-import com.dronegcs.mavlink.is.drone.variables.Battery;
-import com.dronegcs.mavlink.is.drone.variables.Beacon;
+import com.dronegcs.mavlink.is.drone.variables.*;
 import com.dronegcs.mavlink.is.drone.calibration.CalibrateGyroLevel;
-import com.dronegcs.mavlink.is.drone.variables.CameraFootprints;
-import com.dronegcs.mavlink.is.drone.variables.GCS;
-import com.dronegcs.mavlink.is.drone.variables.GPS;
-import com.dronegcs.mavlink.is.drone.variables.GuidedPoint;
-import com.dronegcs.mavlink.is.drone.variables.HeartBeat;
-import com.dronegcs.mavlink.is.drone.variables.Home;
-import com.dronegcs.mavlink.is.drone.variables.Magnetometer;
-import com.dronegcs.mavlink.is.drone.variables.Messages;
-import com.dronegcs.mavlink.is.drone.variables.MissionStats;
-import com.dronegcs.mavlink.is.drone.variables.Navigation;
-import com.dronegcs.mavlink.is.drone.variables.Orientation;
-import com.dronegcs.mavlink.is.drone.variables.Perimeter;
-import com.dronegcs.mavlink.is.drone.variables.RC;
-import com.dronegcs.mavlink.is.drone.variables.Radio;
-import com.dronegcs.mavlink.is.drone.variables.Speed;
-import com.dronegcs.mavlink.is.drone.variables.State;
-import com.dronegcs.mavlink.is.drone.variables.StreamRates;
-import com.dronegcs.mavlink.is.drone.variables.Type;
 import com.dronegcs.mavlink.is.gcs.follow.Follow;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.ardupilotmega.msg_heartbeat;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
@@ -61,6 +41,10 @@ public class MyDroneImpl implements Drone {
 	@NotNull(message="Missing GPS parameter")
 	@Autowired
 	private GPS GPS;
+
+    @NotNull(message="Missing capabilities parameter")
+    @Autowired
+    private Capabilities capabilities;
 	
 	@NotNull(message="Missing Preferences parameter")
 	@Autowired
@@ -204,6 +188,7 @@ public class MyDroneImpl implements Drone {
 		Perimeter.init();
 		parameters.init();
 		calibrateCompass.init();
+		capabilities.init();
 //		messeges.init();
 
 		ValidatorResponse validatorResponse = runtimeValidator.validate(this);
@@ -435,4 +420,9 @@ public class MyDroneImpl implements Drone {
 	public MavLinkConnection getMavClient() {
 		return mavlinkConnection;
 	}
+
+    @Override
+    public Capabilities getCapabilities() {
+	    return capabilities;
+    }
 }

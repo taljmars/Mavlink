@@ -11,6 +11,7 @@ import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_MODE_FLAG;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_PROTOCOL_CAPABILITY;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_STATE;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.enums.MAV_TYPE;
+import com.dronegcs.mavlink.is.protocol.msgbuilder.MavlinkCapabilities;
 import com.generic_tools.logger.Logger;
 import com.geo_tools.Coordinate;
 import org.slf4j.LoggerFactory;
@@ -204,6 +205,7 @@ public class DroneUpdateListener implements MavLinkConnectionListener {
 				//	System.out.println("Protocol Mavlink 2 (orig message of type " + msg_autopilot.version);
 				//else
 				//	System.out.println("Protocol Mavlink 1 (orig message of type " + msg_autopilot.version);
+				drone.getCapabilities().setCapabilities(msg_autopilot);
 				break;
 
 			case msg_protocol_version.MAVLINK_MSG_ID_PROTOCOL_VERSION:
