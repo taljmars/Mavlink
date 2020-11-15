@@ -1,9 +1,7 @@
 package com.dronegcs.mavlink.is.drone.variables;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
-import com.dronegcs.mavlink.is.protocol.msgbuilder.MavlinkCapabilities;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +27,14 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
     private static final long HEARTBEAT_IMU_CALIBRATION_TIMEOUT = 35000; //ms
 
 	private static final int INVALID_MAVLINK_VERSION = -1;
+
+	public static final int DEFAULT_TIMEOUT_RETRIES = 3;
+	public static int currTimeoutRetries = 0;
+	private int timeoutRetries = DEFAULT_TIMEOUT_RETRIES;
+
+	public void setTimeoutRetries(int num) {
+		this.timeoutRetries = num;
+	}
 
 	private HeartbeatState heartbeatState = HeartbeatState.FIRST_HEARTBEAT;
 	
@@ -77,9 +83,13 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 		switch (heartbeatState) {
 		case FIRST_HEARTBEAT:
 			drone.notifyDroneEvent(DroneEventsType.HEARTBEAT_FIRST);
+			currTimeoutRetries = 0;
 			break;
 		case LOST_HEARTBEAT:
 			drone.notifyDroneEvent(DroneEventsType.HEARTBEAT_RESTORED);
+			System.err.println("HB Notification - Restored");
+			LOGGER.debug("HB Notification - Restored");
+			currTimeoutRetries = 0;
 			break;
 		}
 
@@ -116,8 +126,6 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	}
 
 	private void notifyConnected() {
-		System.err.println("HB Notification - restart Heartbeat Watchdog");
-		LOGGER.debug("HB Notification - restart Heartbeat Watchdog");
 		restartWatchdog(HEARTBEAT_NORMAL_TIMEOUT);
 	}
 
@@ -138,6 +146,7 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
                 heartbeatState = HeartbeatState.LOST_HEARTBEAT;
                 restartWatchdog(HEARTBEAT_LOST_TIMEOUT);
                 drone.notifyDroneEvent(DroneEventsType.HEARTBEAT_TIMEOUT);
+                currTimeoutRetries++;
                 break;
         }
 	}
@@ -145,6 +154,15 @@ public class HeartBeat extends DroneVariable implements OnDroneListener {
 	private void restartWatchdog(long timeout) {
 		// re-start watchdog
 		handler.removeCallbacks(watchdogCallback);
+
+		if (currTimeoutRetries >= timeoutRetries) {
+			// Start disconnection
+			System.err.println("HB Notification - timeout - disconnect");
+			LOGGER.debug("HB Notification - timeout - disconnect");
+			currTimeoutRetries = 0;
+			drone.getMavClient().disconnect();
+			return;
+		}
 		handler.postDelayed(watchdogCallback, timeout);
 	}
 }
