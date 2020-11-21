@@ -74,8 +74,7 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 			return;
 		}
 
-		for (DroneInterfaces.OnParameterManagerListener parameterListener : parameterListeners)
-			parameterListener.onBeginReceivingParameters();
+        parameterListeners.stream().forEach(listener -> listener.onBeginReceivingParameters());
 
 		MavLinkParameters.requestParametersList(drone);
 		resetWatchdog();
@@ -124,10 +123,11 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 		return parameters;
 	}
 
-	private void processReceivedParam(msg_param_value m_value) {
+    private Parameter param = null;
+    private void processReceivedParam(msg_param_value m_value) {
 		// collect params in parameter list
 		MAV_PARAM_I parameterDetail = drone.getVehicleProfile().getParametersMetadataMap().get(m_value.getParam_Id());
-		Parameter param = null;
+		param = null;
 		if (parameterDetail != null) {
 			if (parameterDetail.getOptions() != null)
 				param = new Parameter(
@@ -187,22 +187,19 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 
 		// update listener
 		if (parameterListeners != null)
-			for (DroneInterfaces.OnParameterManagerListener parameterListener : parameterListeners)
-				parameterListener.onParameterReceived(param, m_value.param_index, m_value.param_count);
+            parameterListeners.stream().forEach(listener -> listener.onParameterReceived(param, m_value.param_index, m_value.param_count));
 
 		// Are all parameters here? Notify the listener with the parameters
 		if (parameters.size() >= m_value.param_count) {
 			LOGGER.debug("All parameters arrived, notify listeners");
 			parameterList.clear();
-			for (int key : parameters.keySet()) {
-				parameterList.add(parameters.get(key));
-			}
+            parameters.values().stream().forEach(parameter -> parameterList.add(parameter));
 			killWatchdog();
 			logger.LogGeneralMessege("Parameters finished!");
 
+
 			if (parameterListeners != null) {
-				for (DroneInterfaces.OnParameterManagerListener parameterListener : parameterListeners)
-					parameterListener.onEndReceivingParameters(parameterList);
+                parameterListeners.stream().forEach(listener -> listener.onEndReceivingParameters(parameterList));
 			}
 		} else {
 			resetWatchdog();
@@ -227,18 +224,12 @@ public class Parameters extends DroneVariable implements OnDroneListener {
 	}
 
 	public Parameter getParameter(String name) {
-		for (int key : parameters.keySet()) {
-			if (parameters.get(key).getName().equalsIgnoreCase(name))
-				return parameters.get(key);
-		}
-		return null;
+	    Optional<Parameter> value = parameters.values().stream().peek(parameter -> parameter.getName().equalsIgnoreCase(name)).findFirst();
+        return value.isPresent() ? value.get() : null;
 	}
 
 	public Parameter getLastParameter() {
-		if (parameters.size() > 0)
-			return parameters.get(parameters.size() - 1);
-
-		return null;
+	    return parameters.size() > 0 ? parameters.get(parameters.size() - 1) : null;
 	}
 
 	private void onParameterStreamStopped() {

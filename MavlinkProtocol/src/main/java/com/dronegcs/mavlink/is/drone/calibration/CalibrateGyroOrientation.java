@@ -50,8 +50,8 @@ public class CalibrateGyroOrientation extends DroneVariable implements DroneInte
 		}
 	}
 
-	public void setCalibrating(boolean flag) {
-		calibrating = flag;
+	public void setCalibrating(boolean isCalibrating) {
+		calibrating = isCalibrating;
 		drone.notifyDroneEvent(DroneEventsType.CALIBRATION_IMU);
 	}
 }

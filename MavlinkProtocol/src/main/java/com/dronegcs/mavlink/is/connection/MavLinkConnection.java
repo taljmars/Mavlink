@@ -1,6 +1,5 @@
 package com.dronegcs.mavlink.is.connection;
 
-import com.dronegcs.mavlink.core.connection.USBConnection;
 import com.dronegcs.mavlink.is.drone.Drone;
 import com.dronegcs.mavlink.is.drone.DroneInterfaces.DroneEventsType;
 import com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkMessage;
@@ -28,10 +27,7 @@ import static com.dronegcs.mavlink.is.protocol.msg_metadata.MAVLinkPacket.MAVLIN
  */
 public abstract class MavLinkConnection {
 
-	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(USBConnection.class);
-
-//	@SuppressWarnings("unused")
-//	private static final String TAG = MavLinkConnection.class.getSimpleName();
+	private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MavLinkConnection.class);
 
 	@Autowired @NotNull(message = "Internal Error: Failed to get drone")
 	private Drone drone;
@@ -139,9 +135,7 @@ public abstract class MavLinkConnection {
 
 				while (mConnectionStatus.get() == MAVLINK_CONNECTED) {
 					int bufferSize = readDataBlock(readBuffer);
-					for (MirrorHandler mirrorHandler : mirrorHandlers) {
-						mirrorHandler.take(readBuffer, bufferSize);
-					}
+					mirrorHandlers.stream().forEach(mh -> mh.take(readBuffer, bufferSize));
 					int packetsAmount = handleData(parser, bufferSize, readBuffer);
 
 					// Statistics
@@ -369,9 +363,7 @@ public abstract class MavLinkConnection {
 		}
 
 		LOGGER.trace("Sending connections statistics");
-		for (MavLinkConnectionStatisticsListener listeners : mConnectionStatisticsListeners.values()) {
-			listeners.onConnectionStatistics(connectionStatistics);
-		}
+		mConnectionStatisticsListeners.values().stream().forEach(listener -> listener.onConnectionStatistics(connectionStatistics));
 	};
 
 	protected Set<MirrorHandler> mirrorHandlers = new HashSet<>();
@@ -510,12 +502,7 @@ public abstract class MavLinkConnection {
 	 * @param errMsg
 	 */
 	private void reportComError(String errMsg) {
-		if (mListeners.isEmpty())
-			return;
-
-		for (MavLinkConnectionListener listener : mListeners.values()) {
-			listener.onComError(errMsg);
-		}
+		mListeners.values().stream().forEach(listener -> listener.onComError(errMsg));
 	}
 
 	/**
@@ -523,9 +510,7 @@ public abstract class MavLinkConnection {
 	 * connection.
 	 */
 	private void reportConnect() {
-		for (MavLinkConnectionListener listener : mListeners.values()) {
-			listener.onConnect();
-		}
+		mListeners.values().stream().forEach(listener -> listener.onConnect());
 	}
 
 	/**
@@ -533,12 +518,7 @@ public abstract class MavLinkConnection {
 	 * disconnect.
 	 */
 	private void reportDisconnect() {
-		if (mListeners.isEmpty())
-			return;
-
-		for (MavLinkConnectionListener listener : mListeners.values()) {
-			listener.onDisconnect();
-		}
+		mListeners.values().stream().forEach(listener -> listener.onDisconnect());
 	}
 
 	/**
@@ -548,12 +528,7 @@ public abstract class MavLinkConnection {
 	 *            received mavlink message
 	 */
 	private void reportReceivedMessage(MAVLinkMessage msg) {
-		if (mListeners.isEmpty())
-			return;
-
-		for (MavLinkConnectionListener listener : mListeners.values()) {
-			listener.onReceiveMessage(msg);
-		}
+		mListeners.values().stream().forEach(listener -> listener.onReceiveMessage(msg));
 	}
 
 	public boolean isConnected() {

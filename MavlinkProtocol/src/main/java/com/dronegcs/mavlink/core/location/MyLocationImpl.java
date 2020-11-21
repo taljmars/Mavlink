@@ -61,9 +61,8 @@ public class MyLocationImpl implements LocationFinder {
 				}
 				logger.LogDesignedMessege("Request took " + beaconDate.getFetchTime() + "ms");				
 				Coordinate coord = beaconDate.getCoordinate().dot(1);
-				
-				for (LocationReceiver lr : receivers)
-					lr.onLocationChanged(new Location(coord, 0, (float) SPEED, true));
+
+				receivers.stream().forEach(lr -> lr.onLocationChanged(new Location(coord, 0, (float) SPEED, true)));
 			}
 		};
 		timer.scheduleAtFixedRate(scTimerTask, 0, UPDATE_INTERVAL);
